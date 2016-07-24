@@ -63,7 +63,6 @@
 									<input type="submit" name="commit" value="Log In" class="gosignin" >
                   <% end %>
 									<div class="forgotpass"><a href="<%= new_user_password_path %>">Lupa Password?</a></div>
-                  <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
 								</div>
 							</div>
 							<div class="spacermedium"></div>
@@ -72,10 +71,26 @@
 									<h4>Atau Masuk Dengan:</h4>
 								</div>
 								<div class="listotherlogin">
-									<div class="sosmedlogin"><a href="#"><span class="loginoptionbtn facebook"><i class="fa fa-facebook"></i> Facebook</span></a></div>
-									<div class="sosmedlogin"><a href="#"><span class="loginoptionbtn twitter"><i class="fa fa-twitter"></i> Twitter</span></a></div>
-									<div class="sosmedlogin"><a href="#"><span class="loginoptionbtn gplus"><i class="fa fa-google-plus"></i> Google Plus</span></a></div>
-									<div class="sosmedlogin"><a href="#"><span class="loginoptionbtn instagram"><i class="fa fa-instagram"></i> Instagram</span></a></div>
+                  <div class="sosmedlogin">
+                  <%= link_to user_omniauth_authorize_path(:facebook) do %>
+                  <span class="loginoptionbtn facebook"><i class="fa fa-facebook"></i> Facebook</span>
+                  <% end %>
+                  </div>
+									<div class="sosmedlogin">
+                    <%= link_to user_omniauth_authorize_path(:twitter) do %>
+                    <span class="loginoptionbtn twitter"><i class="fa fa-twitter"></i> Twitter</span>
+                  <% end %>
+                  </div>
+									<div class="sosmedlogin">
+                    <%= link_to user_omniauth_authorize_path(:google_oauth2) do %>
+                    <span class="loginoptionbtn gplus"><i class="fa fa-google-plus"></i> Google Plus</span>
+                    <% end %>
+                  </div>
+									<div class="sosmedlogin">
+                    <%= link_to user_omniauth_authorize_path(:instagram) do %>
+                    <span class="loginoptionbtn instagram"><i class="fa fa-instagram"></i> Instagram</span>
+                    <% end %>
+                  </div>
 								</div>
 							</div>
 						</div>

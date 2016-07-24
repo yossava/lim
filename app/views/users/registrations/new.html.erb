@@ -210,11 +210,27 @@
 							<h4>Atau Masuk Dengan:</h4>
 						</div>
 						<div class="listotherlogin reg">
-							<div class="sosmedlogin"><a href="#"><span class="loginoptionbtn facebook"><i class="fa fa-facebook"></i> Facebook</span></a></div>
-							<div class="sosmedlogin"><a href="#"><span class="loginoptionbtn twitter"><i class="fa fa-twitter"></i> Twitter</span></a></div>
-							<div class="sosmedlogin"><a href="#"><span class="loginoptionbtn gplus"><i class="fa fa-google-plus"></i> Google Plus</span></a></div>
-							<div class="sosmedlogin"><a href="#"><span class="loginoptionbtn instagram"><i class="fa fa-instagram"></i> Instagram</span></a></div>
-						</div>
+                  <div class="sosmedlogin">
+                  <%= link_to user_omniauth_authorize_path(:facebook) do %>
+                  <span class="loginoptionbtn facebook"><i class="fa fa-facebook"></i> Facebook</span>
+                  <% end %>
+                  </div>
+									<div class="sosmedlogin">
+                    <%= link_to user_omniauth_authorize_path(:twitter) do %>
+                    <span class="loginoptionbtn twitter"><i class="fa fa-twitter"></i> Twitter</span>
+                  <% end %>
+                  </div>
+									<div class="sosmedlogin">
+                    <%= link_to user_omniauth_authorize_path(:google_oauth2) do %>
+                    <span class="loginoptionbtn gplus"><i class="fa fa-google-plus"></i> Google Plus</span>
+                    <% end %>
+                  </div>
+									<div class="sosmedlogin">
+                    <%= link_to user_omniauth_authorize_path(:instagram) do %>
+                    <span class="loginoptionbtn instagram"><i class="fa fa-instagram"></i> Instagram</span>
+                    <% end %>
+                  </div>
+								</div>
 						<div class="reg-info">
 							<h4><i class="fa fa-info-circle"></i> &nbsp;Informasi Keamanan</h4>
 							<ul>

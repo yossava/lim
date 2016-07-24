@@ -1,0 +1,218 @@
+<%= render 'layouts/header' %>
+		<div id="topkeyword">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="mobilemenu-opener ma5-toggle-menu"><i class="fa fa-bars"></i></div>
+						<%= render 'layouts/menumobile' %>
+						<span id="labeltopkeyword">Top Keyword</span>
+						<%= render 'layouts/topkey' %>
+						<%= render 'layouts/trolimobile' %>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="nav-breadcumb">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="compresedmenu">
+							<div class="headingcompresed">
+								<i class="fa fa-bars"></i> &nbsp; <span>Kategori</span> &nbsp; <i class="fa fa-angle-down"></i>
+							</div>
+							<%= render 'layouts/sidemenu' %>
+						</div>
+						<%= render 'layouts/bread' %>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ./Header -->
+
+		<div class="spacermedium"></div>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<button type="button" class="btn" id="btn-SHsidebar"><i class="fa fa-user" style="margin-right:1em;"></i> Member Menu</button>
+				</div>
+			</div>
+			<div class="row">
+				<%= render 'layouts/sidebar' %>
+				<div class="col-md-9 col-sm-9 wrappermakctn">
+					<div class="row">
+						<div class="col-md-12">
+							<%= render 'layouts/sellertab' %>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="filterdftr">
+								<h4 class="ttll">Filter Transaksi</h4>
+								<%= form_tag(daftar_penjualan_path, :method => "get") do %>
+									<div class="row">
+										<div class="col-md-3 listfmxx">
+											<div class="form-row styledfmrow">
+                        <%= text_field_tag :sellersearch, params[:sellersearch], id: "penerima", placeholder: "Trx ID / Invoice" %>
+											</div>
+										</div>
+										<div class="col-md-3 listfmxx">
+											<div class="form-row styledfmrow">
+												<select id="prov" name="status">
+                          <% if params[:status] %>
+                          <option><%= params[:status] %></option>
+                          <% else %>
+													<option>- Pilih Status -</option>
+                          <% end %>
+													<option>Semua Status</option>
+													<option>Pesanan Baru</option>
+													<option>Dalam Pengiriman</option>
+                          <option>Pesanan Sampai</option>
+													<option>Transaksi Selesai</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-md-2 listfmxx">
+											<div class="form-row styledfmrow">
+												<input type="text" name="tglawal" placeholder="Dari Tgl" class="datepicker" value="<%= params[:tglawal] %>">
+											</div>
+										</div>
+										<div class="col-md-2 listfmxx">
+											<div class="form-row styledfmrow">
+												<input type="text" name="tglakhir" placeholder="Sampai Tgl" class="datepicker">
+											</div>
+										</div>
+										<div class="col-md-2 listfmxx">
+											<div class="form-row styledfmrow">
+												<input type="submit" name="" value="Filter" class="gosignin" >
+											</div>
+										</div>
+									</div>
+								<% end %>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 wraplist-neworder">
+							<ul>
+								<% @strolies.each do |s| %>
+								<li>
+									<div class="row">
+										<div class="col-md-3">
+											<span class="thumbft_pembeli"><img src="<%= User.find(s.user_id).profil_image.url %>" class="responsiveimg"></span>
+										</div>
+										<div class="col-md-9 rightneworder-ctn">
+											<p class="title">Pembelian oleh <a href="#"><%= User.find(s.user_id).namalengkap %> - <%= s.invoice %></a></p>
+											<p class="tgln"><span>Tanggal Transaksi: <%= s.created_at.in_time_zone("Jakarta").strftime("%d-%m-%Y %H:%M") %> WIB</span></p>
+                      <p class="tgln"><span>ID Transaksi: <%= s.txid %></span></p>
+                      <% if s.state == 6 %>
+                      <p class="tgln"><span>Resi Pengiriman: <%= s.resi %></span></p>
+                      <p class="status"><span class="label label-default" style="font-weight:600;">Transaksi Selesai</span></p>
+                      <% end %>
+                      <% if s.state == 4 %>
+                      <p class="tgln"><span>Resi Pengiriman: <%= s.resi %></span></p>
+                      <p class="status"><span class="label label-success" style="font-weight:600;">Dalam Pengiriman</span></p>
+                      <% end %>
+                      <% if s.state == 5 %>
+                      <p class="tgln"><span>Resi Pengiriman: <%= s.resi %></span></p>
+                      <p class="status"><span class="label label-info" style="font-weight:600;">Pesanan Telah Sampai</span></p>
+                      <% end %>
+                      <% if s.state == 7 %>
+                      <p class="status"><span class="label label-warning" style="font-weight:600;">Siap Dikirim</span></p>
+                      <% end %>
+                      <% if s.state == 3 %>
+                      <% if s.expired == false %>
+											<p class="tgln"><span>Tanggal Transaksi: <%= s.created_at.in_time_zone("Jakarta").strftime("%d-%m-%Y %H:%M") %> WIB</span> &nbsp;-&nbsp; Batal Otomatis <span class="label label-danger"><%= (s.created_at + 4.days - Time.now).to_i/86400 %> hari lagi</span></p>
+                      <p class="status"><span class="label label-primary" style="font-weight:600;">Pesanan Baru</span></p>
+                      <% else %>
+                      <p class="tgln"><span>Tanggal Transaksi: <%= s.created_at.in_time_zone("Jakarta").strftime("%d-%m-%Y %H:%M") %> WIB</span> &nbsp;-&nbsp; Batal Otomatis <span class="label label-danger">EXPIRED</span></p>
+                      <p class="status"><span class="label label-danger" style="font-weight:600;">Pesanan Batal</span></p> <% end %>
+                      <% end %>
+											<div class="row">
+												<div class="col-md-12">
+													<div class="wrapdtkonf">
+														<div class="heading-wdkf">
+															<h4>Pembelian oleh : <strong><%= User.find(s.user_id).namalengkap %></strong></h4>
+															<span class="inv"><%= s.invoice %></span>
+														</div>
+														<div class="row">
+									<div class="col-md-6 lpwp">
+										<span class="imglpwp"><img src="<%= Produk.find(s.produk_id).foto_produk1.url %>" class="responsiveimg"></span>
+										<h4><%= Produk.find(s.produk_id).nama_produk %></h4>
+										<p><%= s.jumlah %> X <%= number_to_currency(s.harga, locale: :id) %> </p>
+									</div>
+									<div class="col-md-3">
+										<label>Subtotal</label>
+										<p><%= number_to_currency(s.harga * s.jumlah, locale: :id) %></p>
+                    <% if s.fee > 0 && s.fee < 101 %>
+                        <p>+fee: <%= s.fee %>% / item</p>
+                        <% end %>
+                        <% if s.fee > 100 %>
+                        <p>+fee: <%= number_to_currency(s.fee, locale: :id) %> / item</p>
+                        <% end %>
+									</div>
+									<div class="col-md-3">
+										<label>Keterangan</label>
+										<p><%= s.catatan %></p>
+									</div>
+								</div>
+														<hr style="border-color:#ddd;"></hr>
+														<div class="row">
+															<div class="col-md-6">
+																<label>Tujuan Pengiriman</label>
+																<p>Penerima : <%= Alamat.find(s.alamat_id).nama_penerima %></p>
+																<p>Telp : <%= Alamat.find(s.alamat_id).nomor_telepon %></p>
+																<p>
+																	<%= Alamat.find(s.alamat_id).alamat %>, <%= Alamat.find(s.alamat_id).kecamatan %>, <%= Alamat.find(s.alamat_id).provinsi %> <%= Alamat.find(s.alamat_id).kode_pos %>
+																</p>
+															</div>
+															<div class="col-md-6">
+																<label>Kurir</label>
+																<p><%= s.kurir %></p>
+																<label>Keterangan</label>
+																<p><%= s.catatan %></p>
+															</div>
+														</div>
+														<hr style="border-color:#ddd;"></hr>
+														<div class="row">
+															<div class="col-md-12" style="text-align:right;font-size:18px;">
+																<label class="typeorange">Total : <%= number_to_currency(s.subtotal, locale: :id) %></label>
+															</div>
+														</div>
+													</div>
+													<a href="#" class="showdtkonf"><i class="fa fa-plus"></i>&nbsp; Tampilkan Detail</a>
+													<a href="#" class="hidedtkonf hide"><i class="fa fa-minus"></i>&nbsp; Sembunyikan Detail</a>
+												</div>
+											</div>
+											<div class="spacermedium"></div>
+                      <% if s.expired == false && s.state == 3 %>
+											<div>
+												<a href="/terima-pesanan/<%= s.id %>" id="terimaPbtn" class="ok<%= s.id %>"><i class="fa fa-check"></i> Terima Pesanan</a>
+												<a href="/tolak-pesanan/<%= s.id %>" id="tolakPbtn" class="no<%= s.id %>"><i class="fa fa-times"></i> Tolak Pesanan</a>
+											</div>
+                      <% end %>
+											<div>
+
+											</div>
+										</div>
+									</div>
+								</li>
+                <% end %>
+							</ul>
+						</div>
+						<div class="col-md-12">
+                  <div class="halaman">
+                  <%= will_paginate @strolies %>
+                  </div>
+						</div>
+            <div class="col-md-12">
+                <p class="typelight"><%= page_entries_info @strolies %></p>
+            </div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="spacerbig"></div>
+    <%= render 'layouts/footer' %>

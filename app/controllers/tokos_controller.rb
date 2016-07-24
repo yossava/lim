@@ -1,5 +1,5 @@
 class TokosController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, except: [:show, :review]
   before_action :set_toko, only: [:show, :edit, :update, :destroy, :review]
 
   # GET /tokos
@@ -11,6 +11,9 @@ class TokosController < ApplicationController
     end
   end
   def index
+  end
+  def review
+    @review = @toko.feedbacks.paginate(:page => params[:page], :per_page => 10)
   end
 
   def kategori

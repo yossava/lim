@@ -1,17 +1,17 @@
 <ul class="tablink-akun">
-                <% if current_page?('/pesanan-baru') %>
-								<li class="activeli"><a href="/pesanan-baru">Pesanan Baru</a><span class="countlabel"><% if @stroli3live %><%= @stroli3live.count %><% else %>0<% end %></span></li>
+                <% if current_page?('/pesanan_baru') %>
+								<li class="activeli"><a href="/pesanan_baru">Pesanan Baru</a><span class="countlabel"><% if @stroli3live %><%= @stroli3live.count %><% else %>0<% end %></span></li>
                 <% else %>
-                <li><a href="/pesanan-baru">Pesanan Baru</a><span class="countlabel"><% if @stroli3live %><%= @stroli3live.count %><% else %>0<% end %></span></li>
+                <li><a href="/pesanan_baru">Pesanan Baru</a><span class="countlabel"><% if @stroli3live %><%= @stroli3live.count %><% else %>0<% end %></span></li>
                 <% end %>
-                <% if current_page?('/konfirmasi-pengiriman') %>
-								<li class="activeli"><a href="/konfirmasi-pengiriman">Konfirmasi Pengiriman</a><span class="countlabel"><% if @stroli7 %><%= @stroli7.count %><% else %>0<% end %></span></li>
+                <% if current_page?('/konfirmasi_pengiriman') %>
+								<li class="activeli"><a href="/konfirmasi_pengiriman">Konfirmasi Pengiriman</a><span class="countlabel"><% if @stroli7 %><%= @stroli7.count %><% else %>0<% end %></span></li>
                 <% else %>
-                <li><a href="/konfirmasi-pengiriman">Konfirmasi Pengiriman</a><span class="countlabel"><% if @stroli7 %><%= @stroli7.count %><% else %>0<% end %></span></li>
+                <li><a href="/konfirmasi_pengiriman">Konfirmasi Pengiriman</a><span class="countlabel"><% if @stroli7 %><%= @stroli7.count %><% else %>0<% end %></span></li>
                 <% end %>
-                <% if current_page?('/daftar-penjualan') %>
-								<li class="activeli"><a href="/daftar-penjualan">Daftar Transaksi Penjualan</a></li>
+                <% if current_page?('/daftar_penjualan') %>
+								<li class="activeli"><a href="/daftar_penjualan">Daftar Transaksi Penjualan</a></li>
                 <% else %>
-  						  <li><a href="/daftar-penjualan">Daftar Transaksi Penjualan</a></li>
+  						  <li><a href="/daftar_penjualan">Daftar Transaksi Penjualan</a></li>
                 <% end %>
 							</ul>

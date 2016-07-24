@@ -52,27 +52,16 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="filterdftr">
-								<form>
+								<%= form_tag(findmyproduct_path, :method => "get", id: "search-form", class: "form") do %>
 									<div class="row">
 										<div class="col-md-2">
 											<div class="form-row">
 												<strong class="ttllstrong">Cari Produk</strong>
 											</div>
 										</div>
-										<div class="col-md-5 listfmxx">
+										<div class="col-md-8 listfmxx">
 											<div class="form-row styledfmrow">
-												<input type="text" name="" id="penerima" placeholder="Nama Produk">
-											</div>
-										</div>
-										<div class="col-md-3 listfmxx">
-											<div class="form-row styledfmrow">
-												<select id="prov">
-													<option>- Pilih Kategori -</option>
-													<option>Kategori1</option>
-													<option>Kategori2</option>
-													<option>Kategori3</option>
-													<option>Kategori4</option>
-												</select>
+                        <%= text_field_tag :search, params[:search], placeholder: "Nama Produk", id: "penerima" %>
 											</div>
 										</div>
 										<div class="col-md-2 listfmxx">
@@ -81,7 +70,7 @@
 											</div>
 										</div>
 									</div>
-								</form>
+								<% end %>
 							</div>
 						</div>
 					</div>
@@ -143,7 +132,7 @@
                 </div>
 						</div>
 						<div class="col-md-12">
-							<p class="typelight">Menampilkan 1-5 dari <%= @myproduks.count %> Produk</p>
+							<p class="typelight"><%= page_entries_info @myproduks %></p>
 						</div>
 					</div>
 				</div>

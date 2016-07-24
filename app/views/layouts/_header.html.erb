@@ -30,7 +30,7 @@
 													</div>
 													<div class="ctncart">
 														<h4><%= Produk.find(c.produk_id).nama_produk %></h4>
-														<span class="typeorange"><%= number_to_currency(Produk.find(c.produk_id).harga, locale: :id) %></span>
+														<span class="typeorange"><%= number_to_currency(c.harga, locale: :id) %> x <%= c.jumlah %></span>
 													</div>
 												</a>
 											</li>

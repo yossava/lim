@@ -16,6 +16,12 @@
 							<span>></span>
 							<span><a href="<%= category_path %>"><%= @category.kategori %></a></span>
 						</div>
+<% elsif params[:action] == "promo" && params[:controller] == "home" %>
+<div class="breadcumb">
+							<span><a href="/">Home</a></span>
+							<span>></span>
+							<span><a href="<%= categories_path %>">Produk Promo</a></span>
+						</div>
 <% elsif params[:action] == "edit" && params[:controller] == "alamats" %>
 <div class="breadcumb">
 							<span><a href="/">Home</a></span>
@@ -58,17 +64,17 @@
 							<span>></span>
 							<span><a href="#">Checkout</a></span>
 						</div>
-<% elsif params[:action] == "daftar-penjualan" && params[:controller] == "home" %>
+<% elsif params[:action] == "daftar_penjualan" && params[:controller] == "home" %>
 <div class="breadcumb">
 							<span><a href="/">Home</a></span>
 							<span>></span>
 							<span><a href="/profil">Akun Saya</a></span>
 							<span>></span>
-							<span><a href="/pesanan-baru">Penjualan</a></span>
+							<span><a href="/pesanan_baru">Penjualan</a></span>
 							<span>></span>
 							<span><a href="#">Daftar Transaksi Penjualan</a></span>
 						</div>
-<% elsif params[:action] == "daftar-transaksi" && params[:controller] == "home" %>
+<% elsif params[:action] == "daftar_transaksi" && params[:controller] == "home" %>
 <div class="breadcumb">
 							<span><a href="/">Home</a></span>
 							<span>></span>
@@ -98,7 +104,7 @@
 							<span>></span>
 							<span><a href="#">Konfirmasi Penerimaan</a></span>
 						</div>
-<% elsif params[:action] == "konfirmasi-pengiriman" && params[:controller] == "home" %>
+<% elsif params[:action] == "konfirmasi_pengiriman" && params[:controller] == "home" %>
 <div class="breadcumb">
 							<span><a href="/">Home</a></span>
 							<span>></span>
@@ -108,13 +114,13 @@
 							<span>></span>
 							<span><a href="#">Konfirmasi Pengiriman</a></span>
 						</div>
-<% elsif params[:action] == "pesanan-baru" && params[:controller] == "home" %>
+<% elsif params[:action] == "pesanan_baru" && params[:controller] == "home" %>
 <div class="breadcumb">
 							<span><a href="/">Home</a></span>
 							<span>></span>
 							<span><a href="/profil">Akun Saya</a></span>
 							<span>></span>
-							<span><a href="/pesanan-baru">Penjualan</a></span>
+							<span><a href="/pesanan_baru">Penjualan</a></span>
 							<span>></span>
 							<span><a href="#">Pesanan Baru</a></span>
 						</div>

@@ -1,0 +1,2523 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.3
+-- Dumped by pg_dump version 9.5.3
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: akuns; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE akuns (
+    id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE akuns OWNER TO nitrous;
+
+--
+-- Name: akuns_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE akuns_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE akuns_id_seq OWNER TO nitrous;
+
+--
+-- Name: akuns_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE akuns_id_seq OWNED BY akuns.id;
+
+
+--
+-- Name: alamats; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE alamats (
+    id integer NOT NULL,
+    sebagai character varying,
+    nama_penerima character varying,
+    alamat text,
+    kode_pos character varying,
+    provinsi character varying,
+    kabupaten character varying,
+    kecamatan character varying,
+    nomor_telepon character varying,
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    provinsi_sebagai character varying,
+    kota_sebagai character varying,
+    kecamatan_sebagai character varying
+);
+
+
+ALTER TABLE alamats OWNER TO nitrous;
+
+--
+-- Name: alamats_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE alamats_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE alamats_id_seq OWNER TO nitrous;
+
+--
+-- Name: alamats_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE alamats_id_seq OWNED BY alamats.id;
+
+
+--
+-- Name: carts; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE carts (
+    id integer NOT NULL,
+    toko_id integer,
+    user_id integer,
+    produk_id integer,
+    invoice character varying,
+    catatan text,
+    jumlah integer,
+    subtotal integer,
+    total integer,
+    metode_pembayaran character varying,
+    alamat_id integer,
+    kurir character varying,
+    berat integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    ongkir integer,
+    seller_id integer,
+    state integer,
+    resi character varying,
+    txid character varying,
+    expired boolean DEFAULT false,
+    fee numeric,
+    harga integer
+);
+
+
+ALTER TABLE carts OWNER TO nitrous;
+
+--
+-- Name: carts_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE carts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE carts_id_seq OWNER TO nitrous;
+
+--
+-- Name: carts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE carts_id_seq OWNED BY carts.id;
+
+
+--
+-- Name: categories; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE categories (
+    id integer NOT NULL,
+    kategori character varying,
+    deskripsi character varying,
+    gambar_kategori character varying,
+    parent_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    slide1 character varying,
+    slide2 character varying,
+    slide3 character varying
+);
+
+
+ALTER TABLE categories OWNER TO nitrous;
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE categories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE categories_id_seq OWNER TO nitrous;
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE categories_id_seq OWNED BY categories.id;
+
+
+--
+-- Name: categories_subcategories; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE categories_subcategories (
+    id integer NOT NULL,
+    category_id integer,
+    subcategory_id integer
+);
+
+
+ALTER TABLE categories_subcategories OWNER TO nitrous;
+
+--
+-- Name: categories_subcategories_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE categories_subcategories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE categories_subcategories_id_seq OWNER TO nitrous;
+
+--
+-- Name: categories_subcategories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE categories_subcategories_id_seq OWNED BY categories_subcategories.id;
+
+
+--
+-- Name: favorite_produks; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE favorite_produks (
+    id integer NOT NULL,
+    user_id integer,
+    produk_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE favorite_produks OWNER TO nitrous;
+
+--
+-- Name: favorite_produks_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE favorite_produks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE favorite_produks_id_seq OWNER TO nitrous;
+
+--
+-- Name: favorite_produks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE favorite_produks_id_seq OWNED BY favorite_produks.id;
+
+
+--
+-- Name: feedbacks; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE feedbacks (
+    id integer NOT NULL,
+    user_id integer,
+    toko_id integer,
+    produk_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    cart_id integer,
+    rating integer,
+    feed text
+);
+
+
+ALTER TABLE feedbacks OWNER TO nitrous;
+
+--
+-- Name: feedbacks_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE feedbacks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE feedbacks_id_seq OWNER TO nitrous;
+
+--
+-- Name: feedbacks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE feedbacks_id_seq OWNED BY feedbacks.id;
+
+
+--
+-- Name: financelogs; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE financelogs (
+    id integer NOT NULL,
+    user_id integer,
+    toko_id integer,
+    jumlah numeric,
+    produk_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE financelogs OWNER TO nitrous;
+
+--
+-- Name: financelogs_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE financelogs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE financelogs_id_seq OWNER TO nitrous;
+
+--
+-- Name: financelogs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE financelogs_id_seq OWNED BY financelogs.id;
+
+
+--
+-- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE friendly_id_slugs (
+    id integer NOT NULL,
+    slug character varying NOT NULL,
+    sluggable_id integer NOT NULL,
+    sluggable_type character varying(50),
+    scope character varying,
+    created_at timestamp without time zone
+);
+
+
+ALTER TABLE friendly_id_slugs OWNER TO nitrous;
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE friendly_id_slugs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE friendly_id_slugs_id_seq OWNER TO nitrous;
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE friendly_id_slugs_id_seq OWNED BY friendly_id_slugs.id;
+
+
+--
+-- Name: homeitems; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE homeitems (
+    id integer NOT NULL,
+    title character varying,
+    description text,
+    img1 character varying,
+    img2 character varying,
+    img3 character varying,
+    img4 character varying,
+    img5 character varying,
+    img6 character varying,
+    img7 character varying,
+    img8 character varying,
+    img9 character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    text1 text,
+    text2 text,
+    text3 text,
+    text4 text,
+    text5 text,
+    text6 text,
+    text7 text,
+    text8 text,
+    text9 text,
+    text10 text,
+    text11 text,
+    text12 text
+);
+
+
+ALTER TABLE homeitems OWNER TO nitrous;
+
+--
+-- Name: homeitems_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE homeitems_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE homeitems_id_seq OWNER TO nitrous;
+
+--
+-- Name: homeitems_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE homeitems_id_seq OWNED BY homeitems.id;
+
+
+--
+-- Name: impressions; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE impressions (
+    id integer NOT NULL,
+    impressionable_type character varying,
+    impressionable_id integer,
+    user_id integer,
+    controller_name character varying,
+    action_name character varying,
+    view_name character varying,
+    request_hash character varying,
+    ip_address character varying,
+    session_hash character varying,
+    message text,
+    referrer text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE impressions OWNER TO nitrous;
+
+--
+-- Name: impressions_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE impressions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE impressions_id_seq OWNER TO nitrous;
+
+--
+-- Name: impressions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE impressions_id_seq OWNED BY impressions.id;
+
+
+--
+-- Name: newsletters; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE newsletters (
+    id integer NOT NULL,
+    email character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE newsletters OWNER TO nitrous;
+
+--
+-- Name: newsletters_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE newsletters_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE newsletters_id_seq OWNER TO nitrous;
+
+--
+-- Name: newsletters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE newsletters_id_seq OWNED BY newsletters.id;
+
+
+--
+-- Name: pets; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE pets (
+    id integer NOT NULL,
+    name character varying,
+    description text,
+    image character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    user_id integer,
+    pet_id integer
+);
+
+
+ALTER TABLE pets OWNER TO nitrous;
+
+--
+-- Name: pets_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE pets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE pets_id_seq OWNER TO nitrous;
+
+--
+-- Name: pets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE pets_id_seq OWNED BY pets.id;
+
+
+--
+-- Name: produks; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE produks (
+    id integer NOT NULL,
+    nama_produk character varying,
+    harga numeric,
+    harga_diskon numeric,
+    berat numeric,
+    foto_produk1 character varying,
+    foto_produk2 character varying,
+    foto_produk3 character varying,
+    foto_produk4 character varying,
+    foto_produk5 character varying,
+    foto_produk6 character varying,
+    deskripsi text,
+    harga_grosir1 numeric,
+    harga_grosir2 numeric,
+    harga_grosir3 numeric,
+    harga_grosir4 numeric,
+    harga_grosir5 numeric,
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    category_id character varying,
+    subcategory_id character varying,
+    jumlah_grosir1min integer,
+    jumlah_grosir1max integer,
+    jumlah_grosir2min integer,
+    jumlah_grosir2max integer,
+    jumlah_grosir3min integer,
+    jumlah_grosir3max integer,
+    jumlah_grosir4min integer,
+    jumlah_grosir4max integer,
+    jumlah_grosir5min integer,
+    jumlah_grosir5max integer,
+    jumlah_grosir6min integer,
+    jumlah_grosir6max integer,
+    toko_id integer,
+    deskripsi_lengkap text,
+    harga_beli integer,
+    diskon integer,
+    stock integer,
+    special boolean DEFAULT false,
+    recommended boolean DEFAULT false,
+    top boolean DEFAULT false,
+    rating numeric,
+    slug character varying,
+    subsubcategory_id integer
+);
+
+
+ALTER TABLE produks OWNER TO nitrous;
+
+--
+-- Name: produks_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE produks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE produks_id_seq OWNER TO nitrous;
+
+--
+-- Name: produks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE produks_id_seq OWNED BY produks.id;
+
+
+--
+-- Name: rekenings; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE rekenings (
+    id integer NOT NULL,
+    pemilik character varying,
+    cabang character varying,
+    nomor_rekening character varying,
+    nama_bank character varying,
+    user_id character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE rekenings OWNER TO nitrous;
+
+--
+-- Name: rekenings_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE rekenings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE rekenings_id_seq OWNER TO nitrous;
+
+--
+-- Name: rekenings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE rekenings_id_seq OWNED BY rekenings.id;
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE schema_migrations (
+    version character varying NOT NULL
+);
+
+
+ALTER TABLE schema_migrations OWNER TO nitrous;
+
+--
+-- Name: sessions; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE sessions (
+    id integer NOT NULL,
+    session_id character varying NOT NULL,
+    data text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE sessions OWNER TO nitrous;
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE sessions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE sessions_id_seq OWNER TO nitrous;
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE sessions_id_seq OWNED BY sessions.id;
+
+
+--
+-- Name: statics; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE statics (
+    id integer NOT NULL,
+    title character varying,
+    body text,
+    image character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    "group" character varying,
+    meta_description text,
+    meta_keyword character varying,
+    slug character varying
+);
+
+
+ALTER TABLE statics OWNER TO nitrous;
+
+--
+-- Name: statics_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE statics_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE statics_id_seq OWNER TO nitrous;
+
+--
+-- Name: statics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE statics_id_seq OWNED BY statics.id;
+
+
+--
+-- Name: statuses; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE statuses (
+    id integer NOT NULL,
+    seller_id integer,
+    buyer_id integer,
+    stat integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    produk_id integer,
+    cart_id integer
+);
+
+
+ALTER TABLE statuses OWNER TO nitrous;
+
+--
+-- Name: statuses_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE statuses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE statuses_id_seq OWNER TO nitrous;
+
+--
+-- Name: statuses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE statuses_id_seq OWNED BY statuses.id;
+
+
+--
+-- Name: subcategories; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE subcategories (
+    id integer NOT NULL,
+    subkategori character varying,
+    deskripsi text,
+    slide1 character varying,
+    category_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    slide2 character varying,
+    slide3 character varying
+);
+
+
+ALTER TABLE subcategories OWNER TO nitrous;
+
+--
+-- Name: subcategories_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE subcategories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE subcategories_id_seq OWNER TO nitrous;
+
+--
+-- Name: subcategories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE subcategories_id_seq OWNED BY subcategories.id;
+
+
+--
+-- Name: subsubcategories; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE subsubcategories (
+    id integer NOT NULL,
+    name character varying,
+    subcategory_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    produk_id integer
+);
+
+
+ALTER TABLE subsubcategories OWNER TO nitrous;
+
+--
+-- Name: subsubcategories_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE subsubcategories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE subsubcategories_id_seq OWNER TO nitrous;
+
+--
+-- Name: subsubcategories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE subsubcategories_id_seq OWNED BY subsubcategories.id;
+
+
+--
+-- Name: tokos; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE tokos (
+    id integer NOT NULL,
+    nama_toko character varying,
+    provinsi character varying,
+    kota character varying,
+    kecamatan character varying,
+    agen1 character varying,
+    agen2 character varying,
+    agen3 character varying,
+    agen4 character varying,
+    agen5 character varying,
+    agen6 character varying,
+    agen7 character varying,
+    slogan character varying,
+    deskripsi text,
+    alamat text,
+    status character varying,
+    tutup_sampai character varying,
+    toko_image character varying,
+    banner1 character varying,
+    banner2 character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    user_id integer,
+    banner3 character varying,
+    kode_pos character varying,
+    catatan character varying,
+    terima_pembayaran1 character varying,
+    terima_pembayaran2 character varying,
+    terima_pembayaran3 character varying,
+    kota_sebagai character varying,
+    slug character varying
+);
+
+
+ALTER TABLE tokos OWNER TO nitrous;
+
+--
+-- Name: tokos_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE tokos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tokos_id_seq OWNER TO nitrous;
+
+--
+-- Name: tokos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE tokos_id_seq OWNED BY tokos.id;
+
+
+--
+-- Name: transactions; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE transactions (
+    id integer NOT NULL,
+    get text,
+    post text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE transactions OWNER TO nitrous;
+
+--
+-- Name: transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE transactions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE transactions_id_seq OWNER TO nitrous;
+
+--
+-- Name: transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE transactions_id_seq OWNED BY transactions.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: nitrous
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip character varying,
+    last_sign_in_ip character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    namalengkap character varying,
+    nomor_handphone character varying,
+    is_female boolean DEFAULT false,
+    date_of_birth timestamp without time zone,
+    profil_image character varying,
+    confirmation_token character varying,
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
+    admin boolean DEFAULT false,
+    saldo integer DEFAULT 0,
+    block boolean DEFAULT false,
+    finance boolean DEFAULT false,
+    general boolean DEFAULT false,
+    provider character varying,
+    uid character varying
+);
+
+
+ALTER TABLE users OWNER TO nitrous;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: nitrous
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE users_id_seq OWNER TO nitrous;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nitrous
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY akuns ALTER COLUMN id SET DEFAULT nextval('akuns_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY alamats ALTER COLUMN id SET DEFAULT nextval('alamats_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY carts ALTER COLUMN id SET DEFAULT nextval('carts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY categories ALTER COLUMN id SET DEFAULT nextval('categories_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY categories_subcategories ALTER COLUMN id SET DEFAULT nextval('categories_subcategories_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY favorite_produks ALTER COLUMN id SET DEFAULT nextval('favorite_produks_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY feedbacks ALTER COLUMN id SET DEFAULT nextval('feedbacks_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY financelogs ALTER COLUMN id SET DEFAULT nextval('financelogs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('friendly_id_slugs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY homeitems ALTER COLUMN id SET DEFAULT nextval('homeitems_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY impressions ALTER COLUMN id SET DEFAULT nextval('impressions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY newsletters ALTER COLUMN id SET DEFAULT nextval('newsletters_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY pets ALTER COLUMN id SET DEFAULT nextval('pets_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY produks ALTER COLUMN id SET DEFAULT nextval('produks_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY rekenings ALTER COLUMN id SET DEFAULT nextval('rekenings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY sessions ALTER COLUMN id SET DEFAULT nextval('sessions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY statics ALTER COLUMN id SET DEFAULT nextval('statics_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY statuses ALTER COLUMN id SET DEFAULT nextval('statuses_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY subcategories ALTER COLUMN id SET DEFAULT nextval('subcategories_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY subsubcategories ALTER COLUMN id SET DEFAULT nextval('subsubcategories_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY tokos ALTER COLUMN id SET DEFAULT nextval('tokos_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY transactions ALTER COLUMN id SET DEFAULT nextval('transactions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Data for Name: akuns; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY akuns (id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Name: akuns_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('akuns_id_seq', 3, true);
+
+
+--
+-- Data for Name: alamats; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY alamats (id, sebagai, nama_penerima, alamat, kode_pos, provinsi, kabupaten, kecamatan, nomor_telepon, user_id, created_at, updated_at, provinsi_sebagai, kota_sebagai, kecamatan_sebagai) FROM stdin;
+42	Kantor Ayah	Irvan	Kebayoran Lama	56144	10	181	2550	088498445	13	2016-06-22 02:54:48.050588	2016-06-22 02:54:48.050588	Jawa Tengah	Kendal	Singorojo
+43	bali	Kalamai	kkmakdasd\ndasdasdasdad\nasdasdasdas	654654645	1	94	1282	6765756756	16	2016-06-22 03:20:24.154736	2016-06-22 16:45:02.209292	Bali	Buleleng	Gerokgak
+44	yogya	asdasda	dasdas	345453	5	501	6985	45435	16	2016-06-22 16:36:14.21723	2016-06-22 16:36:14.21723	DI Yogyakarta	Yogyakarta	Jetis
+45	ogan ilir	dada	dasda	3423432	33	312	4448	32423423	16	2016-06-22 16:48:25.412176	2016-06-22 16:48:25.412176	Sumatera Selatan	Ogan Ilir	Rantau Alai
+46	Bengkulu	idas	dasdas	43423	4	63	841	54534	16	2016-06-23 03:31:17.06487	2016-06-23 03:31:17.06487	Bengkulu	Bengkulu Selatan	Air Nipis
+48	bandung	rer	rerer	3243	9	22	315	4545	16	2016-07-08 12:08:59.376743	2016-07-08 12:08:59.376743	Jawa Barat	Bandung	Cileunyi
+50	Yogya	Irvan	jln	45454	5	135	1867	6767676	123	2016-07-23 02:41:09.914242	2016-07-23 02:41:09.914242	DI Yogyakarta	Gunung Kidul	Karangmojo
+51	dff	dfdf	dfdfdf	54545	6	152	2095	545454	123	2016-07-23 02:42:15.049198	2016-07-23 02:42:15.049198	DKI Jakarta	Jakarta Pusat	Cempaka Putih
+\.
+
+
+--
+-- Name: alamats_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('alamats_id_seq', 51, true);
+
+
+--
+-- Data for Name: carts; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY carts (id, toko_id, user_id, produk_id, invoice, catatan, jumlah, subtotal, total, metode_pembayaran, alamat_id, kurir, berat, created_at, updated_at, ongkir, seller_id, state, resi, txid, expired, fee, harga) FROM stdin;
+108	7	16	51	INV/20160722/7/51/16		1	125000	\N	\N	43	TIKI-REG	\N	2016-07-22 12:56:17.483718	2016-07-22 12:56:17.483718	30500	13	2	\N	VACCTCLOSE02201607221956313799	f	5.0	90000
+113	7	123	39	INV/20160723/7/39/123		1	111500	\N	\N	51	JNE-OKE	\N	2016-07-23 02:57:59.038592	2016-07-24 01:28:18.332415	17000	13	2	\N	IONPAYTEST01201607231042240977	f	5.0	90000
+110	7	123	52	INV/20160723/7/52/123		1	111500	\N	\N	51	JNE-OKE	\N	2016-07-23 02:42:39.853484	2016-07-23 02:42:39.853484	17000	13	2	\N	VACCTCLOSE02201607230942510096	f	5.0	90000
+115	7	123	48	INV/20160723/7/48/123		1	118000	\N	\N	51	POS-EXPRESS NEXT DAY	\N	2016-07-23 02:58:31.496219	2016-07-24 01:42:05.054235	23500	13	2	\N	IONPAYTEST01201607231145531863	f	5.0	90000
+116	7	16	51	INV/20160724/7/51/16		1	103500	\N	\N	44	TIKI-ONS	\N	2016-07-24 01:25:58.373454	2016-07-24 01:55:22.157475	9000	13	2	\N	IONPAYTEST01201607240826111991	f	5.0	90000
+94	7	16	39	INV/20160714/7/39/16		2	188000	\N	\N	44	TIKI-REG	\N	2016-07-14 05:30:00.304475	2016-07-24 02:40:12.216296	8000	13	2	EWHHSYSHHSNNS	IONPAYTEST01201607141230108831	t	2	1000
+106	7	16	38	INV/20160719/7/38/16		1	9050	\N	\N	44	TIKI-REG	\N	2016-07-19 04:34:28.987191	2016-07-24 02:40:39.156723	8000	13	2	RESI99948594	IONPAYTEST01201607191140532163	t	5.0	1000
+103	7	16	39	INV/20160719/7/39/16		21	550000	\N	\N	44	TIKI-REG	\N	2016-07-19 03:57:59.396753	2016-07-24 02:33:17.885551	88000	13	2	cxvcxfd	IONPAYTEST01201607191140532163	f	12000.0	10000
+107	7	16	40	INV/20160719/7/40/16		1	102500	\N	\N	44	TIKI-REG	\N	2016-07-19 05:39:55.443726	2016-07-24 02:33:25.459827	8000	13	2	\N	VACCTCLOSE02201607191240043265	f	5.0	90000
+102	7	16	39	INV/20160719/7/39/16		1	111000	\N	\N	44	TIKI-ONS	\N	2016-07-19 03:57:33.32179	2016-07-24 02:33:31.714701	9000	13	2	reerew	IONPAYTEST01201607191140532163	f	12000.0	90000
+109	7	16	48	INV/20160722/7/48/16		1	123500	\N	\N	46	JNE-OKE	\N	2016-07-22 13:10:51.748681	2016-07-22 13:10:51.748681	29000	13	2	\N	VACCTCLOSE02201607222011044020	f	5.0	90000
+111	7	123	39	INV/20160723/7/39/123		1	111500	\N	\N	51	JNE-OKE	\N	2016-07-23 02:44:47.112947	2016-07-23 02:44:47.112947	17000	13	2	\N	VACCTCLOSE02201607230944590127	f	5.0	90000
+112	7	123	51	INV/20160723/7/51/123		11	1014000	\N	\N	51	POS-SURAT KILAT KHUSUS	\N	2016-07-23 02:45:22.258091	2016-07-24 01:42:43.603664	90000	13	2	\N	IONPAYTEST01201607230945340132	f	5.0	80000
+114	7	123	49	INV/20160723/7/49/123		1	109500	\N	\N	51	POS-SURAT KILAT KHUSUS	\N	2016-07-23 02:58:17.48486	2016-07-24 01:43:30.687571	15000	13	2	\N	IONPAYTEST01201607231042240977	f	5.0	90000
+117	7	16	51	INV/20160724/7/51/16		1	103500	\N	\N	44	TIKI-ONS	\N	2016-07-24 02:46:31.345501	2016-07-24 02:46:31.345501	9000	13	2	\N	VACCTCLOSE02201607240947052643	f	5.0	90000
+118	7	16	51	INV/20160724/7/51/16		1	103500	\N	\N	44	TIKI-ONS	\N	2016-07-24 02:49:41.272134	2016-07-24 02:49:41.272134	9000	13	2	\N	VACCTCLOSE02201607240949522667	f	5.0	90000
+\.
+
+
+--
+-- Name: carts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('carts_id_seq', 118, true);
+
+
+--
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY categories (id, kategori, deskripsi, gambar_kategori, parent_id, created_at, updated_at, slide1, slide2, slide3) FROM stdin;
+8	Gadget / Komputer			\N	2016-06-10 03:35:14.301454	2016-06-10 03:35:14.301454	\N	\N	\N
+9	Kecantikan / Kesehatan			\N	2016-06-10 03:35:28.107583	2016-06-10 03:35:28.107583	\N	\N	\N
+10	Bayi/Anak			\N	2016-06-10 03:35:44.218358	2016-06-10 03:35:44.218358	\N	\N	\N
+11	Elektronik			\N	2016-06-10 03:35:56.860929	2016-06-10 03:35:56.860929	\N	\N	\N
+12	Olahraga/Hobi/Otomotif			\N	2016-06-10 03:36:07.427857	2016-06-10 03:36:07.427857	\N	\N	\N
+13	Rumah / Kebun /Dapur			\N	2016-06-10 03:36:17.834506	2016-06-10 03:36:17.834506	\N	\N	\N
+14	E-coupon			\N	2016-06-10 03:36:29.728789	2016-06-10 03:36:29.728789	\N	\N	\N
+15	Bahan Segar			\N	2016-06-10 03:36:40.919336	2016-06-10 03:36:40.919336	\N	\N	\N
+16	Makanan			\N	2016-06-10 03:36:55.314838	2016-06-10 03:36:55.314838	\N	\N	\N
+17	Minuman	Deskripsi Minuman		\N	2016-06-10 03:37:08.692231	2016-06-26 11:20:51.29731	\N	\N	\N
+18	Perawatan Pribadi	Deskripsi		\N	2016-06-10 03:37:21.84275	2016-06-26 06:26:31.674415	\N	\N	\N
+7	Fashion	<b>Deskripsi kategori fashion</b><div><ol><li>Deskripsi kategori fashion&nbsp;<br></li><li>Deskripsi kategori fashion&nbsp;<br></li><li>Deskripsi kategori fashion&nbsp;<br></li></ol><br><br></div>		\N	2016-06-10 03:34:58.444428	2016-07-12 04:05:46.322526	bannercover.jpg	\N	\N
+\.
+
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('categories_id_seq', 20, true);
+
+
+--
+-- Data for Name: categories_subcategories; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY categories_subcategories (id, category_id, subcategory_id) FROM stdin;
+9	7	17
+10	7	18
+11	7	19
+12	7	20
+13	7	21
+14	8	22
+15	8	23
+16	8	24
+17	8	25
+18	9	26
+19	9	27
+20	9	28
+21	9	29
+22	9	30
+23	9	31
+24	9	32
+25	9	33
+26	9	34
+27	9	35
+28	9	36
+29	10	37
+30	10	38
+31	10	39
+32	10	40
+33	10	41
+34	10	42
+35	10	43
+36	10	44
+37	10	45
+38	10	46
+39	11	47
+40	11	48
+41	12	49
+42	12	50
+43	12	51
+44	13	52
+45	13	53
+46	13	54
+47	13	55
+48	13	56
+49	13	57
+50	13	58
+51	14	59
+52	14	60
+53	14	61
+54	14	62
+55	14	63
+56	14	64
+57	14	65
+58	14	66
+59	14	67
+60	14	68
+61	14	69
+62	15	70
+63	15	71
+64	15	72
+65	15	73
+66	16	74
+67	16	75
+68	16	76
+69	16	77
+70	16	78
+71	16	79
+72	16	80
+73	17	81
+74	17	82
+75	17	83
+76	17	84
+77	14	50
+\.
+
+
+--
+-- Name: categories_subcategories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('categories_subcategories_id_seq', 77, true);
+
+
+--
+-- Data for Name: favorite_produks; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY favorite_produks (id, user_id, produk_id, created_at, updated_at) FROM stdin;
+15	51	54	2016-06-17 06:10:30.041337	2016-06-17 06:10:30.041337
+16	51	56	2016-06-17 06:12:14.317923	2016-06-17 06:12:14.317923
+17	16	58	2016-06-17 15:02:49.808218	2016-06-17 15:02:49.808218
+18	16	55	2016-06-18 03:46:19.929364	2016-06-18 03:46:19.929364
+20	16	38	2016-06-23 06:20:04.664084	2016-06-23 06:20:04.664084
+\.
+
+
+--
+-- Name: favorite_produks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('favorite_produks_id_seq', 21, true);
+
+
+--
+-- Data for Name: feedbacks; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY feedbacks (id, user_id, toko_id, produk_id, created_at, updated_at, cart_id, rating, feed) FROM stdin;
+4	16	7	40	2016-06-23 11:59:24.744961	2016-06-23 11:59:24.744961	\N	3	barang bagus, packing rapi
+6	16	7	40	2016-06-28 15:03:17.086379	2016-06-28 15:03:17.086379	\N	2	bagus
+7	16	7	40	2016-06-28 15:03:29.906277	2016-06-28 15:03:29.906277	\N	4	lumayan
+11	16	7	40	2016-07-03 15:29:00.754997	2016-07-03 15:29:00.754997	\N	3	kkkkk
+13	16	7	48	2016-07-04 00:43:51.801073	2016-07-04 00:43:51.801073	\N	3	
+15	16	7	48	2016-07-04 00:46:10.267599	2016-07-04 00:46:10.267599	\N	3	
+16	16	7	40	2016-07-04 01:24:51.290588	2016-07-04 01:24:51.290588	\N	3	
+19	16	7	47	2016-07-04 01:37:03.513975	2016-07-04 01:37:03.513975	\N	3	
+75	16	7	51	2016-07-05 16:05:06.931156	2016-07-05 16:05:06.931156	\N	3	
+76	16	7	51	2016-07-05 16:05:42.154934	2016-07-05 16:05:42.154934	\N	4	
+77	16	7	51	2016-07-05 16:06:12.185558	2016-07-05 16:06:12.185558	\N	5	
+78	16	7	39	2016-07-14 05:31:55.173925	2016-07-14 05:31:55.173925	\N	2	Good
+79	16	7	38	2016-07-19 06:10:09.971511	2016-07-19 06:10:09.971511	\N	3	ssss
+80	16	7	39	2016-07-19 06:10:18.085583	2016-07-19 06:10:18.085583	\N	3	good
+81	16	7	39	2016-07-19 06:12:46.169947	2016-07-19 06:12:46.169947	\N	3	good
+82	16	7	39	2016-07-24 02:22:29.757921	2016-07-24 02:22:29.757921	\N	2	nice
+\.
+
+
+--
+-- Name: feedbacks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('feedbacks_id_seq', 82, true);
+
+
+--
+-- Data for Name: financelogs; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY financelogs (id, user_id, toko_id, jumlah, produk_id, created_at, updated_at) FROM stdin;
+3	13	\N	5875000.0	\N	2016-07-11 23:05:23.724636	2016-07-11 23:05:23.724636
+\.
+
+
+--
+-- Name: financelogs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('financelogs_id_seq', 3, true);
+
+
+--
+-- Data for Name: friendly_id_slugs; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY friendly_id_slugs (id, slug, sluggable_id, sluggable_type, scope, created_at) FROM stdin;
+\.
+
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('friendly_id_slugs_id_seq', 1, false);
+
+
+--
+-- Data for Name: homeitems; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY homeitems (id, title, description, img1, img2, img3, img4, img5, img6, img7, img8, img9, created_at, updated_at, text1, text2, text3, text4, text5, text6, text7, text8, text9, text10, text11, text12) FROM stdin;
+1	Payment Footer	<p>payment</p>	pembayaran1.png	pembayaran2.png	pembayaran3.png	pembayaran4.png	pembayaran5.png	pembayaran6.png	\N	\N	\N	2016-06-28 03:58:02.944251	2016-06-28 04:16:14.552696	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+4	Top Keywords		\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-07-10 05:16:33.206333	2016-07-10 05:29:39.445339	Pakaian	Kurma	Handphone	Mukena	Buah	Kurma	Xiaomi	\N	\N	\N	\N	\N
+21	Konfirmasi Email		\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-07-22 13:23:50.190761	2016-07-23 01:27:09.985134	<p>Selamat Datang <%= @email %>!</p>\r\n\r\n<p>You can confirm your account email through the link below:</p>\r\n\r\n<%= link_to 'Konfirmasi', confirmation_url(@resource, confirmation_token: @token) %>	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+2	Footer Info	<div class="row">\r\n\t\t\t\t\t\t<div class="col-md-3 col-sm-3 fiturfooter">\r\n\t\t\t\t\t\t\t<h4>Love it mart</h4>\r\n\t\t\t\t\t\t\t<ul>\r\n<li><%= link_to "Tentang Kami", Static.find(6) %></li>\r\n<li><%= link_to "Karir", Static.find(7) %></li>\r\n<li><%= link_to "Info Terkini", Static.find(8) %></li>\r\n<li><%= link_to "Syarat & Ketentuan", Static.find(5) %></li>\r\n<li><%= link_to "Kebijakan Provasi", Static.find(16) %></li>\r\n<li><%= link_to "Sitemap", Static.find(20) %></li>\r\n<li><%= link_to "Hubungi Kami", Static.find(15) %></li>\r\n<li><%= link_to "FAQ", Static.find(11) %></li>\r\n\r\n\t\t\t\t\t\t\t</ul>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class="col-md-3 col-sm-3 fiturfooter">\r\n\t\t\t\t\t\t\t<h4>Jual</h4>\r\n\t\t\t\t\t\t\t<ul>\r\n<li><%= link_to "Pendaftaran Seller", Static.find(21) %></li>\r\n<li><%= link_to "Cara Berjualan", Static.find(9) %></li>\r\n<li><%= link_to "Ketentuan Seller", Static.find(10) %></li>\r\n<li><%= link_to "FAQ", Static.find(24) %></li>\r\n\t\t\t\t\t\t\t</ul>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class="col-md-3  col-sm-3 fiturfooter">\r\n\t\t\t\t\t\t\t<h4>Beli</h4>\r\n\t\t\t\t\t\t\t<ul>\r\n<li><%= link_to "Cara Pembelian", Static.find(12) %></li>\r\n<li><%= link_to "Ketentuan Member", Static.find(13) %></li>\r\n<li><%= link_to "Member Akun", Static.find(25) %></li>\r\n<li><%= link_to "Metode Pembayaran", Static.find(14) %></li>\r\n<li><%= link_to "e-Voucher", Static.find(26) %></li>\r\n<li><%= link_to "FAQ", Static.find(27) %></li>\r\n\t\t\t\t\t\t\t</ul>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class="col-md-3 col-sm-3 fiturfooter">\r\n\t\t\t\t\t\t\t<h4>Newsletter</h4>\r\n<%= form_for(@newsletter) do |f| %>\r\n\t\t\t\t\t\t\t<div class="newsletter">\r\n\t\t\t\t\t\t\t\t<input type="text" name="newsletter[email]" class="formnewsletter" placeholder="Masukan Email.."/>\r\n\t\t\t\t\t\t\t\t<input type="submit" name="" class="kirimnewsletter" value="Kirim">\r\n\t\t\t\t\t\t\t</div>\r\n<% end %>\r\n\t\t\t\t\t\t\t<p class="des-newsletter">\r\n\t\t\t\t\t\t\t\tDengan berlangganan newsletter, Anda akan mendapat update info  & promo menarik dari kami\r\n\t\t\t\t\t\t\t</p>\r\n\t\t\t\t\t\t\t<div class="f-sosmed">\r\n\t\t\t\t\t\t\t\t<a href="#" data-toggle="tooltip" title="facebook"><span class="listfsosmed fb"><i class="fa fa-facebook"></i></span></a>\r\n\t\t\t\t\t\t\t\t<a href="#" data-toggle="tooltip" title="twitter"><span class="listfsosmed tw"><i class="fa fa-twitter"></i></span></a>\r\n\t\t\t\t\t\t\t\t<a href="#" data-toggle="tooltip" title="google plus"><span class="listfsosmed gplus"><i class="fa fa-google-plus"></i></span></a>\r\n\t\t\t\t\t\t\t\t<a href="#" data-toggle="tooltip" title="instagram"><span class="listfsosmed instagram"><i class="fa fa-instagram"></i></span></a>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>	\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-06-28 04:29:00.912907	2016-07-11 23:54:23.768851	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+20	Pembayaran Virtual Account		\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-07-22 02:28:27.680336	2016-07-23 02:39:47.511533	<p>Selamat Datang <%= @email %>!</p>\r\n\r\n<p>You can confirm your account email through the link below:</p>\r\n\r\n<%= link_to 'Konfirmasi', confirmation_url(@resource, confirmation_token: @token) %>	Petunjuk Pembayaran Virtual Account	<!DOCTYPE html>\r\n<html>\r\n  <head>\r\n    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />\r\n  </head>\r\n  <body>\r\n    <h1>Halo <%= User.find(@mycart.last.user_id).namalengkap %></h1>\r\n    <p>\r\n      Order Anda, untuk invoice <% @mycart.each do |c| %><%= c.invoice %>,<% end %><br />\r\n      Nomor Virtual Account: <strong><%= @van %><br></strong>\r\n            Bank: <strong><%= @bank %><br></strong>\r\n            Jumlah Transfer: <strong><%= number_to_currency(@amount, locale: :id) %><br></strong>\r\n            Valid Sampai: <strong><%= @date.to_date.strftime("%d-%m-%Y") %> <%= @time[0..1] + ":" + @time[2..3] %> WIB<br></strong><br><br>\r\n\r\n            Cara Pembayaran ATM:<br>\r\n            1. Pilih Menu Transaksi Lainnya<br>\r\n            2. Pilih Transfer<br>\r\n            3. Pilih Ke rekening BCA Virtual Account<br>\r\n            4. Input Nomor Virtual Account, misal. 123456789012XXXX<br>\r\n            5. Pilih Benar<br>\r\n            6. Pilih Ya<br>\r\n            7. Ambil bukti bayar anda<br>\r\n            8. Selesai<br>\r\n    </p>\r\n  </body>\r\n</html>	\N	\N	\N	\N	\N	\N	\N	\N	\N
+14	Contact Bottom		\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-07-11 03:14:47.27011	2016-07-11 03:17:08.477603	[021] 987 765XX	support@loveitmart.com	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+7	Brand		brand1.jpg	brand2.jpg	brand3.jpg	brand4.jpg	brand5.jpg	brand6.jpg	brand1.jpg	brand2.jpg	brand5.jpg	2016-07-11 01:45:34.060632	2016-07-11 02:03:53.670176	#	#	#	#	#	#	#	#	#	\N	\N	\N
+11	Banner		bn-iklanside1.jpg	holder.png	bn-iklanside3.jpg	bn-iklanside2.jpg	\N	\N	\N	\N	\N	2016-07-11 02:10:59.99731	2016-07-11 02:16:26.275057	#	#	#	#	\N	\N	\N	\N	\N	\N	\N	\N
+15	Copyright		\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-07-11 03:18:35.447959	2016-07-11 03:20:00.729127	© 2015 Loveitmart. All right reserved.	Supported by Villagehoster	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+16	General	Tempat jual beli berbagai produk	computer.png	loveitmart.png	loveitmart.png	\N	\N	\N	\N	\N	\N	2016-07-13 02:42:29.863752	2016-07-13 04:19:24.900201	Lovitmart	Marketplace Indonesia	marketplace,lovitmart	021-XXX-XXXX	support@lovitmart.com	Jl Capt Tendean	https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1982.9943664187142!2d106.7089585850398!3d-6.265211337625115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6a02a3c2e6a2fd%3A0xed271e781b7bf7a4!2sVILLAGEHOSTER!5e0!3m2!1sid!2sid!4v1442983404695	facebook	twitter	#	#	\N
+12	Main Slide		1.jpg	2.jpg	3.jpg	\N	\N	\N	\N	\N	\N	2016-07-11 02:21:02.475633	2016-07-11 02:26:50.895789	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+13	Side Slide		bannerkanan.jpg	holder2.png	holder2.png	\N	\N	\N	\N	\N	\N	2016-07-11 02:21:11.467647	2016-07-11 02:30:32.798506	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+6	Bottom Paragraph	<p>\r\n\r\n<b>Lorem ipsume</b> dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum\r\n\r\n<br></p>	\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-07-10 05:46:39.000506	2016-07-12 06:09:15.704513	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+22	Pembayaran Berhasil		\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-07-23 02:48:14.34807	2016-07-23 03:45:09.087995	\N	Pembayaran Berhasil Dilakukan	    <h1>Hi <%= User.find(@mycart.last.user_id).namalengkap %></h1>\r\n    <p>\r\n     Terimakasih telah melakukan pembayaran untuk <br/>\r\n<% @invoice = [] %>\r\n<% @mycart.each do |c| %>\r\n<% @invoice << c.invoice %><br />\r\n<% end %>\r\n      Pesanan Anda, invoice : <%= @invoice.to_sentence %>\r\n    </p>\r\n	Anda mendapat pesanan baru	<p>login akun anda untuk melihat pesanan</p>	\N	\N	\N	\N	\N	\N	\N
+19	Promoted		\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-07-22 01:13:43.492703	2016-07-22 01:56:05.600948	38,39,40,41,42,44,45,47,48,49	38,39,40,41,42,44,45,47,48,49	38,39,40,41,42,44,45,47,48,49	38,39,40,41,42,44,45,47,48,49	38,39,40,41,42,44,45,47,48,49	38,39,40,41,42,44,45,47,48,49	38,39,40,41,42,44,45,47,48,49	38,39,40,41,42,44,45,47,48,49	\N	\N	\N	\N
+23	Pesanan Ditolak		\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-07-24 01:29:41.655638	2016-07-24 01:44:49.971786	\N	Pesanan Anda Ditolak Oleh Seller	Seller tidak dapat memproses pesanan anda	Anda telah menolak pesanan	pesanan telah berhasil ditolak	\N	\N	\N	\N	\N	\N	\N
+24	Pesanan Diterima		\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-07-24 01:47:39.621561	2016-07-24 01:51:28.547335	\N	Pesanan Anda Telah Diproses Seller	Pesanan Anda telah diproses seller	Anda telah menerima pesanan	silakan kirim pesanan anda ke buyer	\N	\N	\N	\N	\N	\N	\N
+25	Pesanan Dikirim		\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-07-24 01:58:44.219912	2016-07-24 02:00:14.691452	\N	Pesanan Anda telah dikirim oleh seller	Pesanan Anda telah dikirim oleh seller..	Anda telah mengirim pesanan	Anda telah mengirim pesanan Buyer	\N	\N	\N	\N	\N	\N	\N
+26	Pesanan Sampai		\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-07-24 02:06:54.833287	2016-07-24 02:09:38.031956	\N	Anda mengkonfirmasi pesanan telah sampai	pesanan telah sampai	Buyer telah menerima barang anda	barang diterima	\N	\N	\N	\N	\N	\N	\N
+27	Transaksi Selesai		\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-07-24 02:16:58.581622	2016-07-24 02:18:34.957483	\N	Anda telah mengirimkan feedback	pesanan telah selesai	Buyer mengirim feedback	transaksi selesai	\N	\N	\N	\N	\N	\N	\N
+28	Batal Otomatis		\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-07-24 02:25:49.64461	2016-07-24 02:28:56.76762	\N	Pesanan anda batal otomatis	batal otomatis oleh sistem	dibatalkan otomatis	oleh sistem	\N	\N	\N	\N	\N	\N	\N
+17	Fee		\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-07-19 01:34:11.729571	2016-07-19 04:21:27.817853	5	0	yes	\N	\N	\N	\N	\N	\N	\N	\N	\N
+18	Top Link		\N	\N	\N	\N	\N	\N	\N	\N	\N	2016-07-21 04:01:10.529667	2016-07-24 03:08:43.714789	e-voucher	/categories/14	Hot Deals	#	Voucher Deals	#	Promo!	/promo	\N	\N	\N	\N
+\.
+
+
+--
+-- Name: homeitems_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('homeitems_id_seq', 28, true);
+
+
+--
+-- Data for Name: impressions; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY impressions (id, impressionable_type, impressionable_id, user_id, controller_name, action_name, view_name, request_hash, ip_address, session_hash, message, referrer, created_at, updated_at) FROM stdin;
+1	Produk	0	16	produks	show	\N	1cc905ef5243ce04fa12ce83503da32be86dffd9982e475b547383ca1271f506	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-18 02:04:07.130727	2016-07-18 02:04:07.130727
+2	Produk	0	16	produks	show	\N	7ce40ed22bb8edb25d4ac38cbc45194c1e93e6872585e044f227c1c5d415b39a	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-18 02:04:19.558618	2016-07-18 02:04:19.558618
+3	Produk	0	16	produks	show	\N	f7744afeb09e234b6ab69b71bd5a81378f61118cba5cf4114109c9dea6c70d8d	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-18 02:05:07.295741	2016-07-18 02:05:07.295741
+4	Produk	0	16	produks	show	\N	6d6b6ffe1365e6dac82a7329f655398a30c540833a31873e35bc86183f652e52	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:05:13.871904	2016-07-18 02:05:13.871904
+5	Produk	0	16	produks	show	\N	ccab747699c8e046614ffb2fc32e66dd2f1775b6579b55d02352caf22913ebd4	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:05:18.003592	2016-07-18 02:05:18.003592
+6	Produk	0	16	produks	show	\N	5049675ce56948eaf8277b6432a0634f146030d9a2390a267bdc1a1001dda81d	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:05:33.285269	2016-07-18 02:05:33.285269
+7	Produk	0	16	produks	show	\N	a0f14c094475b67397eb3e21ffb929e05884eed3f11982c56b154bada30f1622	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:12:46.784178	2016-07-18 02:12:46.784178
+8	Produk	0	16	produks	show	\N	ae4f8a972a141d15b4b11960205f73850a78c63af4f0c3ac729345ccfb09347b	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:12:57.059601	2016-07-18 02:12:57.059601
+9	Produk	0	16	produks	show	\N	2022adc0648c58af2bfb71fa3bc00d06014bdb2dc108132484e73d5b7f5220f4	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:13:01.277655	2016-07-18 02:13:01.277655
+10	Produk	39	16	produks	show	\N	7c71dd126afe68aeedc09bd6619d0dd523c12ebe6e0ed2e1825bb3bc1a36f191	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:27:38.117252	2016-07-18 02:27:38.117252
+11	Produk	39	16	produks	show	\N	dc36b48ef323a4af14cd620e0d18c70a3228cffa08eec92897e352dcb3c51354	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:27:55.727691	2016-07-18 02:27:55.727691
+12	Produk	39	16	produks	show	\N	664f5a3d87f89dabdef3757471c7eca0a4fba0043b2c0ea9a7d620089e3c9767	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:30:32.603976	2016-07-18 02:30:32.603976
+13	Produk	39	16	produks	show	\N	371e435952e21e8f769dd3d1c06a78bf4b465f5e2699e300b601d0b54e62c2fd	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:31:09.687613	2016-07-18 02:31:09.687613
+14	Produk	39	16	produks	show	\N	21186da2819845d83a86128c7725d15f40ee5d2affcf8a05994e0e3c3126668b	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:34:38.390863	2016-07-18 02:34:38.390863
+15	Produk	39	16	produks	show	\N	ce83ce2354ed79a8276db16eedf58d7b7cb283a8c1b15693b133155ec6061af8	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:35:26.711022	2016-07-18 02:35:26.711022
+16	Produk	39	16	produks	show	\N	1be2c7281d8116329aa00f088d72b45c5d45929f26f0b0108c343500b02d4cf6	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:36:35.735112	2016-07-18 02:36:35.735112
+17	Produk	39	16	produks	show	\N	817d015814230a4f95b845d98636969e63a628a6c87e1f7f69682e832460aeb3	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:36:44.187293	2016-07-18 02:36:44.187293
+18	Produk	39	16	produks	show	\N	3e19b95d318991960cddff268d142f166acdc9e7f0d647f8d13324018a9251d9	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:36:56.714168	2016-07-18 02:36:56.714168
+19	Produk	39	16	produks	show	\N	115e618b4a02e3ff814647b1bf0f969ffb65868b325d9109a7ca45252cf51fec	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:41:33.493281	2016-07-18 02:41:33.493281
+20	Produk	39	16	produks	show	\N	389ff3d4d2fdf0016be4d262b8adc85c6df3bfb968a93ece6df19d5614055420	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:42:09.788851	2016-07-18 02:42:09.788851
+21	Produk	39	16	produks	show	\N	42ecaa12d34484dfa2387599f591899077de7317d6e88399eeaeef9ccc953501	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:43:15.044019	2016-07-18 02:43:15.044019
+22	Produk	39	16	produks	show	\N	e22f30e55a727918b1c3234d7ee0079f8d4fca9886554bb482cce88fe8bb4292	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:43:26.598615	2016-07-18 02:43:26.598615
+23	Produk	39	16	produks	show	\N	e9553d8efb0234292ffa11375fc2aa6f0c23ab101e544cfd281e310d481b96b1	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:44:29.120446	2016-07-18 02:44:29.120446
+24	Produk	39	16	produks	show	\N	d3eb6da87a15132e2bd4f5e82304812f95544a9841d3402c5adb76f430096fe6	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:44:58.273639	2016-07-18 02:44:58.273639
+25	Produk	39	16	produks	show	\N	7ba46f2bd7219f7a6e7b83d62adb6e42ace23fcf14d5fbb1badd15ce42935f5b	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:45:18.383058	2016-07-18 02:45:18.383058
+26	Produk	39	16	produks	show	\N	192395daa2c73c2dff744c4e2272c5619b1dcd56ba985f95256b81948bbc0289	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:46:26.101981	2016-07-18 02:46:26.101981
+27	Produk	39	16	produks	show	\N	7852968d02b6c504e4b79046d9429ffe8a934c64c8696f1da4db934257116754	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:46:44.278216	2016-07-18 02:46:44.278216
+28	Produk	39	16	produks	show	\N	4b78ffedfcf09cb9c75c87fb463bd5581a4beaf00e25f45b05e13d8bc13536c8	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:46:52.933024	2016-07-18 02:46:52.933024
+29	Produk	39	16	produks	show	\N	9aab53d6eceb3c66c1ce3aaa00a3030ba2bd88846eec0e7f6d6e5dcebcec5252	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:47:39.771582	2016-07-18 02:47:39.771582
+30	Produk	39	16	produks	show	\N	b5f79df3776c570e061358611b95ad39cb5346f7fa9013133b0e8a9fcd1d35d2	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:48:55.060844	2016-07-18 02:48:55.060844
+31	Produk	39	16	produks	show	\N	3483d9da11b46572221ca4458629c3bc27e41542dd88aff01f0d37af8219ee61	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:49:21.203994	2016-07-18 02:49:21.203994
+32	Produk	39	16	produks	show	\N	2f03278837db3d89e0ec6f0a19683d9c4c5215e354c402fa7f33f75968dcbb7c	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:49:44.770855	2016-07-18 02:49:44.770855
+33	Produk	39	16	produks	show	\N	648ceb3daf605327147cbe10b1cd8c2e9383642ae7fb163a7131d289944ce447	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:49:53.933921	2016-07-18 02:49:53.933921
+34	Produk	39	16	produks	show	\N	ef58a8ad65f6527f90f3aed401ec2882ef8c7486c8d113098c8d8c2aaa0eb40f	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:50:21.885963	2016-07-18 02:50:21.885963
+35	Produk	39	16	produks	show	\N	9ae2e35a3f65b1f80a863f7581719b9a72851964be5156fa3561d14376ec1c32	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:50:53.163088	2016-07-18 02:50:53.163088
+36	Produk	39	16	produks	show	\N	d05426e401a00a8c957c40b50dac7bfe16828f3441b760fec39e1ed266766e0e	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:51:22.141462	2016-07-18 02:51:22.141462
+37	Produk	39	16	produks	show	\N	6780eb2cce7b134553f7c2361040ae3aba85c113618d7b4157ff8e5a032ceb14	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:55:11.370509	2016-07-18 02:55:11.370509
+38	Produk	39	16	produks	show	\N	d1d0234c8e9a3a92035689b49b6dc081a99aa32d6025eb2067c431b888d95f97	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:56:35.018803	2016-07-18 02:56:35.018803
+39	Produk	39	16	produks	show	\N	4176a7735ec793d61a6e3289755d00ee5888af14bbc7713ab1a18a58cee2a695	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:57:17.040845	2016-07-18 02:57:17.040845
+40	Produk	39	16	produks	show	\N	463a988c5f3b9a2e1c8fa7a606b0351f0c36fa17dc3a130dbc80d6847231e216	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:58:15.075258	2016-07-18 02:58:15.075258
+41	Produk	39	16	produks	show	\N	62a9529d26e30149484d3ec84fff555d0be2b5eee249cceeabd61474ffde19ac	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:58:35.058828	2016-07-18 02:58:35.058828
+42	Produk	39	16	produks	show	\N	2359999d1dedee85b18de74c6fe51093aa8d4ba6789b8b82d98d5cf79ad56e53	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:59:24.16357	2016-07-18 02:59:24.16357
+43	Produk	39	16	produks	show	\N	e8a3a67363adf009269daf95ad6eaafdc1ca720b83c7e54b49d46f06be6539e0	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 02:59:51.864413	2016-07-18 02:59:51.864413
+44	Produk	39	16	produks	show	\N	d96bab67dad6ce21d695c58d15af5c66ad077f34deaa90a60605c9e5b9737427	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:01:23.291504	2016-07-18 03:01:23.291504
+45	Produk	39	16	produks	show	\N	fa998518292cf33bcbb2f167f5df31a995868b2ecb6191f3188ee53248485afa	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:02:01.485181	2016-07-18 03:02:01.485181
+46	Produk	39	16	produks	show	\N	e0ffbf5228162bae14ff909018a8513ede98de9e824c2d180fa1c58ade135669	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:02:34.773235	2016-07-18 03:02:34.773235
+47	Produk	39	16	produks	show	\N	8d410016724b78db605bda303b83520bb388e0bfafd4c601fa3125f0f3a20c4f	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:02:55.735149	2016-07-18 03:02:55.735149
+48	Produk	39	16	produks	show	\N	4b4fef13829de440b888368da4a5b701c1d40a08babb4b4286fc038e1dadacf1	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:03:21.136425	2016-07-18 03:03:21.136425
+49	Produk	39	16	produks	show	\N	2bc967e74f656a4509e4126f14cdbfed44731be7f6cf567c6d29d146aefb851f	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:04:03.141507	2016-07-18 03:04:03.141507
+50	Produk	39	16	produks	show	\N	3eb3eb5e9763d98395625fdd29309f2e567209fa3633643788130ca5c4b6552a	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:04:32.719317	2016-07-18 03:04:32.719317
+51	Produk	39	16	produks	show	\N	46a781aa1fd4e8de6e02c5314fcc6731040f48e4f7085df2fbc62353bce026e2	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:04:52.497385	2016-07-18 03:04:52.497385
+52	Produk	39	16	produks	show	\N	c81a3306cc97cc9a1a4d9998723cfb4dcbb096ec6c3312e40d468b84cdb347a1	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:05:31.385366	2016-07-18 03:05:31.385366
+53	Produk	39	16	produks	show	\N	0c25cce0f667da4080ebe2c7a0731675bfb8523ab920adff1374b9499c41caa9	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:05:41.020125	2016-07-18 03:05:41.020125
+54	Produk	39	16	produks	show	\N	b2f9032d64895c0ab29b05f97dc8f4e6190af7f1741982e035f0c57bb4a83b48	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:06:13.469149	2016-07-18 03:06:13.469149
+55	Produk	39	16	produks	show	\N	48e90093cc98ee2d295b88b70b82054a6cd2d6aac2067979087b738943bc3e7e	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:06:50.777943	2016-07-18 03:06:50.777943
+56	Produk	39	16	produks	show	\N	50001cfa849bcff4bf41b4d57b4bcdeb423896424ec16c3480003e844bef9c82	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:07:27.720695	2016-07-18 03:07:27.720695
+57	Produk	39	16	produks	show	\N	df66bf6a240a76598891ea0cffd28821f4b3b32652eecada8f8f9a5850b5f6b1	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:08:30.896326	2016-07-18 03:08:30.896326
+58	Produk	39	16	produks	show	\N	44eebe99523b609e5b8cd176a5fdad6a76d1482a5bc3b83ca145c516c2a35e2b	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:09:31.411948	2016-07-18 03:09:31.411948
+59	Produk	39	16	produks	show	\N	8836f977b8b1a93a6dc326d35f1aac25716fa2b19b225d434b9ef714879ddd74	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:14:26.879027	2016-07-18 03:14:26.879027
+60	Produk	39	16	produks	show	\N	a56351b76a3027b105fa4195dee2ee31341bd228ec737815c5f5af05860aba0b	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:14:54.192732	2016-07-18 03:14:54.192732
+61	Produk	39	16	produks	show	\N	3d9c0f351284f822cb90b0cc679ea5aa4c6aa6a50f05f7ddcf55ae3ccc5c1aa1	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:15:03.859341	2016-07-18 03:15:03.859341
+62	Produk	39	16	produks	show	\N	3bc77d83187c6728a8c0bdda1c0aa0873f79e153511d75fa638e696ec0479507	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:16:13.65104	2016-07-18 03:16:13.65104
+63	Produk	39	16	produks	show	\N	06e2f975e63d4a21ca4958a9162ed4bb8086ede945cfad7020909789d4ad3dc2	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:16:49.143502	2016-07-18 03:16:49.143502
+64	Produk	39	16	produks	show	\N	4ee58538801bf4fd1b7f57c43eaeb071f6be8d54a69542d8c6168b19f25e119b	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:17:53.320863	2016-07-18 03:17:53.320863
+65	Produk	39	16	produks	show	\N	435995c95e2385be2948de612e020e975e1f0a557efc5b10c1508ac665f514fb	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:19:07.560865	2016-07-18 03:19:07.560865
+66	Produk	39	16	produks	show	\N	e6f92777c78aacb16d4c6b4158ecb7df5a9b7ecd68381960b556ae657cedb21e	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:19:35.307226	2016-07-18 03:19:35.307226
+67	Produk	39	16	produks	show	\N	4267790bb82c6509b48bc3f4efae4d8e050dd8d97b34f6970691e6da6191542f	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:23:14.872651	2016-07-18 03:23:14.872651
+68	Produk	39	16	produks	show	\N	0be8c61a9ff549fd73ef5bc0f3aa1f34a4d17d84d08f476563d1d95f56fb4207	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:23:33.939586	2016-07-18 03:23:33.939586
+69	Produk	39	16	produks	show	\N	868615c803c145be4f602842983b97a2a69947d1683102e674f9cf75daff92d9	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:23:41.255775	2016-07-18 03:23:41.255775
+70	Produk	39	16	produks	show	\N	4e1f9e52e56fbc0e958fee6d026832fce286418b2dbb67602f0e765c3644e2fd	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:24:24.667088	2016-07-18 03:24:24.667088
+71	Produk	39	16	produks	show	\N	22527b8968f703bbef802fec19b3b3a7540d662e016b5d04bfc2b14fd4ca1ad0	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:24:55.975372	2016-07-18 03:24:55.975372
+72	Produk	39	16	produks	show	\N	b97a33b9f067073933fe52334a11e340b5a5d6818b2020f7b7b99ec117925eea	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:25:18.921817	2016-07-18 03:25:18.921817
+73	Produk	39	16	produks	show	\N	d887d2f096cc407ae7bf68aef1c766be62e9df2ff62c13cc4b68eb7036113536	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:27:48.621849	2016-07-18 03:27:48.621849
+74	Produk	39	16	produks	show	\N	18173c4733c93e8b877efa8565c0af0704c18783222360986922233415794dca	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:32:08.602518	2016-07-18 03:32:08.602518
+75	Produk	39	16	produks	show	\N	af1bde6cf05e2580a17c1952c7a8b06e36d381f611c1c1e9264c3c52727072b1	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:32:54.098427	2016-07-18 03:32:54.098427
+76	Produk	39	16	produks	show	\N	00ca3eed0ec82ff02ba5701857336b7cc577c158a15ed396d02c811d3d820edc	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:35:29.019656	2016-07-18 03:35:29.019656
+77	Produk	39	13	produks	show	\N	74994ac17014fc0796b2c44c0ab8bdc746f87fed12711acba1cf1396cb256901	54.251.49.8	4be97505ce404593fa6fa5b34afe2a29	\N	\N	2016-07-18 03:35:47.636236	2016-07-18 03:35:47.636236
+78	Produk	39	16	produks	show	\N	4b7616e67e7b59fc8ddc10ca44ca411b0bf4a48a63fe2e48774343f2f5ae75cc	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:37:02.697169	2016-07-18 03:37:02.697169
+79	Produk	39	16	produks	show	\N	ed857c3c4ca92e2a3dfab4575f900f9590c56a892e9961d1cc48640ca05020bf	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:37:39.02557	2016-07-18 03:37:39.02557
+80	Produk	39	16	produks	show	\N	94faefe5fde6267c8502cf1403f35e7a500c73d6c08369fe065b7608063c227f	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:38:08.603701	2016-07-18 03:38:08.603701
+81	Produk	39	16	produks	show	\N	aaf002378a8a8f5c9e6fb9efde2a5c6b697b9a7b0db657b06a26c28241071ebb	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:39:12.02021	2016-07-18 03:39:12.02021
+82	Produk	39	16	produks	show	\N	1eefd2a4b52ac257a4182c1f8ab581afb876c33b0a4eeebc872c3ba59498940e	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:40:00.652822	2016-07-18 03:40:00.652822
+83	Produk	39	16	produks	show	\N	6313c8799b950f92c9cd5509644465b5135317337e0d7daa7bc0bb18da3a0250	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:40:18.958787	2016-07-18 03:40:18.958787
+84	Produk	39	16	produks	show	\N	266e82d6c20d368ebcfe245dc8fbc32b7ecf0d1ee74bd178693531e0b8a2c854	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:41:46.873768	2016-07-18 03:41:46.873768
+85	Produk	39	16	produks	show	\N	2de0857b16075f370b12a1f3ce8b75177307eb1debd2bebd2e0a07d32fbe40d7	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:42:33.175446	2016-07-18 03:42:33.175446
+86	Produk	39	16	produks	show	\N	ebee36dfe292f32719e62eb5cc02a80eb64f2a3ad3350bbbdc1205c6f5c3840f	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:42:59.989944	2016-07-18 03:42:59.989944
+87	Produk	39	\N	produks	show	\N	de253135b589d3496f620c1d320243d42badb9bc44ee714772f0b1ca430d252d	54.251.49.8	09bc97d02d72c1825eb8d8b6641609df	\N	\N	2016-07-18 03:43:14.242807	2016-07-18 03:43:14.242807
+88	Produk	39	16	produks	show	\N	f0498ad61bd8d84f129590efb7092d1a09ae17d9c1a2581e51c0d06aaca4dd4c	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:44:25.286494	2016-07-18 03:44:25.286494
+89	Produk	39	16	produks	show	\N	e0b1eb4fd5e4fe67e60323162e410127a34694b7b9132c3a052384b79a159656	54.251.49.8	61763e7dc439172fe7ba116c7e484607	\N	\N	2016-07-18 03:45:44.591539	2016-07-18 03:45:44.591539
+90	Produk	51	16	produks	show	\N	b9c9618ccf7df18b0cd01a8ee652ec93107ff695cd131e84dc92094d9c1e9a7d	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:26:34.242136	2016-07-19 02:26:34.242136
+91	Produk	51	16	produks	show	\N	df8fca2581319c4c93b6424577d5a281841654c4d472213dcc4280202270ab53	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:29:06.243126	2016-07-19 02:29:06.243126
+92	Produk	51	16	produks	show	\N	868a535169e7550c31beccd22a72ae7999e64530979a6c7999db0cc3628ef22a	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:30:15.009568	2016-07-19 02:30:15.009568
+93	Produk	51	16	produks	show	\N	c37ff1bd8c47bb065e0abfc03acb3ee74244d362fe1bf547512ca24d003c8814	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:31:15.880912	2016-07-19 02:31:15.880912
+94	Produk	51	16	produks	show	\N	02664147dfab5b3fdf67af2a92975554e989aaade0057f9a0d67fe18a5dbff6c	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:32:26.312972	2016-07-19 02:32:26.312972
+95	Produk	51	16	produks	show	\N	c9edd961463e37c9dcd3dbad50861b7fff968aa3229661a44a88481d0c5eea4a	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:33:09.941178	2016-07-19 02:33:09.941178
+96	Produk	51	16	produks	show	\N	7c7867c6e1bc64470ce191bb0e9639a89d80019c22712d2dc30a85dc8237d8fe	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:38:22.121466	2016-07-19 02:38:22.121466
+97	Produk	51	16	produks	show	\N	6a106186df3fbf3355326c591770cc86716f3e87331e80df64d1eddccb871551	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:39:52.793113	2016-07-19 02:39:52.793113
+98	Produk	51	16	produks	show	\N	68a0b2b022b4c2cf5d8b208054f7bd6b70fd16fc1d688431b883928f001251e7	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:40:35.000677	2016-07-19 02:40:35.000677
+99	Produk	51	16	produks	show	\N	c50db14225944efae8e7286d1891da9e1b52efbe73118b645c8e72e58dd3ff35	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:40:56.457363	2016-07-19 02:40:56.457363
+100	Produk	51	16	produks	show	\N	49b2f4ca4a3f02490819fbd3c32c7e69ab6bdd3d43d1750d872e417db82c3349	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:43:31.072934	2016-07-19 02:43:31.072934
+101	Produk	51	16	produks	show	\N	cc2809b7d4ac7cd2f8c5c1aebd7d6bb27b3f4a3eabf5511d40082c6254938e9b	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:43:45.964993	2016-07-19 02:43:45.964993
+102	Produk	51	16	produks	show	\N	fea08a93ada340f327e5d19466bbf02c0935c26e9cd59e5e6bbe69e05417f58d	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:45:24.742882	2016-07-19 02:45:24.742882
+103	Produk	51	16	produks	show	\N	b54efdd03bd540e9b4bf8bc30e15a7b6be7babc66818624fa352a44857b8b8db	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:46:35.301255	2016-07-19 02:46:35.301255
+104	Produk	51	16	produks	show	\N	e513a15255f5f62e7bd09a93acd2253636648de95dd1eff2bc2e1b98af5ea81b	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:50:50.079584	2016-07-19 02:50:50.079584
+105	Produk	51	16	produks	show	\N	9d18a39e97d9d8831ef8d3737f6f24520872c2ba5277e9b681a013443e1ddc5b	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:52:26.389498	2016-07-19 02:52:26.389498
+106	Produk	51	16	produks	show	\N	022dadb592a7a4feb16cff7c2f4c5c3e7fc0226c22a94261b1f24e825146b3bb	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:54:10.199647	2016-07-19 02:54:10.199647
+107	Produk	51	16	produks	show	\N	6c2250aecb570caa7466a1e6723053aacfdbe991168983b2754ff1d132e2997f	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 02:57:18.285787	2016-07-19 02:57:18.285787
+108	Produk	51	16	produks	show	\N	b0969c51904d736675117efe9cda4b315d18a3e5e772ac91893fd6a687490372	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 03:02:23.419323	2016-07-19 03:02:23.419323
+109	Produk	51	16	produks	show	\N	9e43a6122572a14a7a35fdb3921736c417df1f11543237dc9e9a6c7929e4a14b	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 03:18:56.828887	2016-07-19 03:18:56.828887
+110	Produk	51	16	produks	show	\N	cb398ca1ff0123c3b726f15f3dcdb063b1d25022a05ac61d77913900ea32d291	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 03:20:20.072628	2016-07-19 03:20:20.072628
+111	Produk	51	16	produks	show	\N	787bd01c769b064943984fea11f67b371e93372ab0279d2bdf5cf4fe30e9bf54	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-batu	2016-07-19 03:20:33.921897	2016-07-19 03:20:33.921897
+112	Produk	51	16	produks	show	\N	a6d56131294ee5683fd7b8bd8cf859017b2f26b55e6c7f1de1a5a3dd9f916e7f	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-batu	2016-07-19 03:21:28.575184	2016-07-19 03:21:28.575184
+113	Produk	51	16	produks	show	\N	4969d8c74e6990aee7694a24a6a436a6231a0b8c567f6e7727012a88d6fb56ef	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-batu	2016-07-19 03:21:46.619417	2016-07-19 03:21:46.619417
+114	Produk	39	16	produks	show	\N	6caedd12a0364de4e2e84b850f93f059432dffdf2093f088581971e0a2691972	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 03:33:37.541021	2016-07-19 03:33:37.541021
+115	Produk	39	16	produks	show	\N	d06a5cbd1c27947fefbc5c1b7911f62fc98d04acada61e1e0a5cb5b41e172713	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/kurma-madinah	2016-07-19 03:34:06.14994	2016-07-19 03:34:06.14994
+116	Produk	39	16	produks	show	\N	2fc4cce9a4b02ee067b0e8255f59b862f4d7560dcf1d670b573f18098a342687	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 03:36:47.442431	2016-07-19 03:36:47.442431
+117	Produk	39	16	produks	show	\N	e47e92a43d37e59472c1b0eea8d1918fc98aa0462ec79dc48ebe3ec18af92abc	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/kurma-madinah	2016-07-19 03:37:01.025495	2016-07-19 03:37:01.025495
+118	Produk	40	16	produks	show	\N	f4812dc4334416fc48bc8b9f6efc38a2aec1ca51f7b38e8ddc08903f681377ab	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 03:37:59.47722	2016-07-19 03:37:59.47722
+119	Produk	40	16	produks	show	\N	39c75a7593daca9cefa4961172d99988cf55d44e751a30fbdb1ca9196dd31f34	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/kurma-pohon	2016-07-19 03:38:20.751287	2016-07-19 03:38:20.751287
+120	Produk	40	16	produks	show	\N	36fa6af3f3713a5e3de6cc807d5914f810bde6d0d5d509804c22eae4e7eccb75	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 03:47:26.012018	2016-07-19 03:47:26.012018
+121	Produk	40	16	produks	show	\N	0d4d4b98daf29cf2a6056757e4d9fc00e0728278e561f8b581c46c81b73d837a	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/kurma-pohon	2016-07-19 03:48:04.250762	2016-07-19 03:48:04.250762
+122	Produk	39	16	produks	show	\N	49ed95c366d79a8e7d9fe913761a9b256c89695ede7f92c7fb1c513ea6e3f24a	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 03:57:08.743016	2016-07-19 03:57:08.743016
+123	Produk	39	16	produks	show	\N	309b5c7ad0c70b82ff8a9599a875dbe882b95113bfc774b0b6f52e50f72d5d2c	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/kurma-madinah	2016-07-19 03:57:33.454622	2016-07-19 03:57:33.454622
+124	Produk	39	16	produks	show	\N	bcf374a0509a496770e9a7231a58bfc3c485aa796895768ed007293d3f8d33ac	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/kurma-madinah	2016-07-19 03:57:59.515496	2016-07-19 03:57:59.515496
+125	Produk	52	16	produks	show	\N	d31a4323e2563e17fbda04b773a2c60094ebb23ef5deb81eb881a9cde4855e1f	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 04:04:22.239305	2016-07-19 04:04:22.239305
+126	Produk	52	16	produks	show	\N	2697d5f4d6850339b645f7af3a72533028d85e70c8d9c83151b3bb060d25def8	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-manis	2016-07-19 04:04:34.052965	2016-07-19 04:04:34.052965
+127	Produk	40	16	produks	show	\N	c6505ac0694e2f61cfa05b032c9e81e0f086b2f9ab5cbeac01ced7f48701f941	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 04:06:53.056256	2016-07-19 04:06:53.056256
+128	Produk	40	16	produks	show	\N	dbda3b3344a6781967f1ea56e9881bcd1b000a99e649eede189989f77293dd81	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 04:10:23.690194	2016-07-19 04:10:23.690194
+129	Produk	40	16	produks	show	\N	355c70a65dbcc041412ad5a365e0f3c8387f3d905ff25abd847b537f062f5222	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 04:11:43.501788	2016-07-19 04:11:43.501788
+130	Produk	40	16	produks	show	\N	c8503e4ed52026db0df3d0e2b4a4b32f35b80f288e5a9fdc890a63e7c228e686	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 04:21:53.227513	2016-07-19 04:21:53.227513
+131	Produk	40	16	produks	show	\N	f54aa9c5bd6ee7d4d7002a66237e8179ef7d31c0b98a841c49485795f56b9733	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/kurma-pohon	2016-07-19 04:22:10.101996	2016-07-19 04:22:10.101996
+132	Produk	40	16	produks	show	\N	2cd2b25f1adf29fb6e54577ad5e60c7f26a18303dfdfaa77ddfa24be660cf735	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/kurma-pohon	2016-07-19 04:23:48.172536	2016-07-19 04:23:48.172536
+133	Produk	40	16	produks	show	\N	3d113397f93a0495bc7113f211b7fbb195b4c638bbc1ce50b431192f5a4c249a	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/kurma-pohon	2016-07-19 04:25:39.734112	2016-07-19 04:25:39.734112
+134	Produk	38	16	produks	show	\N	ceb6f2b0fce45c220966dbb57c338597f94a2baf907162c8e9783ca0f9adb6a9	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 04:34:15.527432	2016-07-19 04:34:15.527432
+135	Produk	38	16	produks	show	\N	62a75c900885dea41b957650264563ce84130a573e308b5b14872c7140bd0187	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/kurma-makkah	2016-07-19 04:34:29.094597	2016-07-19 04:34:29.094597
+136	Produk	40	16	produks	show	\N	c0eadacc2b508878d0bfc748a0f2cd97de5e285dd6cb755fab8893ffc1c56f30	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 05:24:59.326433	2016-07-19 05:24:59.326433
+137	Produk	40	16	produks	show	\N	4d89aac097a6e8dc97014fd605da6de45435d13b8339c6bf58eabd1b2336ead4	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 05:26:20.698945	2016-07-19 05:26:20.698945
+138	Produk	40	16	produks	show	\N	c133200c99a8f7086fd218aee64cf447d792506244f639d21fe60cd2f067a2e7	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 05:26:25.657297	2016-07-19 05:26:25.657297
+139	Produk	40	16	produks	show	\N	bb2f3924f4de18362257fddc3cdc4f7bbc4dc7a590b28c317542de0c429e3a3d	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/kurma-pohon	2016-07-19 05:39:55.566893	2016-07-19 05:39:55.566893
+140	Produk	51	16	produks	show	\N	f83cc5dd1064b7a8212f840d48253e856c8c0e86679584c7f6eb3116614e1fbe	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 06:08:50.218203	2016-07-19 06:08:50.218203
+141	Produk	51	16	produks	show	\N	38df82e4affe36aaba1deffe43355aa6f86988cc5e4f3c0d576ac94eb4ca0e5d	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 06:09:30.782139	2016-07-19 06:09:30.782139
+142	Produk	51	16	produks	show	\N	d9bfc7debdedadf59113dcec5f5fd292931392886ba821d72c4a1b8ff51e5975	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 06:12:58.745103	2016-07-19 06:12:58.745103
+143	Produk	51	16	produks	show	\N	c1110f0039d8c642959eed3b45016a3aa42528e63f1e1eaaca93e26814edbb9d	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 06:15:44.821809	2016-07-19 06:15:44.821809
+144	Produk	51	16	produks	show	\N	fc44bf9ba88613b11a45bee59765a8b0040a5dacd3f67c8379750db148c0dea9	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 06:17:27.172734	2016-07-19 06:17:27.172734
+145	Produk	51	16	produks	show	\N	5a3d5cbc7dd918ae9593526915796d96d381b442b081b1d445dcc44f63f49183	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 06:32:04.553423	2016-07-19 06:32:04.553423
+146	Produk	51	16	produks	show	\N	15a50bc7f30032acc2eba476f847729586251c47bad82c0c5fa0eb56b5251eaf	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 06:32:19.397659	2016-07-19 06:32:19.397659
+147	Produk	51	16	produks	show	\N	e610ba4e65d9975d7d8918deeffb1a9ab3715d385b0f6117eb8d04691c0bf562	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 06:33:18.99525	2016-07-19 06:33:18.99525
+148	Produk	51	16	produks	show	\N	29d3d79c3442f031253b7a5df5e0403514ecb00622e94480de99aa97a37187ff	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 06:34:22.025414	2016-07-19 06:34:22.025414
+149	Produk	51	16	produks	show	\N	d78b047eaacd05aa08ce246a2bd67e7331873174a1f082da82043f486e61342b	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-batu	2016-07-19 06:34:33.619467	2016-07-19 06:34:33.619467
+150	Produk	51	16	produks	show	\N	a577b20b4eabbddd4aa3911148de1274441806013f567fd339d57d855d3593ea	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-batu?page=2	2016-07-19 06:34:46.239026	2016-07-19 06:34:46.239026
+151	Produk	51	16	produks	show	\N	2c8e0430109b4413b19f975398bd58a5e39ceec7051fc44f110867ea87725692	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	\N	2016-07-19 06:35:37.20621	2016-07-19 06:35:37.20621
+153	Produk	51	16	produks	show	\N	69d5e29e24b5d6a51421c097061a33955bb4eff797982c4fba19b2d0982361de	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	\N	2016-07-19 06:47:52.666591	2016-07-19 06:47:52.666591
+154	Produk	51	16	produks	show	\N	9b5e39bf77fb28849925b2bcf1377d9ad81c4647bbdf407da7938b661924c3be	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-batu?page=2	2016-07-19 06:48:04.90118	2016-07-19 06:48:04.90118
+155	Produk	51	16	produks	show	\N	773eb21c5a913905be420ad22f0edbf5e6cb51e492ddee0e9d4002115f922b6a	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	\N	2016-07-19 06:48:30.548642	2016-07-19 06:48:30.548642
+156	Produk	51	16	produks	show	\N	4f8a7205ed20e7b5a56b592e5f9912bd571e0d942cd91d0e818f2fb8928f7428	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-batu?page=3	2016-07-19 06:49:01.312331	2016-07-19 06:49:01.312331
+158	Produk	51	16	produks	show	\N	fd97eb3c3e70f99a3026afe5f95b4ffbd5d275876a6cedfeafa8a6327c2957fc	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	\N	2016-07-19 06:51:15.748732	2016-07-19 06:51:15.748732
+160	Produk	51	16	produks	show	\N	13cdda84b4b204f85a1c7973f57f89879b89498418626200079ea2cac66dfb3c	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	\N	2016-07-19 06:52:02.763098	2016-07-19 06:52:02.763098
+161	Produk	51	16	produks	show	\N	fc44eb2146c64028763c035ddda03b1dab2286475bc942ff49ddb808638a2c64	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-19 07:22:30.340978	2016-07-19 07:22:30.340978
+152	Produk	51	16	produks	show	\N	8be0157e1c21ece5562985b108e42fcb1b71abcbdc9ebc1d625ce464949efb6b	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-batu?page=3	2016-07-19 06:35:56.037707	2016-07-19 06:35:56.037707
+157	Produk	51	16	produks	show	\N	c379cd63840f01ae126fee99173c81c3968601b204bcc89f476e54881192dd46	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	\N	2016-07-19 06:51:06.426356	2016-07-19 06:51:06.426356
+159	Produk	51	16	produks	show	\N	64bd1a5513dcec6909c61edc0325c104759bc7e4ea752c25c48320499a0e7ed8	54.251.49.8	f6a87ee0ea02df17143161ca49a92934	\N	\N	2016-07-19 06:51:42.759476	2016-07-19 06:51:42.759476
+162	Produk	51	16	produks	show	\N	5de3232c80235e865ea261f52600a0708b091bdf9b458bd542d4459048b24720	54.251.49.8	ea9ed2cfba1f23c61443d1357b90d77a	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-21 03:59:05.702074	2016-07-21 03:59:05.702074
+163	Produk	51	16	produks	show	\N	8051441c046782a9cf6d766d151f6e00e04c7f85b982fb61960bc3c1aa8b147b	54.251.49.8	ea9ed2cfba1f23c61443d1357b90d77a	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-21 03:59:29.802733	2016-07-21 03:59:29.802733
+164	Produk	39	13	produks	show	\N	76456ca83f48618127cfb86849d76a5b4c5b2a97662506927de016c0b237d9b3	54.251.49.8	84bfb9a438116aa6fb82615a2c65f65e	\N	http://marketplace-188545.nitrousapp.com:4000/promo	2016-07-21 05:27:37.108884	2016-07-21 05:27:37.108884
+165	Produk	51	16	produks	show	\N	e4f90cc944c899d4379616783912344e6aeaa7a19ace67d761c620e1e9793701	54.251.49.8	cef56e06be36fe02adaff063cf61f783	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-22 12:55:59.831613	2016-07-22 12:55:59.831613
+166	Produk	51	16	produks	show	\N	951159292ff7fcaab0641db13845838ef91a6ba506a40aa4377508d5682a150a	54.251.49.8	cef56e06be36fe02adaff063cf61f783	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-batu	2016-07-22 12:56:17.611222	2016-07-22 12:56:17.611222
+167	Produk	48	16	produks	show	\N	2df1850af19bb80716a7983c8c0f73057c040d1e0e695007697b5fe2aa45501f	54.251.49.8	cef56e06be36fe02adaff063cf61f783	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-22 13:10:41.141301	2016-07-22 13:10:41.141301
+168	Produk	48	16	produks	show	\N	f1b1bc535a683ea2333cf819700f497791a432f75704f5eb9ce5b47ab9d6e385	54.251.49.8	cef56e06be36fe02adaff063cf61f783	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-makkah	2016-07-22 13:10:51.855067	2016-07-22 13:10:51.855067
+169	Produk	52	123	produks	show	\N	13de5814b2f2abaf7e1e1c7bca374439b00dce2924077998010868c00d65faec	54.251.49.8	930d1d85eebde0f88b8c5dc8fbb5524b	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-23 02:41:36.109529	2016-07-23 02:41:36.109529
+170	Produk	52	123	produks	show	\N	e43b51c76fd86c797dc4793293b31cf1153826cdd1d8360ffa3d6e36a64bebdb	54.251.49.8	930d1d85eebde0f88b8c5dc8fbb5524b	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-23 02:42:26.114487	2016-07-23 02:42:26.114487
+171	Produk	52	123	produks	show	\N	3d0b64c9d3c7d52fab23f96a7e81d4a18d73ab7735fc6871f8e34e54af752a5f	54.251.49.8	930d1d85eebde0f88b8c5dc8fbb5524b	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-manis	2016-07-23 02:42:39.953388	2016-07-23 02:42:39.953388
+172	Produk	39	123	produks	show	\N	f99cb803d9416dff1060c2d8c097e8811d9e8ff81d6b6cb13218dc8c92255422	54.251.49.8	930d1d85eebde0f88b8c5dc8fbb5524b	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-23 02:44:36.384643	2016-07-23 02:44:36.384643
+173	Produk	39	123	produks	show	\N	bfb79bde34161a1e1cca6ca2e175da10261b5f2066637bc9921c770523f23df9	54.251.49.8	930d1d85eebde0f88b8c5dc8fbb5524b	\N	http://marketplace-188545.nitrousapp.com:4000/produk/kurma-madinah	2016-07-23 02:44:47.248269	2016-07-23 02:44:47.248269
+174	Produk	51	123	produks	show	\N	fcd33918df98e5f89e91b290db6ca7ab2b1182e4136958f93e5e6508ba84db55	54.251.49.8	930d1d85eebde0f88b8c5dc8fbb5524b	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-23 02:45:10.349063	2016-07-23 02:45:10.349063
+175	Produk	51	123	produks	show	\N	1361bf093fe57b44eb574ef5e12e614ae771b2a72e741c24c9263b35474b763d	54.251.49.8	930d1d85eebde0f88b8c5dc8fbb5524b	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-batu	2016-07-23 02:45:22.467217	2016-07-23 02:45:22.467217
+176	Produk	39	123	produks	show	\N	e8d80111e5f539092da6fe9be2f9aba7183018f009785f711362d198bc43f56d	54.251.49.8	930d1d85eebde0f88b8c5dc8fbb5524b	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-23 02:57:49.122486	2016-07-23 02:57:49.122486
+177	Produk	39	123	produks	show	\N	c9c6477bc22e9b2d717a53260f8082740ecb92321c855f789bd6242bf5897744	54.251.49.8	930d1d85eebde0f88b8c5dc8fbb5524b	\N	http://marketplace-188545.nitrousapp.com:4000/produk/kurma-madinah	2016-07-23 02:57:59.185182	2016-07-23 02:57:59.185182
+178	Produk	49	123	produks	show	\N	8ab785f4eef5ae35ae64c3e5aa287ea15ed864a5ea8cea5e5047c7cac606c856	54.251.49.8	930d1d85eebde0f88b8c5dc8fbb5524b	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-23 02:58:08.86144	2016-07-23 02:58:08.86144
+179	Produk	49	123	produks	show	\N	2b6884a153045a78f703073ee1e5bbdb0dcfbb85123e22c796004d79b596c870	54.251.49.8	930d1d85eebde0f88b8c5dc8fbb5524b	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-madinah-uenak	2016-07-23 02:58:17.594621	2016-07-23 02:58:17.594621
+180	Produk	48	123	produks	show	\N	36ffb5949048c9e0c198ed04cdcd4c51d02137afb3e4a04241bc9985d4ecf3fe	54.251.49.8	930d1d85eebde0f88b8c5dc8fbb5524b	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-23 02:58:23.650231	2016-07-23 02:58:23.650231
+181	Produk	48	123	produks	show	\N	3f3f628e8d7f5d5b3390c957edf998be76cd07564a14a5be60399c3d77d3414e	54.251.49.8	930d1d85eebde0f88b8c5dc8fbb5524b	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-makkah	2016-07-23 02:58:31.599163	2016-07-23 02:58:31.599163
+182	Produk	51	\N	produks	show	\N	c50087aabe7ba921e8e6aef9293b1a96843205d3a8d97d6540e2e0c51c5c8a8b	54.251.49.8	1b4f33502e318651c75d479b758a46e2	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-24 01:17:24.716482	2016-07-24 01:17:24.716482
+183	Produk	51	16	produks	show	\N	47ec9a3db342bac3780869d9b1881ce15cd733eb8cb1aa7a3fa6aada94ba95dc	54.251.49.8	493f6dee1fc365b5ca61482be15d5540	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-24 01:25:45.136644	2016-07-24 01:25:45.136644
+184	Produk	51	16	produks	show	\N	9f2b9aeaa0f61c0cd221d494da7fee799292a16cc9427c58814466fa43c533dd	54.251.49.8	493f6dee1fc365b5ca61482be15d5540	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-batu	2016-07-24 01:25:58.503193	2016-07-24 01:25:58.503193
+185	Produk	51	16	produks	show	\N	df13cf396f155975c6e7f686b3538be56986260c16140f66e20fde4b6c4cec95	54.251.49.8	493f6dee1fc365b5ca61482be15d5540	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-24 02:46:18.581075	2016-07-24 02:46:18.581075
+186	Produk	51	16	produks	show	\N	f74dc463b8905387fd120f0f58162903727eb065911cc37da490508bb74ce701	54.251.49.8	493f6dee1fc365b5ca61482be15d5540	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-batu	2016-07-24 02:46:31.478496	2016-07-24 02:46:31.478496
+187	Produk	51	16	produks	show	\N	d21f50622c3536635d0ba180adc4fcb9adb200b87c8a287a1496726d1ad1203a	54.251.49.8	493f6dee1fc365b5ca61482be15d5540	\N	http://marketplace-188545.nitrousapp.com:4000/	2016-07-24 02:49:31.596824	2016-07-24 02:49:31.596824
+188	Produk	51	16	produks	show	\N	fa4e435b31a78743118ca7472334a09da9424ac6850ca0ea447e785a463d9378	54.251.49.8	493f6dee1fc365b5ca61482be15d5540	\N	http://marketplace-188545.nitrousapp.com:4000/produk/voucher-kurma-batu	2016-07-24 02:49:41.382974	2016-07-24 02:49:41.382974
+189	Produk	50	13	produks	show	\N	3f240c4ec7a6e726dde1d7d9d6373de5767a701651b5d26f369319204d77bf80	54.251.49.8	255820c764072c23e27c0aefff4afd98	\N	http://marketplace-188545.nitrousapp.com:4000/categories/14	2016-07-24 03:08:58.030099	2016-07-24 03:08:58.030099
+\.
+
+
+--
+-- Name: impressions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('impressions_id_seq', 189, true);
+
+
+--
+-- Data for Name: newsletters; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY newsletters (id, email, created_at, updated_at) FROM stdin;
+2	sasd@mailcatch.com	2016-07-11 04:13:21.223718	2016-07-11 04:13:21.223718
+3	fdfgdf@mailcatch.com	2016-07-11 04:35:21.829958	2016-07-11 04:35:21.829958
+\.
+
+
+--
+-- Name: newsletters_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('newsletters_id_seq', 3, true);
+
+
+--
+-- Data for Name: pets; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY pets (id, name, description, image, created_at, updated_at, user_id, pet_id) FROM stdin;
+12	dsda	dhh	\N	2016-06-21 05:44:48.067009	2016-06-21 05:44:48.067009	13	\N
+13	fgfg	bbn	\N	2016-06-21 05:59:47.297257	2016-06-21 05:59:47.297257	13	\N
+\.
+
+
+--
+-- Name: pets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('pets_id_seq', 1, false);
+
+
+--
+-- Data for Name: produks; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY produks (id, nama_produk, harga, harga_diskon, berat, foto_produk1, foto_produk2, foto_produk3, foto_produk4, foto_produk5, foto_produk6, deskripsi, harga_grosir1, harga_grosir2, harga_grosir3, harga_grosir4, harga_grosir5, user_id, created_at, updated_at, category_id, subcategory_id, jumlah_grosir1min, jumlah_grosir1max, jumlah_grosir2min, jumlah_grosir2max, jumlah_grosir3min, jumlah_grosir3max, jumlah_grosir4min, jumlah_grosir4max, jumlah_grosir5min, jumlah_grosir5max, jumlah_grosir6min, jumlah_grosir6max, toko_id, deskripsi_lengkap, harga_beli, diskon, stock, special, recommended, top, rating, slug, subsubcategory_id) FROM stdin;
+41	Kurma Batu	190000	10000	500	04_nice-dress.jpg	\N	\N	\N	\N	\N	Kurma Lulu adalah jenis kurma dari Uni Emrat Arab	90000	80000	\N	\N	\N	13	2016-06-17 02:28:21.111335	2016-07-12 01:28:32.060037	7	17	1	10	11	20	\N	\N	\N	\N	\N	\N	\N	\N	7	Kurma Lulu adalah jenis kurma dari Uni Emrat Arab.\nBentuknya bulat berkeriput, dengan warna coklat tua kemerah-merahan.\nRasanya manis, legit dan lembut.\nJenis kurma Lulu ini sudah familier bagi masyarakat Indonesia karena sering dijadikan oleh-oleh haji dan umroh.\nBentuk & warnanya yang mirip kurma ajwa ini sering membuat orang keliru sehingga menganggap kurma ini jenis ajwa.\nDengan kemasan family pack 250 gram, cocok juga buat oleh-oleh ketika berkunjung ke sanak family, sahabat dan relasi.	10000	94	20	f	t	t	0	kurma-batu	\N
+59	Baju Merah	100000	10000	10000	06_red-dress.jpg	\N	\N	\N	\N	\N	baju merah	\N	\N	\N	\N	\N	13	2016-06-18 03:08:21.274201	2016-07-12 01:28:32.1556	7	17	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	7	baju merah bagus	10000	90	20	f	f	t	0	baju-merah	\N
+51	Voucher Kurma Batu	190000	10000	500	p11.jpg	\N	\N	\N	\N	\N	Voucher Kurma Lulu adalah jenis Voucher Kurma dari Uni Emrat Arab	90000	80000	0.0	0.0	0.0	13	2016-06-17 02:39:07.866854	2016-07-13 07:37:14.999859	14	17	1	10	11	20	\N	\N	\N	\N	\N	\N	\N	\N	7	Voucher Kurma Lulu adalah jenis Voucher Kurma dari Uni Emrat Arab.\r\nBentuknya bulat berkeriput, dengan warna coklat tua kemerah-merahan.\r\nRasanya manis, legit dan lembut.\r\nJenis Voucher Kurma Lulu ini sudah familier bagi masyarakat Indonesia karena sering dijadikan oleh-oleh haji dan umroh.\r\nBentuk & warnanya yang mirip Voucher Kurma ajwa ini sering membuat orang keliru sehingga menganggap Voucher Kurma ini jenis ajwa.\r\nDengan kemasan family pack 250 gram, cocok juga buat oleh-oleh ketika berkunjung ke sanak family, sahabat dan relasi.	10000	94	20	f	f	t	4.0	voucher-kurma-batu	\N
+39	Kurma Madinah	130000	10000	500	02_yellow-dress.jpg	\N	\N	\N	\N	\N	Kurma Lulu adalah jenis kurma dari Uni Emrat Arab	90000	80000	0.0	0.0	0.0	13	2016-06-17 02:28:21.088588	2016-07-14 05:31:55.316627	7	17	1	10	11	20	\N	\N	\N	\N	\N	\N	\N	\N	7	Kurma Lulu adalah jenis kurma dari Uni Emrat Arab.\r\nBentuknya bulat berkeriput, dengan warna coklat tua kemerah-merahan.\r\nRasanya manis, legit dan lembut.\r\nJenis kurma Lulu ini sudah familier bagi masyarakat Indonesia karena sering dijadikan oleh-oleh haji dan umroh.\r\nBentuk & warnanya yang mirip kurma ajwa ini sering membuat orang keliru sehingga menganggap kurma ini jenis ajwa.\r\nDengan kemasan family pack 250 gram, cocok juga buat oleh-oleh ketika berkunjung ke sanak family, sahabat dan relasi.	10000	92	20	t	t	t	2.0	kurma-madinah	\N
+38	Kurma Makkah	120000	10000	500	01_blue-dress.jpg	\N	\N	\N	\N	\N	Kurma Lulu adalah jenis kurma dari Uni Emrat Arab	1000.0	900.0	800.0	700.0	600.0	13	2016-06-17 02:28:21.063899	2016-07-19 06:10:10.128464	7	17	1	3	4	5	6	7	8	9	10	11	\N	\N	7	Kurma Lulu adalah jenis kurma dari Uni Emrat Arab.\r\nBentuknya bulat berkeriput, dengan warna coklat tua kemerah-merahan.\r\nRasanya manis, legit dan lembut.\r\nJenis kurma Lulu ini sudah familier bagi masyarakat Indonesia karena sering dijadikan oleh-oleh haji dan umroh.\r\nBentuk & warnanya yang mirip kurma ajwa ini sering membuat orang keliru sehingga menganggap kurma ini jenis ajwa.\r\nDengan kemasan family pack 250 gram, cocok juga buat oleh-oleh ketika berkunjung ke sanak family, sahabat dan relasi.\r\nbunga	10000	91	12	f	t	t	3.0	kurma-makkah	\N
+50	Voucher Kurma Pohon	140000	10000	500	p13.jpg	\N	\N	\N	\N	\N	Voucher Kurma Lulu adalah jenis Voucher Kurma dari Uni Emrat Arab	90000	80000	\N	\N	\N	13	2016-06-17 02:39:07.857568	2016-07-12 01:28:32.13531	14	17	1	10	11	20	\N	\N	\N	\N	\N	\N	\N	\N	7	Voucher Kurma Lulu adalah jenis Voucher Kurma dari Uni Emrat Arab.\nBentuknya bulat berkeriput, dengan warna coklat tua kemerah-merahan.\nRasanya manis, legit dan lembut.\nJenis Voucher Kurma Lulu ini sudah familier bagi masyarakat Indonesia karena sering dijadikan oleh-oleh haji dan umroh.\nBentuk & warnanya yang mirip Voucher Kurma ajwa ini sering membuat orang keliru sehingga menganggap Voucher Kurma ini jenis ajwa.\nDengan kemasan family pack 250 gram, cocok juga buat oleh-oleh ketika berkunjung ke sanak family, sahabat dan relasi.	10000	92	20	t	f	t	0	voucher-kurma-pohon	\N
+42	Kurma Manis	180000	10000	500	05_flowers-dress.jpg	\N	\N	\N	\N	\N	Kurma Lulu adalah jenis kurma dari Uni Emrat Arab	90000	80000	0.0	0.0	0.0	13	2016-06-17 02:28:21.121382	2016-07-14 01:43:52.60453	7	17	1	10	11	20	\N	\N	\N	\N	\N	\N	\N	\N	7	Kurma Lulu adalah jenis kurma dari Uni Emrat Arab.\r\nBentuknya bulat berkeriput, dengan warna coklat tua kemerah-merahan.\r\nRasanya manis, legit dan lembut.\r\nJenis kurma Lulu ini sudah familier bagi masyarakat Indonesia karena sering dijadikan oleh-oleh haji dan umroh.\r\nBentuk & warnanya yang mirip kurma ajwa ini sering membuat orang keliru sehingga menganggap kurma ini jenis ajwa.\r\nDengan kemasan family pack 250 gram, cocok juga buat oleh-oleh ketika berkunjung ke sanak family, sahabat dan relasi.	10000	94	20	f	t	f	0	kurma-manis	\N
+44	Kurma Merah	120000	10000	500	bs2.jpg	\N	\N	\N	\N	\N	Kurma Lulu adalah jenis kurma dari Uni Emrat Arab	90000	80000	\N	\N	\N	13	2016-06-17 02:32:42.52948	2016-07-12 01:28:32.075448	7	17	1	10	11	20	\N	\N	\N	\N	\N	\N	\N	\N	7	Kurma Lulu adalah jenis kurma dari Uni Emrat Arab.\nBentuknya bulat berkeriput, dengan warna coklat tua kemerah-merahan.\nRasanya manis, legit dan lembut.\nJenis kurma Lulu ini sudah familier bagi masyarakat Indonesia karena sering dijadikan oleh-oleh haji dan umroh.\nBentuk & warnanya yang mirip kurma ajwa ini sering membuat orang keliru sehingga menganggap kurma ini jenis ajwa.\nDengan kemasan family pack 250 gram, cocok juga buat oleh-oleh ketika berkunjung ke sanak family, sahabat dan relasi.	10000	91	20	f	t	f	0	kurma-merah	\N
+45	Kurma Hijau	130000	10000	500	p10.jpg	\N	\N	\N	\N	\N	Kurma Lulu adalah jenis kurma dari Uni Emrat Arab	90000	80000	\N	\N	\N	13	2016-06-17 02:32:42.544243	2016-07-12 01:28:32.082359	7	17	1	10	11	20	\N	\N	\N	\N	\N	\N	\N	\N	7	Kurma Lulu adalah jenis kurma dari Uni Emrat Arab.\nBentuknya bulat berkeriput, dengan warna coklat tua kemerah-merahan.\nRasanya manis, legit dan lembut.\nJenis kurma Lulu ini sudah familier bagi masyarakat Indonesia karena sering dijadikan oleh-oleh haji dan umroh.\nBentuk & warnanya yang mirip kurma ajwa ini sering membuat orang keliru sehingga menganggap kurma ini jenis ajwa.\nDengan kemasan family pack 250 gram, cocok juga buat oleh-oleh ketika berkunjung ke sanak family, sahabat dan relasi..	10000	92	20	f	t	f	0	kurma-hijau	\N
+47	Kurma Pasir	190000	10000	500	p28.jpg	\N	\N	\N	\N	\N	Kurma Lulu adalah jenis kurma dari Uni Emrat Arab	90000	80000	\N	\N	\N	13	2016-06-17 02:32:42.566611	2016-07-12 01:28:32.08883	7	17	1	10	11	20	\N	\N	\N	\N	\N	\N	\N	\N	7	Kurma Lulu adalah jenis kurma dari Uni Emrat Arab.\nBentuknya bulat berkeriput, dengan warna coklat tua kemerah-merahan.\nRasanya manis, legit dan lembut.\nJenis kurma Lulu ini sudah familier bagi masyarakat Indonesia karena sering dijadikan oleh-oleh haji dan umroh.\nBentuk & warnanya yang mirip kurma ajwa ini sering membuat orang keliru sehingga menganggap kurma ini jenis ajwa.\nDengan kemasan family pack 250 gram, cocok juga buat oleh-oleh ketika berkunjung ke sanak family, sahabat dan relasi.	10000	94	20	f	t	f	3.0	kurma-pasir	\N
+52	Voucher Kurma Manis	180000	10000	500	p15.jpg	\N	\N	\N	\N	\N	Voucher Kurma Lulu adalah jenis Voucher Kurma dari Uni Emrat Arab	90000	80000	\N	\N	\N	13	2016-06-17 02:39:07.876649	2016-07-12 01:28:32.149033	14	17	1	10	11	20	\N	\N	\N	\N	\N	\N	\N	\N	7	Voucher Kurma Lulu adalah jenis Voucher Kurma dari Uni Emrat Arab.\nBentuknya bulat berkeriput, dengan warna coklat tua kemerah-merahan.\nRasanya manis, legit dan lembut.\nJenis Voucher Kurma Lulu ini sudah familier bagi masyarakat Indonesia karena sering dijadikan oleh-oleh haji dan umroh.\nBentuk & warnanya yang mirip Voucher Kurma ajwa ini sering membuat orang keliru sehingga menganggap Voucher Kurma ini jenis ajwa.\nDengan kemasan family pack 250 gram, cocok juga buat oleh-oleh ketika berkunjung ke sanak family, sahabat dan relasi.	10000	94	20	f	f	t	0	voucher-kurma-manis	\N
+48	Voucher Kurma Makkah	190000.0	10000	500	p11.jpg	\N	\N	\N	\N	\N	Voucher Kurma Lulu adalah jenis Voucher Kurma dari Uni Emrat Arab	90000	80000	0.0	0.0	0.0	13	2016-06-17 02:39:07.834041	2016-07-13 08:39:51.844953	14	17	1	10	11	20	\N	\N	\N	\N	\N	\N	\N	\N	7	Voucher Kurma Lulu adalah jenis Voucher Kurma dari Uni Emrat Arab.\r\nBentuknya bulat berkeriput, dengan warna coklat tua kemerah-merahan.\r\nRasanya manis, legit dan lembut.\r\nJenis Voucher Kurma Lulu ini sudah familier bagi masyarakat Indonesia karena sering dijadikan oleh-oleh haji dan umroh.\r\nBentuk & warnanya yang mirip Voucher Kurma ajwa ini sering membuat orang keliru sehingga menganggap Voucher Kurma ini jenis ajwa.\r\nDengan kemasan family pack 250 gram, cocok juga buat oleh-oleh ketika berkunjung ke sanak family, sahabat dan relasi.	10000	94	20	t	f	t	3.0	voucher-kurma-makkah	\N
+62	Celana	20000.0	10000	100.0	p11.jpg	\N	\N	\N	\N	\N	des	\N	\N	\N	\N	\N	13	2016-07-13 07:38:17.705436	2016-07-13 07:38:17.705436	7	18	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	7	des	10000	50	21	f	f	f	\N	celana	\N
+63	test	50000.0	10000	565.0	p12.jpg	\N	\N	\N	\N	\N	des	0.0	0.0	0.0	0.0	0.0	51	2016-07-13 09:07:45.456242	2016-07-13 09:38:41.839403	7	17	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	13	des	10000	80	565656	f	f	f	\N	test	\N
+49	Voucher Kurma Madinah uenak	130000	10000	500	p12.jpg	\N	\N	\N	\N	\N	Voucher Kurma Lulu adalah jenis Voucher Kurma dari Uni Emrat Arab	90000	80000	\N	\N	\N	13	2016-06-17 02:39:07.847372	2016-07-12 01:28:32.114135	7	17	1	10	11	20	\N	\N	\N	\N	\N	\N	\N	\N	7	Voucher Kurma Lulu adalah jenis Voucher Kurma dari Uni Emrat Arab.Bentuknya bulat berkeriput, dengan warna coklat tua kemerah-merahan.Rasanya manis, legit dan lembut.Jenis Voucher Kurma Lulu ini sudah familier bagi masyarakat Indonesia karena sering dijadikan oleh-oleh haji dan umroh.Bentuk & warnanya yang mirip Voucher Kurma ajwa ini sering membuat orang keliru sehingga menganggap Voucher Kurma ini jenis ajwa.Dengan kemasan family pack 250 gram, cocok juga buat oleh-oleh ketika berkunjung ke sanak family, sahabat dan relasi.	10000	92	20	t	f	t	0	voucher-kurma-madinah-uenak	\N
+40	Kurma Pohon	140000	10000	500	03_cyan-dress.jpg	\N	\N	\N	\N	\N	Kurma Lulu adalah jenis kurma dari Uni Emrat Arab	90000	80000	0.0	0.0	0.0	13	2016-06-17 02:28:21.100434	2016-07-14 05:21:10.977973	7	17	1	10	11	20	\N	\N	\N	\N	\N	\N	\N	\N	7	Kurma Lulu adalah jenis kurma dari Uni Emrat Arab.\r\nBentuknya bulat berkeriput, dengan warna coklat tua kemerah-merahan.\r\nRasanya manis, legit dan lembut.\r\nJenis kurma Lulu ini sudah familier bagi masyarakat Indonesia karena sering dijadikan oleh-oleh haji dan umroh.\r\nBentuk & warnanya yang mirip kurma ajwa ini sering membuat orang keliru sehingga menganggap kurma ini jenis ajwa.\r\nDengan kemasan family pack 250 gram, cocok juga buat oleh-oleh ketika berkunjung ke sanak family, sahabat dan relasi.	10000	92	20	f	t	t	3.0	kurma-pohon	\N
+\.
+
+
+--
+-- Name: produks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('produks_id_seq', 63, true);
+
+
+--
+-- Data for Name: rekenings; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY rekenings (id, pemilik, cabang, nomor_rekening, nama_bank, user_id, created_at, updated_at) FROM stdin;
+15	Jemabatan	Purwakarta	9489324234	Mandiri	13	2016-06-03 04:28:08.011042	2016-06-03 05:52:05.445184
+23	dffsd	dd	fsdfsdf	BCA	13	2016-06-09 13:22:28.527604	2016-06-09 13:22:28.527604
+24	dfsdf	sdfsd	fdfsf	BNI	13	2016-06-09 13:22:59.24876	2016-06-09 13:22:59.24876
+25	fdsf	534534	fsdfsd	BCA	49	2016-06-16 05:41:35.401392	2016-06-16 05:41:35.401392
+26	Yudhi Ardiansyah	KC menteng	7890wqweewq	BCA	51	2016-06-16 08:49:14.060866	2016-06-16 08:49:14.060866
+27	Yudhi Ardiansyah	menteng	1223345465657890	Mandiri	51	2016-06-16 08:56:47.820586	2016-06-16 08:56:47.820586
+\.
+
+
+--
+-- Name: rekenings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('rekenings_id_seq', 30, true);
+
+
+--
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY schema_migrations (version) FROM stdin;
+20160530022715
+20160530125159
+20160530133638
+20160530142053
+20160530143010
+20160530231713
+20160530232006
+20160530232320
+20160531000101
+20160531000237
+20160531033204
+20160531042050
+20160601054612
+20160601090526
+20160602021408
+20160602022056
+20160602134458
+20160603062710
+20160603063138
+20160603063808
+20160603064325
+20160603070623
+20160604022511
+20160604023142
+20160605012936
+20160606013032420844
+20160606013032423690
+20160606013032425444
+20160606015952
+20160606021836
+20160607062352
+20160607062726
+20160607065038
+20160607074744
+20160608150442
+20160609081208
+20160609081501
+20160610040649
+20160610042157
+20160610054048
+20160611230007
+20160611230032
+20160612082025
+20160612082519
+20160612083049
+20160612091228
+20160612091515
+20160612091912
+20160612160056
+20160612160344
+20160613080005
+20160613080122
+20160615032647
+20160615112408
+20160616024247
+20160616030102
+20160616031545
+20160616033756
+20160616114434
+20160616172355
+20160618024929
+20160618094748
+20160619073731
+20160622021651
+20160623091245
+20160623091946
+20160623095541
+20160623100953
+20160627023425
+20160627041550
+20160628035338
+20160628044454
+20160629032720
+20160701011115
+20160701054455
+20160703133015
+20160704013218
+20160704013445
+20160704114532
+20160705012401
+20160705023103
+20160705093849
+20160705142437
+20160710050736
+20160711040122
+20160711115734
+20160711224945
+20160711233838
+20160712000518
+20160712010423
+20160712010520
+20160712010827
+20160712012338
+20160712012600
+20160712025300
+20160712041659
+20160712042140
+20160712042904
+20160712050853
+20160712052127
+20160712052420
+20160713031513
+20160714084502
+20160718020049
+20160718044621
+20160719030753
+20160719035020
+\.
+
+
+--
+-- Data for Name: sessions; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY sessions (id, session_id, data, created_at, updated_at) FROM stdin;
+48	930d1d85eebde0f88b8c5dc8fbb5524b	BAh7CUkiGXdhcmRlbi51c2VyLnVzZXIua2V5BjoGRVRbB1sGaQF7SSIiJDJh\nJDExJGYxcy9POTZuUExlM3ZLQkpjUmZOcXUGOwBUSSIQX2NzcmZfdG9rZW4G\nOwBGSSIxcENrTW11d0hLVXlBdWt6WkpuZFA3dENCODEyaGFxTEgwME96cndy\nOU1CRT0GOwBGSSIMaGlzdG9yeQY7AEZbD0kiR2h0dHA6Ly9tYXJrZXRwbGFj\nZS0xODg1NDUubml0cm91c2FwcC5jb206NDAwMC9wcm9kdWsva3VybWEtbWFk\naW5haAY7AFRJIkdodHRwOi8vbWFya2V0cGxhY2UtMTg4NTQ1Lm5pdHJvdXNh\ncHAuY29tOjQwMDAvcHJvZHVrL2t1cm1hLW1hZGluYWgGOwBUSSJMaHR0cDov\nL21hcmtldHBsYWNlLTE4ODU0NS5uaXRyb3VzYXBwLmNvbTo0MDAwL3Byb2R1\nay92b3VjaGVyLWt1cm1hLWJhdHUGOwBUSSJMaHR0cDovL21hcmtldHBsYWNl\nLTE4ODU0NS5uaXRyb3VzYXBwLmNvbTo0MDAwL3Byb2R1ay92b3VjaGVyLWt1\ncm1hLWJhdHUGOwBUSSJHaHR0cDovL21hcmtldHBsYWNlLTE4ODU0NS5uaXRy\nb3VzYXBwLmNvbTo0MDAwL3Byb2R1ay9rdXJtYS1tYWRpbmFoBjsAVEkiR2h0\ndHA6Ly9tYXJrZXRwbGFjZS0xODg1NDUubml0cm91c2FwcC5jb206NDAwMC9w\ncm9kdWsva3VybWEtbWFkaW5haAY7AFRJIlVodHRwOi8vbWFya2V0cGxhY2Ut\nMTg4NTQ1Lm5pdHJvdXNhcHAuY29tOjQwMDAvcHJvZHVrL3ZvdWNoZXIta3Vy\nbWEtbWFkaW5haC11ZW5hawY7AFRJIlVodHRwOi8vbWFya2V0cGxhY2UtMTg4\nNTQ1Lm5pdHJvdXNhcHAuY29tOjQwMDAvcHJvZHVrL3ZvdWNoZXIta3VybWEt\nbWFkaW5haC11ZW5hawY7AFRJIk5odHRwOi8vbWFya2V0cGxhY2UtMTg4NTQ1\nLm5pdHJvdXNhcHAuY29tOjQwMDAvcHJvZHVrL3ZvdWNoZXIta3VybWEtbWFr\na2FoBjsAVEkiTmh0dHA6Ly9tYXJrZXRwbGFjZS0xODg1NDUubml0cm91c2Fw\ncC5jb206NDAwMC9wcm9kdWsvdm91Y2hlci1rdXJtYS1tYWtrYWgGOwBUSSIK\nZmxhc2gGOwBUewdJIgxkaXNjYXJkBjsAVFsGSSILbm90aWNlBjsARkkiDGZs\nYXNoZXMGOwBUewZJIgtub3RpY2UGOwBGSSI+UGVtYmF5YXJhbiBWQUNDVENM\nT1NFMDIyMDE2MDcyMzA5NDQ1OTAxMjcgQkVMVU0gZGl0ZXJpbWEhBjsAVA==\n	2016-07-23 02:40:36.014453	2016-07-23 04:46:02.593745
+40	8d95b3954a1d0768c1928e417347c9bc	BAh7B0kiEF9jc3JmX3Rva2VuBjoGRUZJIjFWS0lnbWQwZzJwY201dWovNUpy\nU0UrdVNGVTZCODlGYjJFMjNaRHdRSzk4PQY7AEZJIgpmbGFzaAY7AFR7B0ki\nDGRpc2NhcmQGOwBUWwBJIgxmbGFzaGVzBjsAVHsGSSILbm90aWNlBjsARkki\nfUEgbWVzc2FnZSB3aXRoIGEgY29uZmlybWF0aW9uIGxpbmsgaGFzIGJlZW4g\nc2VudCB0byB5b3VyIGVtYWlsIGFkZHJlc3MuIFBsZWFzZSBmb2xsb3cgdGhl\nIGxpbmsgdG8gYWN0aXZhdGUgeW91ciBhY2NvdW50LgY7AFQ=\n	2016-07-22 02:37:34.68567	2016-07-22 02:38:03.754459
+39	3837f6a9839e209f19b6867732e9aeb1	BAh7B0kiGXdhcmRlbi51c2VyLnVzZXIua2V5BjoGRVRbB1sGaRJJIiIkMmEk\nMTEkd0xBSlBaaTRCcTNDNkNvNGJ2UlhhTwY7AFRJIhBfY3NyZl90b2tlbgY7\nAEZJIjE1NVZJWWxXYU9QYjFqL2pZbVhNRUZ6YWQxY2s2NGJzNW1ERzJsaGR6\nd0xzPQY7AEY=\n	2016-07-22 01:11:29.081122	2016-07-22 02:57:50.162151
+18	fb93154421ec67c3baaf3552707241ca	BAh7B0kiGXdhcmRlbi51c2VyLnVzZXIua2V5BjoGRVRbB1sGaRJJIiIkMmEk\nMTEkd0xBSlBaaTRCcTNDNkNvNGJ2UlhhTwY7AFRJIhBfY3NyZl90b2tlbgY7\nAEZJIjFrT2duNEp2QTVXbnFHd1JJZkxYZEFUODQwTlAvUFVMeTlOaEJWN2lT\ncTV3PQY7AEY=\n	2016-07-19 01:31:21.31838	2016-07-19 06:09:22.42923
+3	1e4be01d89788b5c5221a506f7e735e8	BAh7CEkiEF9jc3JmX3Rva2VuBjoGRUZJIjFPQ0dIaGd4MFp3TFRBaGE1WFYz\nSC9yMWFTck0vVC8xck1VSEdZZzBVTHU4PQY7AEZJIgpvYXV0aAY7AFR7Bkki\nDHR3aXR0ZXIGOwBUewZJIhdjYWxsYmFja19jb25maXJtZWQGOwBUVEkiGGRl\ndmlzZS50d2l0dGVyX2RhdGEGOwBUQzoXT21uaUF1dGg6OkF1dGhIYXNoewpJ\nIg1wcm92aWRlcgY7AEZJIgx0d2l0dGVyBjsAVEkiCHVpZAY7AEZJIg4zMzk3\nMTc5OTcGOwBUSSIJaW5mbwY7AEZDOiFPbW5pQXV0aDo6QXV0aEhhc2g6Oklu\nZm9IYXNoewxJIg1uaWNrbmFtZQY7AEZJIg55b3NzYXZhMjUGOwBUSSIJbmFt\nZQY7AEZJIhFZb3NzYXZhIEFkaGkGOwBUSSIKZW1haWwGOwBGMEkiDWxvY2F0\naW9uBjsARkkiB1NHBjsAVEkiCmltYWdlBjsARkkiUGh0dHA6Ly9wYnMudHdp\nbWcuY29tL3Byb2ZpbGVfaW1hZ2VzLzQ5MTY5MDI3MzkwMzEwODA5Ni9kX3F0\nbTBHaV9ub3JtYWwuanBlZwY7AFRJIhBkZXNjcmlwdGlvbgY7AEZJIgAGOwBU\nSSIJdXJscwY7AEZDOwZ7B0kiDFdlYnNpdGUGOwBUMEkiDFR3aXR0ZXIGOwBU\nSSIiaHR0cHM6Ly90d2l0dGVyLmNvbS95b3NzYXZhMjUGOwBUSSIQY3JlZGVu\ndGlhbHMGOwBGQzsGewdJIgp0b2tlbgY7AFRJIjczMzk3MTc5OTctNXFwYXNQ\nSWxwUWlCYmVRTXA0S0JJc2Q0dnNkMlVRWmlvSElqTFNtcAY7AFRJIgtzZWNy\nZXQGOwBUSSIyWVVLYTJ1MHcwcVpDT0JDalBkR2JCdmhFeFFRWGFsMnExenEw\nc2VqMlFYYVJtBjsAVEkiCmV4dHJhBjsARkM7BnsHSSIRYWNjZXNzX3Rva2Vu\nBjsAVG86F09BdXRoOjpBY2Nlc3NUb2tlbgo6C0B0b2tlbkAoOgxAc2VjcmV0\nQCo6DkBjb25zdW1lclU6FE9BdXRoOjpDb25zdW1lcnsIOghrZXlJIh5tc3o5\nRlV3ZVFLZVpuU1duelBFMjkzVVloBjsAVDoLc2VjcmV0SSI3dUxZV2V0NERB\nVWZua0xYazl4ZzNsVnRzWUg0enl0V3RWNG5HTFBZSjZIY0FpY2U5Q2IGOwBU\nOgxvcHRpb25zew46FXNpZ25hdHVyZV9tZXRob2RJIg5ITUFDLVNIQTEGOwBU\nOhdyZXF1ZXN0X3Rva2VuX3BhdGhJIhkvb2F1dGgvcmVxdWVzdF90b2tlbgY7\nAFQ6E2F1dGhvcml6ZV9wYXRoSSIYL29hdXRoL2F1dGhlbnRpY2F0ZQY7AFQ6\nFmFjY2Vzc190b2tlbl9wYXRoSSIYL29hdXRoL2FjY2Vzc190b2tlbgY7AFQ6\nCnByb3h5MDoLc2NoZW1lOgtoZWFkZXI6EGh0dHBfbWV0aG9kOglwb3N0OhJv\nYXV0aF92ZXJzaW9uSSIIMS4wBjsAVDoJc2l0ZUkiHGh0dHBzOi8vYXBpLnR3\naXR0ZXIuY29tBjsAVDoMQHBhcmFtc3sPOhBvYXV0aF90b2tlbkAoSSIQb2F1\ndGhfdG9rZW4GOwBUQCg6F29hdXRoX3Rva2VuX3NlY3JldEAqSSIXb2F1dGhf\ndG9rZW5fc2VjcmV0BjsAVEAqOgx1c2VyX2lkQBJJIgx1c2VyX2lkBjsAVEAS\nOhBzY3JlZW5fbmFtZUkiDnlvc3NhdmEyNQY7AFRJIhBzY3JlZW5fbmFtZQY7\nAFRAPjoTeF9hdXRoX2V4cGlyZXNJIgYwBjsAVEkiE3hfYXV0aF9leHBpcmVz\nBjsAVEBAOg5AcmVzcG9uc2VvOhBOZXQ6OkhUVFBPSw86EkBodHRwX3ZlcnNp\nb25JIggxLjEGOwBUOgpAY29kZUkiCDIwMAY7AFQ6DUBtZXNzYWdlSSIHT0sG\nOwBUOgxAaGVhZGVyex1JIhJjYWNoZS1jb250cm9sBjsAVFsGSSJDbm8tY2Fj\naGUsIG5vLXN0b3JlLCBtdXN0LXJldmFsaWRhdGUsIHByZS1jaGVjaz0wLCBw\nb3N0LWNoZWNrPTAGOwBUSSIPY29ubmVjdGlvbgY7AFRbBkkiCmNsb3NlBjsA\nVEkiGGNvbnRlbnQtZGlzcG9zaXRpb24GOwBUWwZJIiNhdHRhY2htZW50OyBm\naWxlbmFtZT1qc29uLmpzb24GOwBUSSITY29udGVudC1sZW5ndGgGOwBUWwZJ\nIgg1NDYGOwBUSSIRY29udGVudC10eXBlBjsAVFsGSSIjYXBwbGljYXRpb24v\nanNvbjtjaGFyc2V0PXV0Zi04BjsAVEkiCWRhdGUGOwBUWwZJIiJNb24sIDE4\nIEp1bCAyMDE2IDA1OjMwOjMwIEdNVAY7AFRJIgxleHBpcmVzBjsAVFsGSSIi\nVHVlLCAzMSBNYXIgMTk4MSAwNTowMDowMCBHTVQGOwBUSSISbGFzdC1tb2Rp\nZmllZAY7AFRbBkkiIk1vbiwgMTggSnVsIDIwMTYgMDU6MzA6MzAgR01UBjsA\nVEkiC3ByYWdtYQY7AFRbBkkiDW5vLWNhY2hlBjsAVEkiC3NlcnZlcgY7AFRb\nBkkiCnRzYV9hBjsAVEkiD3NldC1jb29raWUGOwBUWwdJIhRsYW5nPWVuOyBQ\nYXRoPS8GOwBUSSJpZ3Vlc3RfaWQ9djElM0ExNDY4ODE5ODMwNTYzMTExMDU7\nIERvbWFpbj0udHdpdHRlci5jb207IFBhdGg9LzsgRXhwaXJlcz1XZWQsIDE4\nLUp1bC0yMDE4IDA1OjMwOjMwIFVUQwY7AFRJIgtzdGF0dXMGOwBUWwZJIgsy\nMDAgT0sGOwBUSSIec3RyaWN0LXRyYW5zcG9ydC1zZWN1cml0eQY7AFRbBkki\nFm1heC1hZ2U9NjMxMTM4NTE5BjsAVEkiE3gtYWNjZXNzLWxldmVsBjsAVFsG\nSSIPcmVhZC13cml0ZQY7AFRJIhZ4LWNvbm5lY3Rpb24taGFzaAY7AFRbBkki\nJWI4MzFhZDI0OWQ4NDQ5YWI0MWRkNjAwZmFiNmVkMTMyBjsAVEkiG3gtY29u\ndGVudC10eXBlLW9wdGlvbnMGOwBUWwZJIgxub3NuaWZmBjsAVEkiFHgtZnJh\nbWUtb3B0aW9ucwY7AFRbBkkiD1NBTUVPUklHSU4GOwBUSSIXeC1yYXRlLWxp\nbWl0LWxpbWl0BjsAVFsGSSIHMTUGOwBUSSIbeC1yYXRlLWxpbWl0LXJlbWFp\nbmluZwY7AFRbBkkiBzE0BjsAVEkiF3gtcmF0ZS1saW1pdC1yZXNldAY7AFRb\nBkkiDzE0Njg4MjA3MzAGOwBUSSIUeC1yZXNwb25zZS10aW1lBjsAVFsGSSIH\nODQGOwBUSSISeC10cmFuc2FjdGlvbgY7AFRbBkkiFTAwY2ZjMjM2MDBhNGVl\nNTIGOwBUSSIceC10d2l0dGVyLXJlc3BvbnNlLXRhZ3MGOwBUWwdJIhJCb3Vu\nY2VyRXhlbXB0BjsAVEkiFUJvdW5jZXJDb21wbGlhbnQGOwBUSSIVeC14c3Mt\ncHJvdGVjdGlvbgY7AFRbBkkiEjE7IG1vZGU9YmxvY2sGOwBUOgpAYm9keSIC\nBAV7ImlkIjozMzk3MTc5OTcsImlkX3N0ciI6IjMzOTcxNzk5NyIsIm5hbWUi\nOiJZb3NzYXZhIEFkaGkiLCJzY3JlZW5fbmFtZSI6Inlvc3NhdmEyNSIsImxv\nY2F0aW9uIjoiU0ciLCJkZXNjcmlwdGlvbiI6IiIsInVybCI6bnVsbCwiZW50\naXRpZXMiOnsiZGVzY3JpcHRpb24iOnsidXJscyI6W119fSwicHJvdGVjdGVk\nIjpmYWxzZSwiZm9sbG93ZXJzX2NvdW50IjozNCwiZnJpZW5kc19jb3VudCI6\nMjgsImxpc3RlZF9jb3VudCI6MSwiY3JlYXRlZF9hdCI6IlRodSBKdWwgMjEg\nMTU6MDU6MjAgKzAwMDAgMjAxMSIsImZhdm91cml0ZXNfY291bnQiOjAsInV0\nY19vZmZzZXQiOm51bGwsInRpbWVfem9uZSI6bnVsbCwiZ2VvX2VuYWJsZWQi\nOmZhbHNlLCJ2ZXJpZmllZCI6ZmFsc2UsInN0YXR1c2VzX2NvdW50Ijo1OCwi\nbGFuZyI6ImVuIiwiY29udHJpYnV0b3JzX2VuYWJsZWQiOmZhbHNlLCJpc190\ncmFuc2xhdG9yIjpmYWxzZSwiaXNfdHJhbnNsYXRpb25fZW5hYmxlZCI6ZmFs\nc2UsInByb2ZpbGVfYmFja2dyb3VuZF9jb2xvciI6IkMwREVFRCIsInByb2Zp\nbGVfYmFja2dyb3VuZF9pbWFnZV91cmwiOiJodHRwOlwvXC9hYnMudHdpbWcu\nY29tXC9pbWFnZXNcL3RoZW1lc1wvdGhlbWUxXC9iZy5wbmciLCJwcm9maWxl\nX2JhY2tncm91bmRfaW1hZ2VfdXJsX2h0dHBzIjoiaHR0cHM6XC9cL2Ficy50\nd2ltZy5jb21cL2ltYWdlc1wvdGhlbWVzXC90aGVtZTFcL2JnLnBuZyIsInBy\nb2ZpbGVfYmFja2dyb3VuZF90aWxlIjpmYWxzZSwicHJvZmlsZV9pbWFnZV91\ncmwiOiJodHRwOlwvXC9wYnMudHdpbWcuY29tXC9wcm9maWxlX2ltYWdlc1wv\nNDkxNjkwMjczOTAzMTA4MDk2XC9kX3F0bTBHaV9ub3JtYWwuanBlZyIsInBy\nb2ZpbGVfaW1hZ2VfdXJsX2h0dHBzIjoiaHR0cHM6XC9cL3Bicy50d2ltZy5j\nb21cL3Byb2ZpbGVfaW1hZ2VzXC80OTE2OTAyNzM5MDMxMDgwOTZcL2RfcXRt\nMEdpX25vcm1hbC5qcGVnIiwicHJvZmlsZV9saW5rX2NvbG9yIjoiMDA4NEI0\nIiwicHJvZmlsZV9zaWRlYmFyX2JvcmRlcl9jb2xvciI6IkMwREVFRCIsInBy\nb2ZpbGVfc2lkZWJhcl9maWxsX2NvbG9yIjoiRERFRUY2IiwicHJvZmlsZV90\nZXh0X2NvbG9yIjoiMzMzMzMzIiwicHJvZmlsZV91c2VfYmFja2dyb3VuZF9p\nbWFnZSI6dHJ1ZSwiaGFzX2V4dGVuZGVkX3Byb2ZpbGUiOmZhbHNlLCJkZWZh\ndWx0X3Byb2ZpbGUiOnRydWUsImRlZmF1bHRfcHJvZmlsZV9pbWFnZSI6ZmFs\nc2UsImZvbGxvd2luZyI6ZmFsc2UsImZvbGxvd19yZXF1ZXN0X3NlbnQiOmZh\nbHNlLCJub3RpZmljYXRpb25zIjpmYWxzZX06CkByZWFkVDoJQHVyaTA6FEBk\nZWNvZGVfY29udGVudFQ6DEBzb2NrZXQwOhBAYm9keV9leGlzdFRJIg1yYXdf\naW5mbwY7AEZDOwZ7LUkiB2lkBjsAVGkEba8/FEkiC2lkX3N0cgY7AFRJIg4z\nMzk3MTc5OTcGOwBUSSIJbmFtZQY7AFRAGEkiEHNjcmVlbl9uYW1lBjsAVEAW\nSSINbG9jYXRpb24GOwBUQBtJIhBkZXNjcmlwdGlvbgY7AFRAH0kiCHVybAY7\nAFQwSSINZW50aXRpZXMGOwBUQzsGewZJIhBkZXNjcmlwdGlvbgY7AFRDOwZ7\nBkkiCXVybHMGOwBUWwBJIg5wcm90ZWN0ZWQGOwBURkkiFGZvbGxvd2Vyc19j\nb3VudAY7AFRpJ0kiEmZyaWVuZHNfY291bnQGOwBUaSFJIhFsaXN0ZWRfY291\nbnQGOwBUaQZJIg9jcmVhdGVkX2F0BjsAVEkiI1RodSBKdWwgMjEgMTU6MDU6\nMjAgKzAwMDAgMjAxMQY7AFRJIhVmYXZvdXJpdGVzX2NvdW50BjsAVGkASSIP\ndXRjX29mZnNldAY7AFQwSSIOdGltZV96b25lBjsAVDBJIhBnZW9fZW5hYmxl\nZAY7AFRGSSINdmVyaWZpZWQGOwBURkkiE3N0YXR1c2VzX2NvdW50BjsAVGk/\nSSIJbGFuZwY7AFRJIgdlbgY7AFRJIhljb250cmlidXRvcnNfZW5hYmxlZAY7\nAFRGSSISaXNfdHJhbnNsYXRvcgY7AFRGSSIbaXNfdHJhbnNsYXRpb25fZW5h\nYmxlZAY7AFRGSSIdcHJvZmlsZV9iYWNrZ3JvdW5kX2NvbG9yBjsAVEkiC0Mw\nREVFRAY7AFRJIiFwcm9maWxlX2JhY2tncm91bmRfaW1hZ2VfdXJsBjsAVEki\nNWh0dHA6Ly9hYnMudHdpbWcuY29tL2ltYWdlcy90aGVtZXMvdGhlbWUxL2Jn\nLnBuZwY7AFRJIidwcm9maWxlX2JhY2tncm91bmRfaW1hZ2VfdXJsX2h0dHBz\nBjsAVEkiNmh0dHBzOi8vYWJzLnR3aW1nLmNvbS9pbWFnZXMvdGhlbWVzL3Ro\nZW1lMS9iZy5wbmcGOwBUSSIccHJvZmlsZV9iYWNrZ3JvdW5kX3RpbGUGOwBU\nRkkiFnByb2ZpbGVfaW1hZ2VfdXJsBjsAVEAdSSIccHJvZmlsZV9pbWFnZV91\ncmxfaHR0cHMGOwBUSSJRaHR0cHM6Ly9wYnMudHdpbWcuY29tL3Byb2ZpbGVf\naW1hZ2VzLzQ5MTY5MDI3MzkwMzEwODA5Ni9kX3F0bTBHaV9ub3JtYWwuanBl\nZwY7AFRJIhdwcm9maWxlX2xpbmtfY29sb3IGOwBUSSILMDA4NEI0BjsAVEki\nIXByb2ZpbGVfc2lkZWJhcl9ib3JkZXJfY29sb3IGOwBUSSILQzBERUVEBjsA\nVEkiH3Byb2ZpbGVfc2lkZWJhcl9maWxsX2NvbG9yBjsAVEkiC0RERUVGNgY7\nAFRJIhdwcm9maWxlX3RleHRfY29sb3IGOwBUSSILMzMzMzMzBjsAVEkiIXBy\nb2ZpbGVfdXNlX2JhY2tncm91bmRfaW1hZ2UGOwBUVEkiGWhhc19leHRlbmRl\nZF9wcm9maWxlBjsAVEZJIhRkZWZhdWx0X3Byb2ZpbGUGOwBUVEkiGmRlZmF1\nbHRfcHJvZmlsZV9pbWFnZQY7AFRGSSIOZm9sbG93aW5nBjsAVEZJIhhmb2xs\nb3dfcmVxdWVzdF9zZW50BjsAVEZJIhJub3RpZmljYXRpb25zBjsAVEY=\n	2016-07-18 05:26:50.540551	2016-07-18 06:25:27.157582
+43	cef56e06be36fe02adaff063cf61f783	BAh7CUkiGXdhcmRlbi51c2VyLnVzZXIua2V5BjoGRVRbB1sGaRVJIiIkMmEk\nMTEkb0xGWDVTbWlDRklYRjlXVkdrV200LgY7AFRJIgpmbGFzaAY7AFR7B0ki\nDGRpc2NhcmQGOwBUWwBJIgxmbGFzaGVzBjsAVHsGSSILbm90aWNlBjsARkki\nI0NhcnQgd2FzIHN1Y2Nlc3NmdWxseSBjcmVhdGVkLgY7AFRJIhBfY3NyZl90\nb2tlbgY7AEZJIjFVakxFb2RteFJHbVJNME1KNFUwSVMxbm11Qm5rdjJXZnky\nbjNLUm1WS3c0PQY7AEZJIgxoaXN0b3J5BjsARlsJSSJMaHR0cDovL21hcmtl\ndHBsYWNlLTE4ODU0NS5uaXRyb3VzYXBwLmNvbTo0MDAwL3Byb2R1ay92b3Vj\naGVyLWt1cm1hLWJhdHUGOwBUSSJMaHR0cDovL21hcmtldHBsYWNlLTE4ODU0\nNS5uaXRyb3VzYXBwLmNvbTo0MDAwL3Byb2R1ay92b3VjaGVyLWt1cm1hLWJh\ndHUGOwBUSSJOaHR0cDovL21hcmtldHBsYWNlLTE4ODU0NS5uaXRyb3VzYXBw\nLmNvbTo0MDAwL3Byb2R1ay92b3VjaGVyLWt1cm1hLW1ha2thaAY7AFRJIk5o\ndHRwOi8vbWFya2V0cGxhY2UtMTg4NTQ1Lm5pdHJvdXNhcHAuY29tOjQwMDAv\ncHJvZHVrL3ZvdWNoZXIta3VybWEtbWFra2FoBjsAVA==\n	2016-07-22 12:55:46.728625	2016-07-22 13:11:10.87172
+16	09f5867081c2bbfbbc9711c74d4e8b8d	BAh7B0kiCmZsYXNoBjoGRVR7B0kiDGRpc2NhcmQGOwBUWwZJIgtub3RpY2UG\nOwBGSSIMZmxhc2hlcwY7AFR7BkAKSSIdU2lnbmVkIG91dCBzdWNjZXNzZnVs\nbHkuBjsAVEkiEF9jc3JmX3Rva2VuBjsARkkiMUdhWThoOUtrZ2NzUUVjZFNu\neUExTG52Z3N4TW05MUlwUjBEeGZnd1F3Q1k9BjsARg==\n	2016-07-18 07:31:31.483649	2016-07-18 07:31:31.770281
+20	f6a87ee0ea02df17143161ca49a92934	BAh7CUkiGXdhcmRlbi51c2VyLnVzZXIua2V5BjoGRVRbB1sGaRVJIiIkMmEk\nMTEkb0xGWDVTbWlDRklYRjlXVkdrV200LgY7AFRJIhBfY3NyZl90b2tlbgY7\nAEZJIjFDTGVJdG5WMEd1UW8wdlNOVmViamttLzNEOGU2aWYyeXhlcHZ4Z0xw\nbDdBPQY7AEZJIgxoaXN0b3J5BjsARlsPSSJTaHR0cDovL21hcmtldHBsYWNl\nLTE4ODU0NS5uaXRyb3VzYXBwLmNvbTo0MDAwL3Byb2R1ay92b3VjaGVyLWt1\ncm1hLWJhdHU/cGFnZT0yBjsAVEkiU2h0dHA6Ly9tYXJrZXRwbGFjZS0xODg1\nNDUubml0cm91c2FwcC5jb206NDAwMC9wcm9kdWsvdm91Y2hlci1rdXJtYS1i\nYXR1P3BhZ2U9MgY7AFRJIlNodHRwOi8vbWFya2V0cGxhY2UtMTg4NTQ1Lm5p\ndHJvdXNhcHAuY29tOjQwMDAvcHJvZHVrL3ZvdWNoZXIta3VybWEtYmF0dT9w\nYWdlPTMGOwBUSSJTaHR0cDovL21hcmtldHBsYWNlLTE4ODU0NS5uaXRyb3Vz\nYXBwLmNvbTo0MDAwL3Byb2R1ay92b3VjaGVyLWt1cm1hLWJhdHU/cGFnZT0z\nBjsAVEkiU2h0dHA6Ly9tYXJrZXRwbGFjZS0xODg1NDUubml0cm91c2FwcC5j\nb206NDAwMC9wcm9kdWsvdm91Y2hlci1rdXJtYS1iYXR1P3BhZ2U9MgY7AFRJ\nIlNodHRwOi8vbWFya2V0cGxhY2UtMTg4NTQ1Lm5pdHJvdXNhcHAuY29tOjQw\nMDAvcHJvZHVrL3ZvdWNoZXIta3VybWEtYmF0dT9wYWdlPTIGOwBUSSJTaHR0\ncDovL21hcmtldHBsYWNlLTE4ODU0NS5uaXRyb3VzYXBwLmNvbTo0MDAwL3By\nb2R1ay92b3VjaGVyLWt1cm1hLWJhdHU/cGFnZT0yBjsAVEkiU2h0dHA6Ly9t\nYXJrZXRwbGFjZS0xODg1NDUubml0cm91c2FwcC5jb206NDAwMC9wcm9kdWsv\ndm91Y2hlci1rdXJtYS1iYXR1P3BhZ2U9MgY7AFRJIkxodHRwOi8vbWFya2V0\ncGxhY2UtMTg4NTQ1Lm5pdHJvdXNhcHAuY29tOjQwMDAvcHJvZHVrL3ZvdWNo\nZXIta3VybWEtYmF0dQY7AFRJIkxodHRwOi8vbWFya2V0cGxhY2UtMTg4NTQ1\nLm5pdHJvdXNhcHAuY29tOjQwMDAvcHJvZHVrL3ZvdWNoZXIta3VybWEtYmF0\ndQY7AFRJIgpmbGFzaAY7AFR7B0kiDGRpc2NhcmQGOwBUWwBJIgxmbGFzaGVz\nBjsAVHsGSSILbm90aWNlBjsARkkiJ0ZlZWRiYWNrIHdhcyBzdWNjZXNzZnVs\nbHkgY3JlYXRlZC4GOwBU\n	2016-07-19 02:16:25.328109	2016-07-19 07:22:30.782571
+29	638a98d3e612e5b82a2fd08ccdb8adff	BAh7B0kiCmZsYXNoBjoGRVR7B0kiDGRpc2NhcmQGOwBUWwZJIgtub3RpY2UG\nOwBGSSIMZmxhc2hlcwY7AFR7BkAKSSIdU2lnbmVkIG91dCBzdWNjZXNzZnVs\nbHkuBjsAVEkiEF9jc3JmX3Rva2VuBjsARkkiMTVQZDBsRmpzUjZPeWIyTDFj\neXFIQ1F5MTJKcGliUDNhT1FYQXNnTEJLS289BjsARg==\n	2016-07-19 07:35:17.05981	2016-07-19 07:35:17.383964
+31	087d3a62e16b52fc711d1fe0773588cd	BAh7CEkiGXdhcmRlbi51c2VyLnVzZXIua2V5BjoGRVRbB1sGaRJJIiIkMmEk\nMTEkd0xBSlBaaTRCcTNDNkNvNGJ2UlhhTwY7AFRJIgpmbGFzaAY7AFR7B0ki\nDGRpc2NhcmQGOwBUWwBJIgxmbGFzaGVzBjsAVHsGSSILbm90aWNlBjsARkki\nHFNpZ25lZCBpbiBzdWNjZXNzZnVsbHkuBjsAVEkiEF9jc3JmX3Rva2VuBjsA\nRkkiMWwzcGtyQktpU0t1QUJYSVdZcDhhY3R5OTUzUldZTUdFNCsrTHR3bDJ2\nTWM9BjsARg==\n	2016-07-20 11:16:33.996748	2016-07-20 11:16:34.148851
+44	4438f4cf57fad8274c1c095eee39d75d	BAh7B0kiGXdhcmRlbi51c2VyLnVzZXIua2V5BjoGRVRbB1sGaRJJIiIkMmEk\nMTEkd0xBSlBaaTRCcTNDNkNvNGJ2UlhhTwY7AFRJIhBfY3NyZl90b2tlbgY7\nAEZJIjFLRmxjd2FUN0FWOUZnUmNCYTd2YWtnTW5aZHl5RGlsZFVpbHArVXly\nTHF3PQY7AEY=\n	2016-07-22 13:00:32.055458	2016-07-22 13:24:12.62915
+46	1798996198e4281fe55eaf989d1b3e6d	BAh7CEkiGXdhcmRlbi51c2VyLnVzZXIua2V5BjoGRVRbB1sGaRJJIiIkMmEk\nMTEkd0xBSlBaaTRCcTNDNkNvNGJ2UlhhTwY7AFRJIhBfY3NyZl90b2tlbgY7\nAEZJIjEyNUR1OUdVVzAzQ09DSlpxRndlUGVIZVZ3amJidDNqOW1WWkFaZDVp\nTk1nPQY7AEZJIgpmbGFzaAY7AFR7B0kiDGRpc2NhcmQGOwBUWwZJIgtub3Rp\nY2UGOwBGSSIMZmxhc2hlcwY7AFR7BkAQSSIbSXRlbSB0ZWxhaCBkaXBlcmJh\ncnVpLgY7AFQ=\n	2016-07-23 01:24:06.24416	2016-07-23 03:45:09.290851
+52	493f6dee1fc365b5ca61482be15d5540	BAh7CkkiDGhpc3RvcnkGOgZFRlsMSSJMaHR0cDovL21hcmtldHBsYWNlLTE4\nODU0NS5uaXRyb3VzYXBwLmNvbTo0MDAwL3Byb2R1ay92b3VjaGVyLWt1cm1h\nLWJhdHUGOwBUSSJMaHR0cDovL21hcmtldHBsYWNlLTE4ODU0NS5uaXRyb3Vz\nYXBwLmNvbTo0MDAwL3Byb2R1ay92b3VjaGVyLWt1cm1hLWJhdHUGOwBUSSJM\naHR0cDovL21hcmtldHBsYWNlLTE4ODU0NS5uaXRyb3VzYXBwLmNvbTo0MDAw\nL3Byb2R1ay92b3VjaGVyLWt1cm1hLWJhdHUGOwBUSSJMaHR0cDovL21hcmtl\ndHBsYWNlLTE4ODU0NS5uaXRyb3VzYXBwLmNvbTo0MDAwL3Byb2R1ay92b3Vj\naGVyLWt1cm1hLWJhdHUGOwBUSSJMaHR0cDovL21hcmtldHBsYWNlLTE4ODU0\nNS5uaXRyb3VzYXBwLmNvbTo0MDAwL3Byb2R1ay92b3VjaGVyLWt1cm1hLWJh\ndHUGOwBUSSJMaHR0cDovL21hcmtldHBsYWNlLTE4ODU0NS5uaXRyb3VzYXBw\nLmNvbTo0MDAwL3Byb2R1ay92b3VjaGVyLWt1cm1hLWJhdHUGOwBUSSJMaHR0\ncDovL21hcmtldHBsYWNlLTE4ODU0NS5uaXRyb3VzYXBwLmNvbTo0MDAwL3By\nb2R1ay92b3VjaGVyLWt1cm1hLWJhdHUGOwBUSSITdXNlcl9yZXR1cm5fdG8G\nOwBUIh0vdG9rby90b2tvLWFtYW5haC9yZXZpZXdJIhl3YXJkZW4udXNlci51\nc2VyLmtleQY7AFRbB1sGaRVJIiIkMmEkMTEkb0xGWDVTbWlDRklYRjlXVkdr\nV200LgY7AFRJIhBfY3NyZl90b2tlbgY7AEZJIjFxcFZ5c09LSXZvZkVteUYv\nZ3NSVVFMdVVzYjRTbTI4Y3JaaXNOemJCOVhRPQY7AEZJIgpmbGFzaAY7AFR7\nB0kiDGRpc2NhcmQGOwBUWwBJIgxmbGFzaGVzBjsAVHsGSSILbm90aWNlBjsA\nRkkiI0NhcnQgd2FzIHN1Y2Nlc3NmdWxseSBjcmVhdGVkLgY7AFQ=\n	2016-07-24 01:24:25.688525	2016-07-24 02:49:57.789572
+50	255820c764072c23e27c0aefff4afd98	BAh7CUkiGXdhcmRlbi51c2VyLnVzZXIua2V5BjoGRVRbB1sGaRJJIiIkMmEk\nMTEkd0xBSlBaaTRCcTNDNkNvNGJ2UlhhTwY7AFRJIhBfY3NyZl90b2tlbgY7\nAEZJIjFOWiswQ09KY3pBendEOGZtRnFBR0RtajNyUm9ZUUp3Vm5QUjZVSFQz\nME9VPQY7AEZJIgpmbGFzaAY7AFR7B0kiDGRpc2NhcmQGOwBUWwZJIgtub3Rp\nY2UGOwBGSSIMZmxhc2hlcwY7AFR7BkkiC25vdGljZQY7AEZJIhtJdGVtIHRl\nbGFoIGRpcGVyYmFydWkuBjsAVEkiDGhpc3RvcnkGOwBGWwZJIk1odHRwOi8v\nbWFya2V0cGxhY2UtMTg4NTQ1Lm5pdHJvdXNhcHAuY29tOjQwMDAvcHJvZHVr\nL3ZvdWNoZXIta3VybWEtcG9ob24GOwBU\n	2016-07-24 01:15:32.495016	2016-07-24 03:08:58.329268
+37	84bfb9a438116aa6fb82615a2c65f65e	BAh7CEkiGXdhcmRlbi51c2VyLnVzZXIua2V5BjoGRVRbB1sGaRJJIiIkMmEk\nMTEkd0xBSlBaaTRCcTNDNkNvNGJ2UlhhTwY7AFRJIhBfY3NyZl90b2tlbgY7\nAEZJIjFJejhPb1FNbFBIcGJpSzIxQTIxSmltcExFU0RhTDAyTjVTS2I3NlNx\nek9FPQY7AEZJIgxoaXN0b3J5BjsARlsGSSJHaHR0cDovL21hcmtldHBsYWNl\nLTE4ODU0NS5uaXRyb3VzYXBwLmNvbTo0MDAwL3Byb2R1ay9rdXJtYS1tYWRp\nbmFoBjsAVA==\n	2016-07-21 04:00:36.883175	2016-07-21 05:46:55.435324
+\.
+
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('sessions_id_seq', 52, true);
+
+
+--
+-- Data for Name: statics; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY statics (id, title, body, image, created_at, updated_at, "group", meta_description, meta_keyword, slug) FROM stdin;
+8	Info Terkini	<p>\r\n\r\n</p><p>Duis consequat sapien ex, quis vulputate tellus sagittis ac. Mauris luctus dignissim vulputate. Maecenas dictum eu neque eu ornare. Suspendisse tempus bibendum laoreet. Nunc venenatis dui non elit suscipit vulputate. Ut eu nulla maximus, tincidunt nunc in, congue tellus. Donec sollicitudin finibus ante, quis vehicula lacus aliquet et. Nulla nec nulla nunc. Nullam accumsan id neque et congue. Mauris eu hendrerit eros.</p><p>Mauris sit amet leo malesuada, bibendum erat malesuada, efficitur elit. Vivamus sit amet malesuada urna. Mauris orci justo, eleifend quis aliquam gravida, viverra eu est. Donec imperdiet maximus metus, et ultrices ante. Phasellus vitae est nec lacus molestie euismod non id nisl. In sit amet neque vitae tortor varius imperdiet ut quis massa. Quisque ac justo vitae nisl sollicitudin efficitur.</p><p>Nunc lobortis, tortor vulputate dignissim pulvinar, neque felis cursus nunc, vitae sagittis libero ante et augue. Etiam quam metus, laoreet at porta non, pulvinar in dolor. Etiam facilisis nunc quis ligula hendrerit, at faucibus ligula accumsan. Proin ac gravida libero, nec convallis urna. Duis bibendum, tortor eget finibus malesuada, felis nulla lobortis leo, eu facilisis libero massa eu enim. Aenean maximus libero non aliquet aliquam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis quis tortor velit. Fusce vestibulum iaculis metus, non bibendum erat pulvinar nec. Morbi eleifend felis turpis, a porta orci suscipit laoreet. Nulla vel mauris tellus. Donec quis dui elit. Ut mattis elementum metus, rhoncus commodo ex tincidunt vel. Sed nec sollicitudin dui.</p><p></p><ul><li>Integer sed ipsum faucibus, consectetur tortor a, malesuada lorem.</li><li>Ut in enim lobortis, placerat odio in, vulputate urna.</li><li>Sed malesuada ligula eu orci malesuada malesuada.</li><li>Mauris congue lectus vitae nunc maximus, vel tincidunt leo imperdiet.</li><li>Fusce non sem non ligula venenatis interdum egestas a dui.</li><li>selamat</li></ul>\r\n\r\n<br><p></p>	\N	2016-06-28 03:38:02.584476	2016-07-12 01:13:06.953879	Footer Left	\N	\N	info-terkini
+9	Cara Berjualan	<p>\r\n\r\n</p><p>Duis consequat sapien ex, quis vulputate tellus sagittis ac. Mauris luctus dignissim vulputate. Maecenas dictum eu neque eu ornare. Suspendisse tempus bibendum laoreet. Nunc venenatis dui non elit suscipit vulputate. Ut eu nulla maximus, tincidunt nunc in, congue tellus. Donec sollicitudin finibus ante, quis vehicula lacus aliquet et. Nulla nec nulla nunc. Nullam accumsan id neque et congue. Mauris eu hendrerit eros.</p><p>Mauris sit amet leo malesuada, bibendum erat malesuada, efficitur elit. Vivamus sit amet malesuada urna. Mauris orci justo, eleifend quis aliquam gravida, viverra eu est. Donec imperdiet maximus metus, et ultrices ante. Phasellus vitae est nec lacus molestie euismod non id nisl. In sit amet neque vitae tortor varius imperdiet ut quis massa. Quisque ac justo vitae nisl sollicitudin efficitur.</p><p>Nunc lobortis, tortor vulputate dignissim pulvinar, neque felis cursus nunc, vitae sagittis libero ante et augue. Etiam quam metus, laoreet at porta non, pulvinar in dolor. Etiam facilisis nunc quis ligula hendrerit, at faucibus ligula accumsan. Proin ac gravida libero, nec convallis urna. Duis bibendum, tortor eget finibus malesuada, felis nulla lobortis leo, eu facilisis libero massa eu enim. Aenean maximus libero non aliquet aliquam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis quis tortor velit. Fusce vestibulum iaculis metus, non bibendum erat pulvinar nec. Morbi eleifend felis turpis, a porta orci suscipit laoreet. Nulla vel mauris tellus. Donec quis dui elit. Ut mattis elementum metus, rhoncus commodo ex tincidunt vel. Sed nec sollicitudin dui.</p><p></p><ul><li>Integer sed ipsum faucibus, consectetur tortor a, malesuada lorem.</li><li>Ut in enim lobortis, placerat odio in, vulputate urna.</li><li>Sed malesuada ligula eu orci malesuada malesuada.</li><li>Mauris congue lectus vitae nunc maximus, vel tincidunt leo imperdiet.</li><li>Fusce non sem non ligula venenatis interdum egestas a dui.</li><li>selamat</li></ul>\r\n\r\n<br><p></p>	\N	2016-06-28 03:38:32.109351	2016-07-12 01:13:06.95827	Footer Middle	\N	\N	cara-berjualan
+13	Ketentuan Member	<p>\r\n\r\n</p><p>Duis consequat sapien ex, quis vulputate tellus sagittis ac. Mauris luctus dignissim vulputate. Maecenas dictum eu neque eu ornare. Suspendisse tempus bibendum laoreet. Nunc venenatis dui non elit suscipit vulputate. Ut eu nulla maximus, tincidunt nunc in, congue tellus. Donec sollicitudin finibus ante, quis vehicula lacus aliquet et. Nulla nec nulla nunc. Nullam accumsan id neque et congue. Mauris eu hendrerit eros.</p><p>Mauris sit amet leo malesuada, bibendum erat malesuada, efficitur elit. Vivamus sit amet malesuada urna. Mauris orci justo, eleifend quis aliquam gravida, viverra eu est. Donec imperdiet maximus metus, et ultrices ante. Phasellus vitae est nec lacus molestie euismod non id nisl. In sit amet neque vitae tortor varius imperdiet ut quis massa. Quisque ac justo vitae nisl sollicitudin efficitur.</p><p>Nunc lobortis, tortor vulputate dignissim pulvinar, neque felis cursus nunc, vitae sagittis libero ante et augue. Etiam quam metus, laoreet at porta non, pulvinar in dolor. Etiam facilisis nunc quis ligula hendrerit, at faucibus ligula accumsan. Proin ac gravida libero, nec convallis urna. Duis bibendum, tortor eget finibus malesuada, felis nulla lobortis leo, eu facilisis libero massa eu enim. Aenean maximus libero non aliquet aliquam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis quis tortor velit. Fusce vestibulum iaculis metus, non bibendum erat pulvinar nec. Morbi eleifend felis turpis, a porta orci suscipit laoreet. Nulla vel mauris tellus. Donec quis dui elit. Ut mattis elementum metus, rhoncus commodo ex tincidunt vel. Sed nec sollicitudin dui.</p><p></p><ul><li>Integer sed ipsum faucibus, consectetur tortor a, malesuada lorem.</li><li>Ut in enim lobortis, placerat odio in, vulputate urna.</li><li>Sed malesuada ligula eu orci malesuada malesuada.</li><li>Mauris congue lectus vitae nunc maximus, vel tincidunt leo imperdiet.</li><li>Fusce non sem non ligula venenatis interdum egestas a dui.</li><li>selamat</li></ul>\r\n\r\n<br><p></p>	\N	2016-06-28 03:39:25.489318	2016-07-12 01:13:06.978061	Footer Right	\N	\N	ketentuan-member
+14	Metode Pembayaran	<p>\r\n\r\n</p><p>Duis consequat sapien ex, quis vulputate tellus sagittis ac. Mauris luctus dignissim vulputate. Maecenas dictum eu neque eu ornare. Suspendisse tempus bibendum laoreet. Nunc venenatis dui non elit suscipit vulputate. Ut eu nulla maximus, tincidunt nunc in, congue tellus. Donec sollicitudin finibus ante, quis vehicula lacus aliquet et. Nulla nec nulla nunc. Nullam accumsan id neque et congue. Mauris eu hendrerit eros.</p><p>Mauris sit amet leo malesuada, bibendum erat malesuada, efficitur elit. Vivamus sit amet malesuada urna. Mauris orci justo, eleifend quis aliquam gravida, viverra eu est. Donec imperdiet maximus metus, et ultrices ante. Phasellus vitae est nec lacus molestie euismod non id nisl. In sit amet neque vitae tortor varius imperdiet ut quis massa. Quisque ac justo vitae nisl sollicitudin efficitur.</p><p>Nunc lobortis, tortor vulputate dignissim pulvinar, neque felis cursus nunc, vitae sagittis libero ante et augue. Etiam quam metus, laoreet at porta non, pulvinar in dolor. Etiam facilisis nunc quis ligula hendrerit, at faucibus ligula accumsan. Proin ac gravida libero, nec convallis urna. Duis bibendum, tortor eget finibus malesuada, felis nulla lobortis leo, eu facilisis libero massa eu enim. Aenean maximus libero non aliquet aliquam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis quis tortor velit. Fusce vestibulum iaculis metus, non bibendum erat pulvinar nec. Morbi eleifend felis turpis, a porta orci suscipit laoreet. Nulla vel mauris tellus. Donec quis dui elit. Ut mattis elementum metus, rhoncus commodo ex tincidunt vel. Sed nec sollicitudin dui.</p><p></p><ul><li>Integer sed ipsum faucibus, consectetur tortor a, malesuada lorem.</li><li>Ut in enim lobortis, placerat odio in, vulputate urna.</li><li>Sed malesuada ligula eu orci malesuada malesuada.</li><li>Mauris congue lectus vitae nunc maximus, vel tincidunt leo imperdiet.</li><li>Fusce non sem non ligula venenatis interdum egestas a dui.</li><li>selamat</li></ul>\r\n\r\n<br><p></p>	\N	2016-06-28 03:39:48.505896	2016-07-12 01:13:06.98271	Footer Right	\N	\N	metode-pembayaran
+20	Sitemap		\N	2016-07-11 02:36:04.594732	2016-07-12 01:13:07.01038	Footer Left	\N	\N	sitemap
+16	Kebijakan Privasi	<p>\r\n\r\n</p><p>Duis consequat sapien ex, quis vulputate tellus sagittis ac. Mauris luctus dignissim vulputate. Maecenas dictum eu neque eu ornare. Suspendisse tempus bibendum laoreet. Nunc venenatis dui non elit suscipit vulputate. Ut eu nulla maximus, tincidunt nunc in, congue tellus. Donec sollicitudin finibus ante, quis vehicula lacus aliquet et. Nulla nec nulla nunc. Nullam accumsan id neque et congue. Mauris eu hendrerit eros.</p><p>Mauris sit amet leo malesuada, bibendum erat malesuada, efficitur elit. Vivamus sit amet malesuada urna. Mauris orci justo, eleifend quis aliquam gravida, viverra eu est. Donec imperdiet maximus metus, et ultrices ante. Phasellus vitae est nec lacus molestie euismod non id nisl. In sit amet neque vitae tortor varius imperdiet ut quis massa. Quisque ac justo vitae nisl sollicitudin efficitur.</p><p>Nunc lobortis, tortor vulputate dignissim pulvinar, neque felis cursus nunc, vitae sagittis libero ante et augue. Etiam quam metus, laoreet at porta non, pulvinar in dolor. Etiam facilisis nunc quis ligula hendrerit, at faucibus ligula accumsan. Proin ac gravida libero, nec convallis urna. Duis bibendum, tortor eget finibus malesuada, felis nulla lobortis leo, eu facilisis libero massa eu enim. Aenean maximus libero non aliquet aliquam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis quis tortor velit. Fusce vestibulum iaculis metus, non bibendum erat pulvinar nec. Morbi eleifend felis turpis, a porta orci suscipit laoreet. Nulla vel mauris tellus. Donec quis dui elit. Ut mattis elementum metus, rhoncus commodo ex tincidunt vel. Sed nec sollicitudin dui.</p><p></p><ul><li>Integer sed ipsum faucibus, consectetur tortor a, malesuada lorem.</li><li>Ut in enim lobortis, placerat odio in, vulputate urna.</li><li>Sed malesuada ligula eu orci malesuada malesuada.</li><li>Mauris congue lectus vitae nunc maximus, vel tincidunt leo imperdiet.</li><li>Fusce non sem non ligula venenatis interdum egestas a dui.</li><li>selamat</li></ul>\r\n\r\n<br><p></p>	\N	2016-06-28 03:40:57.229741	2016-07-12 01:13:07.001682	Footer Left	\N	\N	kebijakan-privasi
+6	Tentang kami	<p>\r\n\r\n</p><p>Duis consequat sapien ex, quis vulputate tellus sagittis ac. Mauris luctus dignissim vulputate. Maecenas dictum eu neque eu ornare. Suspendisse tempus bibendum laoreet. Nunc venenatis dui non elit suscipit vulputate. Ut eu nulla maximus, tincidunt nunc in, congue tellus. Donec sollicitudin finibus ante, quis vehicula lacus aliquet et. Nulla nec nulla nunc. Nullam accumsan id neque et congue. Mauris eu hendrerit eros.</p><p>Mauris sit amet leo malesuada, bibendum erat malesuada, efficitur elit. Vivamus sit amet malesuada urna. Mauris orci justo, eleifend quis aliquam gravida, viverra eu est. Donec imperdiet maximus metus, et ultrices ante. Phasellus vitae est nec lacus molestie euismod non id nisl. In sit amet neque vitae tortor varius imperdiet ut quis massa. Quisque ac justo vitae nisl sollicitudin efficitur.</p><p>Nunc lobortis, tortor vulputate dignissim pulvinar, neque felis cursus nunc, vitae sagittis libero ante et augue. Etiam quam metus, laoreet at porta non, pulvinar in dolor. Etiam facilisis nunc quis ligula hendrerit, at faucibus ligula accumsan. Proin ac gravida libero, nec convallis urna. Duis bibendum, tortor eget finibus malesuada, felis nulla lobortis leo, eu facilisis libero massa eu enim. Aenean maximus libero non aliquet aliquam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis quis tortor velit. Fusce vestibulum iaculis metus, non bibendum erat pulvinar nec. Morbi eleifend felis turpis, a porta orci suscipit laoreet. Nulla vel mauris tellus. Donec quis dui elit. Ut mattis elementum metus, rhoncus commodo ex tincidunt vel. Sed nec sollicitudin dui.</p><p></p><ul><li>Integer sed ipsum faucibus, consectetur tortor a, malesuada lorem.</li><li>Ut in enim lobortis, placerat odio in, vulputate urna.</li><li>Sed malesuada ligula eu orci malesuada malesuada.</li><li>Mauris congue lectus vitae nunc maximus, vel tincidunt leo imperdiet.</li><li>Fusce non sem non ligula venenatis interdum egestas a dui.</li><li>selamat</li></ul>\r\n\r\n<br><p></p>	\N	2016-06-28 03:37:31.22059	2016-07-12 01:13:06.942235	Footer Left	\N	\N	tentang-kami
+11	FAQ	<p>\r\n\r\n</p><p>Duis consequat sapien ex, quis vulputate tellus sagittis ac. Mauris luctus dignissim vulputate. Maecenas dictum eu neque eu ornare. Suspendisse tempus bibendum laoreet. Nunc venenatis dui non elit suscipit vulputate. Ut eu nulla maximus, tincidunt nunc in, congue tellus. Donec sollicitudin finibus ante, quis vehicula lacus aliquet et. Nulla nec nulla nunc. Nullam accumsan id neque et congue. Mauris eu hendrerit eros.</p><p>Mauris sit amet leo malesuada, bibendum erat malesuada, efficitur elit. Vivamus sit amet malesuada urna. Mauris orci justo, eleifend quis aliquam gravida, viverra eu est. Donec imperdiet maximus metus, et ultrices ante. Phasellus vitae est nec lacus molestie euismod non id nisl. In sit amet neque vitae tortor varius imperdiet ut quis massa. Quisque ac justo vitae nisl sollicitudin efficitur.</p><p>Nunc lobortis, tortor vulputate dignissim pulvinar, neque felis cursus nunc, vitae sagittis libero ante et augue. Etiam quam metus, laoreet at porta non, pulvinar in dolor. Etiam facilisis nunc quis ligula hendrerit, at faucibus ligula accumsan. Proin ac gravida libero, nec convallis urna. Duis bibendum, tortor eget finibus malesuada, felis nulla lobortis leo, eu facilisis libero massa eu enim. Aenean maximus libero non aliquet aliquam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis quis tortor velit. Fusce vestibulum iaculis metus, non bibendum erat pulvinar nec. Morbi eleifend felis turpis, a porta orci suscipit laoreet. Nulla vel mauris tellus. Donec quis dui elit. Ut mattis elementum metus, rhoncus commodo ex tincidunt vel. Sed nec sollicitudin dui.</p><p></p><ul><li>Integer sed ipsum faucibus, consectetur tortor a, malesuada lorem.</li><li>Ut in enim lobortis, placerat odio in, vulputate urna.</li><li>Sed malesuada ligula eu orci malesuada malesuada.</li><li>Mauris congue lectus vitae nunc maximus, vel tincidunt leo imperdiet.</li><li>Fusce non sem non ligula venenatis interdum egestas a dui.</li><li>selamat</li></ul>\r\n\r\n<br><p></p>	\N	2016-06-28 03:38:55.231416	2016-07-12 01:13:06.969248	Footer Left	\N	\N	faq
+21	Pendaftaran Seller		\N	2016-07-11 02:36:39.060759	2016-07-12 01:13:07.02517	Footer Middle	\N	\N	pendaftaran-seller
+25	Member Akun		\N	2016-07-11 03:11:29.079184	2016-07-12 01:13:07.033747	Footer Right	\N	\N	member-akun
+26	Voucher		\N	2016-07-11 03:12:12.586536	2016-07-12 01:13:07.03835	Footer Right	\N	\N	voucher
+27	FAQ Buyer		\N	2016-07-11 03:12:38.969558	2016-07-12 01:13:07.042558	Footer Right	\N	\N	faq-buyer
+24	FAQ Seller		\N	2016-07-11 02:37:29.497506	2016-07-12 01:16:56.90055	Footer Middle	this is meta description	keyword1, keyword2, keyword3	faq-seller
+5	Syarat dan Ketentuan	<p>\r\n</p><div><p>Duis\r\n consequat sapien ex, quis vulputate tellus sagittis ac. Mauris luctus \r\ndignissim vulputate. Maecenas dictum eu neque eu ornare. Suspendisse \r\ntempus bibendum laoreet. Nunc venenatis dui non elit suscipit vulputate.\r\n Ut eu nulla maximus, tincidunt nunc in, congue tellus. Donec \r\nsollicitudin finibus ante, quis vehicula lacus aliquet et. Nulla nec \r\nnulla nunc. Nullam accumsan id neque et congue. Mauris eu hendrerit \r\neros. \r\n\t\t\t\t\t</p>\r\n\t\t\t\t\t<p>\r\n\t\t\t\t\t\t Mauris sit amet leo malesuada, bibendum erat malesuada, efficitur\r\n elit. Vivamus sit amet malesuada urna. Mauris orci justo, eleifend quis\r\n aliquam gravida, viverra eu est. Donec imperdiet maximus metus, et \r\nultrices ante. Phasellus vitae est nec lacus molestie euismod non id \r\nnisl. In sit amet neque vitae tortor varius imperdiet ut quis massa. \r\nQuisque ac justo vitae nisl sollicitudin efficitur. \r\n\t\t\t\t\t</p>\r\n\t\t\t\t\t<p>\r\n\t\t\t\t\t\tNunc lobortis, tortor vulputate dignissim pulvinar, neque felis \r\ncursus nunc, vitae sagittis libero ante et augue. Etiam quam metus, \r\nlaoreet at porta non, pulvinar in dolor. Etiam facilisis nunc quis \r\nligula hendrerit, at faucibus ligula accumsan. Proin ac gravida libero, \r\nnec convallis urna. Duis bibendum, tortor eget finibus malesuada, felis \r\nnulla lobortis leo, eu facilisis libero massa eu enim. Aenean maximus \r\nlibero non aliquet aliquam. Class aptent taciti sociosqu ad litora \r\ntorquent per conubia nostra, per inceptos himenaeos. Duis quis tortor \r\nvelit. Fusce vestibulum iaculis metus, non bibendum erat pulvinar nec. \r\nMorbi eleifend felis turpis, a porta orci suscipit laoreet. Nulla vel \r\nmauris tellus. Donec quis dui elit. Ut mattis elementum metus, rhoncus \r\ncommodo ex tincidunt vel. Sed nec sollicitudin dui. \r\n\t\t\t\t\t</p>\r\n\t\t\t\t\t<p>\r\n\t\t\t\t\t\t</p><ul>\r\n\t\t\t\t\t\t\t<li>Integer sed ipsum faucibus, consectetur tortor a, malesuada lorem.</li>\r\n\t\t\t\t\t\t\t<li>Ut in enim lobortis, placerat odio in, vulputate urna.</li>\r\n\t\t\t\t\t\t\t<li>Sed malesuada ligula eu orci malesuada malesuada.</li>\r\n\t\t\t\t\t\t\t<li>Mauris congue lectus vitae nunc maximus, vel tincidunt leo imperdiet.</li>\r\n\t\t\t\t\t\t\t<li>Fusce non sem non ligula venenatis interdum egestas a dui.</li><li>selamat</li></ul></div>\r\n\r\n<br><p></p>	\N	2016-06-27 03:12:54.149945	2016-07-12 01:13:06.926011	Footer Left	\N	\N	syarat-dan-ketentuan
+10	Ketentuan Seller	<p>\r\n\r\n</p><p>Duis consequat sapien ex, quis vulputate tellus sagittis ac. Mauris luctus dignissim vulputate. Maecenas dictum eu neque eu ornare. Suspendisse tempus bibendum laoreet. Nunc venenatis dui non elit suscipit vulputate. Ut eu nulla maximus, tincidunt nunc in, congue tellus. Donec sollicitudin finibus ante, quis vehicula lacus aliquet et. Nulla nec nulla nunc. Nullam accumsan id neque et congue. Mauris eu hendrerit eros.</p><p>Mauris sit amet leo malesuada, bibendum erat malesuada, efficitur elit. Vivamus sit amet malesuada urna. Mauris orci justo, eleifend quis aliquam gravida, viverra eu est. Donec imperdiet maximus metus, et ultrices ante. Phasellus vitae est nec lacus molestie euismod non id nisl. In sit amet neque vitae tortor varius imperdiet ut quis massa. Quisque ac justo vitae nisl sollicitudin efficitur.</p><p>Nunc lobortis, tortor vulputate dignissim pulvinar, neque felis cursus nunc, vitae sagittis libero ante et augue. Etiam quam metus, laoreet at porta non, pulvinar in dolor. Etiam facilisis nunc quis ligula hendrerit, at faucibus ligula accumsan. Proin ac gravida libero, nec convallis urna. Duis bibendum, tortor eget finibus malesuada, felis nulla lobortis leo, eu facilisis libero massa eu enim. Aenean maximus libero non aliquet aliquam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis quis tortor velit. Fusce vestibulum iaculis metus, non bibendum erat pulvinar nec. Morbi eleifend felis turpis, a porta orci suscipit laoreet. Nulla vel mauris tellus. Donec quis dui elit. Ut mattis elementum metus, rhoncus commodo ex tincidunt vel. Sed nec sollicitudin dui.</p><p></p><ul><li>Integer sed ipsum faucibus, consectetur tortor a, malesuada lorem.</li><li>Ut in enim lobortis, placerat odio in, vulputate urna.</li><li>Sed malesuada ligula eu orci malesuada malesuada.</li><li>Mauris congue lectus vitae nunc maximus, vel tincidunt leo imperdiet.</li><li>Fusce non sem non ligula venenatis interdum egestas a dui.</li><li>selamat</li></ul>\r\n\r\n<br><p></p>	\N	2016-06-28 03:38:45.915867	2016-07-12 01:13:06.962708	Footer Middle	\N	\N	ketentuan-seller
+12	Cara Pembelian	<p>\r\n\r\n</p><p>Duis consequat sapien ex, quis vulputate tellus sagittis ac. Mauris luctus dignissim vulputate. Maecenas dictum eu neque eu ornare. Suspendisse tempus bibendum laoreet. Nunc venenatis dui non elit suscipit vulputate. Ut eu nulla maximus, tincidunt nunc in, congue tellus. Donec sollicitudin finibus ante, quis vehicula lacus aliquet et. Nulla nec nulla nunc. Nullam accumsan id neque et congue. Mauris eu hendrerit eros.</p><p>Mauris sit amet leo malesuada, bibendum erat malesuada, efficitur elit. Vivamus sit amet malesuada urna. Mauris orci justo, eleifend quis aliquam gravida, viverra eu est. Donec imperdiet maximus metus, et ultrices ante. Phasellus vitae est nec lacus molestie euismod non id nisl. In sit amet neque vitae tortor varius imperdiet ut quis massa. Quisque ac justo vitae nisl sollicitudin efficitur.</p><p>Nunc lobortis, tortor vulputate dignissim pulvinar, neque felis cursus nunc, vitae sagittis libero ante et augue. Etiam quam metus, laoreet at porta non, pulvinar in dolor. Etiam facilisis nunc quis ligula hendrerit, at faucibus ligula accumsan. Proin ac gravida libero, nec convallis urna. Duis bibendum, tortor eget finibus malesuada, felis nulla lobortis leo, eu facilisis libero massa eu enim. Aenean maximus libero non aliquet aliquam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis quis tortor velit. Fusce vestibulum iaculis metus, non bibendum erat pulvinar nec. Morbi eleifend felis turpis, a porta orci suscipit laoreet. Nulla vel mauris tellus. Donec quis dui elit. Ut mattis elementum metus, rhoncus commodo ex tincidunt vel. Sed nec sollicitudin dui.</p><p></p><ul><li>Integer sed ipsum faucibus, consectetur tortor a, malesuada lorem.</li><li>Ut in enim lobortis, placerat odio in, vulputate urna.</li><li>Sed malesuada ligula eu orci malesuada malesuada.</li><li>Mauris congue lectus vitae nunc maximus, vel tincidunt leo imperdiet.</li><li>Fusce non sem non ligula venenatis interdum egestas a dui.</li><li>selamat</li></ul>\r\n\r\n<br><p></p>	\N	2016-06-28 03:39:09.021097	2016-07-12 01:13:06.973615	Footer Right	\N	\N	cara-pembelian
+28	Bantuan		\N	2016-07-11 23:47:37.821496	2016-07-12 01:13:07.046506	Top Bar	\N	\N	bantuan
+7	Karir	<p>\r\n\r\n</p><p>Duis consequat sapien ex, quis vulputate tellus sagittis ac. Mauris luctus dignissim vulputate. Maecenas dictum eu neque eu ornare. Suspendisse tempus bibendum laoreet. Nunc venenatis dui non elit suscipit vulputate. Ut eu nulla maximus, tincidunt nunc in, congue tellus. Donec sollicitudin finibus ante, quis vehicula lacus aliquet et. Nulla nec nulla nunc. Nullam accumsan id neque et congue. Mauris eu hendrerit eros.</p><p>Mauris sit amet leo malesuada, bibendum erat malesuada, efficitur elit. Vivamus sit amet malesuada urna. Mauris orci justo, eleifend quis aliquam gravida, viverra eu est. Donec imperdiet maximus metus, et ultrices ante. Phasellus vitae est nec lacus molestie euismod non id nisl. In sit amet neque vitae tortor varius imperdiet ut quis massa. Quisque ac justo vitae nisl sollicitudin efficitur.</p><p>Nunc lobortis, tortor vulputate dignissim pulvinar, neque felis cursus nunc, vitae sagittis libero ante et augue. Etiam quam metus, laoreet at porta non, pulvinar in dolor. Etiam facilisis nunc quis ligula hendrerit, at faucibus ligula accumsan. Proin ac gravida libero, nec convallis urna. Duis bibendum, tortor eget finibus malesuada, felis nulla lobortis leo, eu facilisis libero massa eu enim. Aenean maximus libero non aliquet aliquam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis quis tortor velit. Fusce vestibulum iaculis metus, non bibendum erat pulvinar nec. Morbi eleifend felis turpis, a porta orci suscipit laoreet. Nulla vel mauris tellus. Donec quis dui elit. Ut mattis elementum metus, rhoncus commodo ex tincidunt vel. Sed nec sollicitudin dui.</p><p></p><ul><li>Integer sed ipsum faucibus, consectetur tortor a, malesuada lorem.</li><li>Ut in enim lobortis, placerat odio in, vulputate urna.</li><li>Sed malesuada ligula eu orci malesuada malesuada.</li><li>Mauris congue lectus vitae nunc maximus, vel tincidunt leo imperdiet.</li><li>Fusce non sem non ligula venenatis interdum egestas a dui.</li><li>selamat</li></ul>\r\n\r\n<br><p></p>	\N	2016-06-28 03:37:47.532751	2016-07-12 01:18:34.961957	Footer Left			karir-anda
+15	Hubungi Kami	<div class="row">\r\n\t\t\t\t<div class="col-md-4 col-sm-4">\r\n\t\t\t\t\t<div class="rowctchb">\r\n\t\t\t\t\t\t<h2>Customer Service : <strong><%= Homeitem.find(16).text4 %></strong></h2>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class="rowctchb">\r\n\t\t\t\t\t\t<span class="ctcico"><i class="fa fa-map-marker"></i></span>\r\n\t\t\t\t\t\t<h4>Alamat Kantor</h4>\r\n\t\t\t\t\t\t<p>\r\n\t\t\t\t\t\t\t<%= Homeitem.find(16).text6 %>\r\n\t\t\t\t\t\t</p>\t\r\n\t\t\t\t\t\t<div class="spacersmall"></div>\r\n\t\t\t\t\t</div>\t\r\n\t\t\t\t\t<div class="rowctchb">\r\n\t\t\t\t\t\t<span class="ctcico"><i class="fa fa-envelope"></i></span>\r\n\t\t\t\t\t\t<h4>&nbsp;Email</h4>\r\n\t\t\t\t\t\t<p><a href="mailto:<%= Homeitem.find(16).text5 %>"><span><%= Homeitem.find(16).text5 %></span></a></p>\r\n\t\t\t\t\t\t<div class="spacersmall"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class="rowctchb">\r\n\t\t\t\t\t\t<span class="ctcico"><i class="fa fa-facebook-square"></i></span>\r\n\t\t\t\t\t\t<p><strong>Facebook :</strong> <a href="<%= Homeitem.find(16).text8 %>"><span>loveitmart</span></a></p>\r\n\t\t\t\t\t\t<div class="spacersmall"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class="rowctchb">\r\n\t\t\t\t\t\t<span class="ctcico"><i class="fa fa-twitter-square"></i></span>\r\n\t\t\t\t\t\t<p><strong>Twitter :</strong> <a href="<%= Homeitem.find(16).text9 %>"><span>@loveitmart</span></a></p>\r\n\t\t\t\t\t\t<div class="spacersmall"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class="col-md-8 col-sm-8">\r\n<iframe src="<%= Homeitem.find(16).text7 %>" width="100%" height="450" frameborder="3" style="border:1px solid #ddd" allowfullscreen></iframe>\r\n\t\t\t\t</div>\r\n\t\t\t</div>	\N	2016-06-28 03:40:34.003937	2016-07-13 04:18:59.990558	Footer Left			hubungi-kami
+\.
+
+
+--
+-- Name: statics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('statics_id_seq', 28, true);
+
+
+--
+-- Data for Name: statuses; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY statuses (id, seller_id, buyer_id, stat, created_at, updated_at, produk_id, cart_id) FROM stdin;
+\.
+
+
+--
+-- Name: statuses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('statuses_id_seq', 1, false);
+
+
+--
+-- Data for Name: subcategories; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY subcategories (id, subkategori, deskripsi, slide1, category_id, created_at, updated_at, slide2, slide3) FROM stdin;
+27	Rambut		bannercover.jpg	\N	2016-06-10 03:41:31.137226	2016-07-12 04:47:10.170209	\N	\N
+17	Pakaian wanita	Deskripsi pakaian <b>wanita</b>	bannercover2.jpg	\N	2016-06-10 03:38:35.38573	2016-07-12 04:48:36.044994	\N	\N
+18	Pakaian Pria		\N	\N	2016-06-10 03:38:52.40753	2016-06-10 03:39:04.635619	\N	\N
+19	Tas & Aksesoris		\N	\N	2016-06-10 03:39:23.432711	2016-06-10 03:39:23.432711	\N	\N
+20	Sepatu		\N	\N	2016-06-10 03:39:36.815032	2016-06-10 03:39:36.815032	\N	\N
+21	Perhiasan & Jam		\N	\N	2016-06-10 03:39:50.287052	2016-06-10 03:39:50.287052	\N	\N
+22	Mobile phone		\N	\N	2016-06-10 03:40:10.05039	2016-06-10 03:40:10.05039	\N	\N
+23	Kamera & Video Kamera		\N	\N	2016-06-10 03:40:24.032228	2016-06-10 03:40:24.032228	\N	\N
+24	Tablet, notebook & Desktop		\N	\N	2016-06-10 03:40:35.223901	2016-06-10 03:40:41.149947	\N	\N
+25	Peralatan & Perlengkapan kantor	gadget dan komputer	\N	\N	2016-06-10 03:41:00.338802	2016-06-26 06:56:36.033778	\N	\N
+26	Kosmetik		\N	\N	2016-06-10 03:41:17.320893	2016-06-10 03:41:17.320893	\N	\N
+28	Perawatan Gigi dan Mulut		\N	\N	2016-06-10 03:41:50.071284	2016-06-10 03:41:50.071284	\N	\N
+29	Perawatan Wajah		\N	\N	2016-06-10 03:42:05.831306	2016-06-10 03:42:05.831306	\N	\N
+30	Tisu dan Kapas		\N	\N	2016-06-10 03:42:22.740906	2016-06-10 03:42:22.740906	\N	\N
+31	Kebutuhan Wanita		\N	\N	2016-06-10 03:42:35.991345	2016-06-10 03:42:35.991345	\N	\N
+32	Aromaterapi		\N	\N	2016-06-10 03:42:48.036743	2016-06-10 03:42:48.036743	\N	\N
+33	Suplemen		\N	\N	2016-06-10 03:43:00.448436	2016-06-10 03:43:00.448436	\N	\N
+34	Obat Luar		\N	\N	2016-06-10 03:43:12.667376	2016-06-10 03:43:18.153142	\N	\N
+35	Kontrasepsi		\N	\N	2016-06-10 03:43:31.191297	2016-06-10 03:43:31.191297	\N	\N
+36	Obat-Obatan		\N	\N	2016-06-10 03:43:42.699279	2016-06-10 03:43:42.699279	\N	\N
+37	Pakaian Bayi dan Anak		\N	\N	2016-06-10 03:44:02.78702	2016-06-10 03:44:02.78702	\N	\N
+38	Makanan		\N	\N	2016-06-10 03:44:19.455759	2016-06-10 03:44:19.455759	\N	\N
+39	Perpopokan		\N	\N	2016-06-10 03:44:34.630508	2016-06-10 03:44:34.630508	\N	\N
+40	Perawatan Tubuh		\N	\N	2016-06-10 03:44:53.646698	2016-06-10 03:44:53.646698	\N	\N
+41	Alat Makan		\N	\N	2016-06-10 03:45:08.922809	2016-06-10 03:45:08.922809	\N	\N
+42	Kebutuhan Ibu		\N	\N	2016-06-10 03:45:26.149714	2016-06-10 03:45:26.149714	\N	\N
+43	Hadiah		\N	\N	2016-06-10 03:45:38.946281	2016-06-10 03:45:38.946281	\N	\N
+44	Perlengkapan Bayi		\N	\N	2016-06-10 03:45:54.178484	2016-06-10 03:45:54.178484	\N	\N
+45	Aksesoris		\N	\N	2016-06-10 03:46:12.385581	2016-06-10 03:46:12.385581	\N	\N
+46	AksesorisMainan, Pendidikan Anak		\N	\N	2016-06-10 03:46:35.784167	2016-06-10 03:46:35.784167	\N	\N
+47	Peralatan Rumah		\N	\N	2016-06-10 03:47:01.391564	2016-06-10 03:47:01.391564	\N	\N
+48	Media Player		\N	\N	2016-06-10 03:47:14.899173	2016-06-10 03:47:14.899173	\N	\N
+49	Buku & Majalah		\N	\N	2016-06-10 03:48:57.069197	2016-06-10 03:48:57.069197	\N	\N
+50	Otomotif		\N	\N	2016-06-10 03:49:15.043984	2016-06-10 03:49:15.043984	\N	\N
+51	Peliharaan		\N	\N	2016-06-10 03:49:28.753166	2016-06-10 03:49:28.753166	\N	\N
+52	Dekorasi Rumah		\N	\N	2016-06-10 03:49:45.34827	2016-06-10 03:49:45.34827	\N	\N
+53	Furnitur & Perkakas		\N	\N	2016-06-10 03:50:03.091526	2016-06-10 03:50:03.091526	\N	\N
+54	Perlengkapan Rumah Tangga		\N	\N	2016-06-10 03:50:17.620669	2016-06-10 03:50:17.620669	\N	\N
+55	Peralatan Rumah Tangga		\N	\N	2016-06-10 03:50:32.655797	2016-06-10 03:50:32.655797	\N	\N
+56	Alat Penyimpanan		\N	\N	2016-06-10 03:50:45.584401	2016-06-10 03:50:45.584401	\N	\N
+57	Dapur dan Meja Makan		\N	\N	2016-06-10 03:50:59.690227	2016-06-10 03:50:59.690227	\N	\N
+58	Kebutuhan Rumah Tangga		\N	\N	2016-06-10 03:51:12.383556	2016-06-10 03:51:12.383556	\N	\N
+59	Restoran		\N	\N	2016-06-10 03:51:30.688589	2016-06-10 03:51:30.688589	\N	\N
+60	Makanan Penutup dan Snack		\N	\N	2016-06-10 03:51:45.572972	2016-06-10 03:51:45.572972	\N	\N
+61	Spa dan Pijat	ecoupon	\N	\N	2016-06-10 03:52:00.768382	2016-06-26 06:43:42.548406	\N	\N
+62	Perawatan Kecantikan		\N	\N	2016-06-10 03:52:22.669531	2016-06-10 03:52:22.669531	\N	\N
+63	Olahraga dan Fitnes		\N	\N	2016-06-10 03:52:38.209392	2016-06-10 03:52:38.209392	\N	\N
+64	Fotograpi dan Pernikahan		\N	\N	2016-06-10 03:53:10.493091	2016-06-10 03:53:10.493091	\N	\N
+65	Taman Bermain dan Acara		\N	\N	2016-06-10 03:53:27.449137	2016-06-10 03:53:27.449137	\N	\N
+66	Pendidikan dan Seminar		\N	\N	2016-06-10 03:53:41.383037	2016-06-10 03:53:41.383037	\N	\N
+67	Kesehatan		\N	\N	2016-06-10 03:53:59.172868	2016-06-10 03:53:59.172868	\N	\N
+68	Perjalanan dan Akomodasi		\N	\N	2016-06-10 03:54:12.143804	2016-06-10 03:54:12.143804	\N	\N
+69	Lainnya		\N	\N	2016-06-10 03:54:33.322973	2016-06-10 03:54:33.322973	\N	\N
+70	Sayur Mayur		\N	\N	2016-06-10 03:54:54.18378	2016-06-10 03:54:54.18378	\N	\N
+71	Lauk Pauk		\N	\N	2016-06-10 03:55:10.173846	2016-06-10 03:55:10.173846	\N	\N
+72	Buah-Buahan		\N	\N	2016-06-10 03:55:26.530357	2016-06-10 03:55:26.530357	\N	\N
+73	Bumbu Dapur		\N	\N	2016-06-10 03:55:42.915983	2016-06-10 03:55:42.915983	\N	\N
+74	Bahan Masakan & Kue		\N	\N	2016-06-10 03:55:59.122794	2016-06-10 03:57:13.620055	\N	\N
+75	Makanan Kaleng		\N	\N	2016-06-10 03:56:23.452681	2016-06-10 03:57:00.263485	\N	\N
+76	Mie		\N	\N	2016-06-10 03:56:45.605219	2016-06-10 03:56:45.605219	\N	\N
+77	Sarapan		\N	\N	2016-06-10 03:57:29.521141	2016-06-10 03:57:29.521141	\N	\N
+78	Kudapan & Cemilan		\N	\N	2016-06-10 03:57:45.168425	2016-06-10 03:57:45.168425	\N	\N
+79	Permen		\N	\N	2016-06-10 03:58:00.853967	2016-06-10 03:58:00.853967	\N	\N
+80	Jajanan Pasar		\N	\N	2016-06-10 03:58:15.054674	2016-06-10 03:58:15.054674	\N	\N
+81	Susu		\N	\N	2016-06-10 03:58:30.168313	2016-06-10 03:58:30.168313	\N	\N
+82	Teh & Kopi		\N	\N	2016-06-10 03:58:46.284481	2016-06-10 03:58:46.284481	\N	\N
+83	Jus		\N	\N	2016-06-10 03:59:00.810422	2016-06-10 03:59:00.810422	\N	\N
+84	Minuman Ringan		\N	\N	2016-06-10 03:59:16.647603	2016-06-10 03:59:16.647603	\N	\N
+\.
+
+
+--
+-- Name: subcategories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('subcategories_id_seq', 92, true);
+
+
+--
+-- Data for Name: subsubcategories; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY subsubcategories (id, name, subcategory_id, created_at, updated_at, produk_id) FROM stdin;
+2	Obeng	50	2016-07-12 05:47:21.510681	2016-07-12 05:48:06.306219	\N
+\.
+
+
+--
+-- Name: subsubcategories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('subsubcategories_id_seq', 2, true);
+
+
+--
+-- Data for Name: tokos; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY tokos (id, nama_toko, provinsi, kota, kecamatan, agen1, agen2, agen3, agen4, agen5, agen6, agen7, slogan, deskripsi, alamat, status, tutup_sampai, toko_image, banner1, banner2, created_at, updated_at, user_id, banner3, kode_pos, catatan, terima_pembayaran1, terima_pembayaran2, terima_pembayaran3, kota_sebagai, slug) FROM stdin;
+9	Toko Kuda	5	501	6986	NO	NO	JNE-YES	NO	TIKI-ONS	NO	POS-EXPRESS	slogan			Tutup		IMG_0071.jpg	\N	\N	2016-06-05 02:15:56.082311	2016-07-12 13:55:40.62854	42	\N	332423		NO	KLIKBCA	NO	Yogyakarta	toko-kuda
+13	Jurang Velg Mobil	5	501	6986	JNE-REG	JNE-OKE	JNE-YES	TIKI-REG	TIKI-ONS	NO	NO	Jual Velg Mobil Original dan Second	Deskripsi Jual Velg Mobil Original dan Second	teste	Buka		shop.jpg	imaasges.jpg	\N	2016-06-16 08:45:12.835563	2016-07-12 13:58:36.946815	51	\N	15224		NO	KLIKBCA	NO	Yogyakarta	jurang-velg-mobil
+7	toko amanah	5	501	6986	JNE-REG	JNE-OKE	JNE-YES	TIKI-REG	TIKI-ONS	POS-SURAT KILAT KHUSUS	POS-EXPRESS NEXT DAY	Melayani dengan sepenuh hati	Menjual berbagai produk fashion dan Makanan. Pesan sekarang juga, FAST ORDER !	alamat lengkap	Buka	06/23/2016	cate-product5.png	\N	\N	2016-06-04 10:15:27.056168	2016-07-18 03:27:43.256536	13	\N	343432	comming soon	NO	KLIKBCA	NO	Yogyakarta	toko-amanah
+\.
+
+
+--
+-- Name: tokos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('tokos_id_seq', 14, true);
+
+
+--
+-- Data for Name: transactions; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY transactions (id, get, post, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Name: transactions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('transactions_id_seq', 13, true);
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: nitrous
+--
+
+COPY users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, sign_in_count, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, created_at, updated_at, namalengkap, nomor_handphone, is_female, date_of_birth, profil_image, confirmation_token, confirmed_at, confirmation_sent_at, admin, saldo, block, finance, general, provider, uid) FROM stdin;
+18	hua@gmail.com	$2a$11$m1twBvnxUjiQn6As/k6SY.GL/wCJ8i/tfbr80eubZbEDMOjB.ihiS	\N	\N	\N	1	2016-06-01 14:10:49.134563	2016-06-01 14:10:49.134563	54.251.49.8	54.251.49.8	2016-06-01 14:10:19.465504	2016-06-28 05:20:13.437572	dada ffdfs	44234234234	f	2016-06-01 00:00:00	aqw.jpg	i6w-2s3r1_frG2cu8V-n	2016-06-01 14:10:39.683959	2016-06-01 14:10:19.465794	f	0	f	f	f	\N	\N
+19	lupa@gmail.com	$2a$11$spXOICQotLHgZdz9MnEa3ucPFLQG.PnWvEHQH8CihAQ98zAuz99fu	\N	\N	\N	1	2016-06-01 14:23:36.168755	2016-06-01 14:23:36.168755	54.251.49.8	54.251.49.8	2016-06-01 14:22:58.284135	2016-06-01 14:23:36.170026	dasdas vxvxc	4534534534	t	\N	\N	ebJbfn1L3scgTKfzd6An	2016-06-01 14:23:17.379507	2016-06-01 14:22:58.284405	f	0	f	f	f	\N	\N
+22	ila@gmail.com	$2a$11$1IYOdGwTbiBEtPfTG/JCUecOEEnuIc9I5TD4yz3L372XeQqNeeKz2	\N	\N	\N	0	\N	\N	\N	\N	2016-06-01 14:40:05.733005	2016-06-01 14:40:51.756224	hunayah ijp	08989898734	f	\N	\N	zusNpMgtByri8BdDyq8P	2016-06-01 14:40:51.755438	2016-06-01 14:40:05.733262	f	0	f	f	f	\N	\N
+29	tembus@gmail.com	$2a$11$7ydrRXMPvz2YL4Zvpzh9KeMKViYjGdN3Ltr83wt0/f4ZiIctfRT5m	\N	\N	\N	0	\N	\N	\N	\N	2016-06-04 10:21:09.481681	2016-06-04 10:21:09.481681	Fitratul Hasanah	082213913	t	\N	\N	HYTzSV3raJjX-ozaEBxR	\N	2016-06-04 10:21:09.481981	f	0	f	f	f	\N	\N
+30	email@email.com	$2a$11$OYRQohcUZ78e8rGQlhYZ5usRna8dpdZfNN/4mVH8.bfTzo/C3.KMO	\N	\N	\N	0	\N	\N	\N	\N	2016-06-04 10:25:47.454857	2016-06-04 10:25:47.454857	Oni Mayak	9234893244	t	\N	\N	36R29mnu1HBy9MPxRvpi	\N	2016-06-04 10:25:47.455139	f	0	f	f	f	\N	\N
+31	dasdas@fakta.com	$2a$11$LGURqOV07wACwzE.Fku6FuvzTYzYfVMiRXcCufitqRXbior.YG7LO	\N	\N	\N	0	\N	\N	\N	\N	2016-06-04 10:29:00.302407	2016-06-28 07:34:28.391624	Yossava adhi	dsadas	t	\N	\N	su873Te4hsn6tCRRwD_7	\N	2016-06-04 10:29:00.302671	f	0	f	f	f	\N	\N
+43	surti@mailcatch.com	$2a$11$mGcVJ6TKh2TN4/H7pnPPu.XQ33rvuZN2Eu6/LsoHPux6R76JCII2S	\N	\N	\N	0	\N	\N	\N	\N	2016-06-05 11:03:41.776713	2016-06-05 11:03:41.776713	yossava adhi swatindra	08312938838	t	\N	\N	TGCxG6DZfTsGm2b8PAqN	\N	2016-06-05 11:03:41.777063	f	0	f	f	f	\N	\N
+45	prufrapula@thraml.com	$2a$11$tmv.6LR91hAYQTtjIfOjTuXUuWiD8MuZRmhQahVXkpAMkUYnPiFFi	\N	\N	\N	1	2016-06-05 11:18:50.72363	2016-06-05 11:18:50.72363	54.251.49.8	54.251.49.8	2016-06-05 11:17:41.774002	2016-06-05 11:56:02.036223	haji roma	994283423	f	2016-06-05 00:00:00	IMG_0071.jpg	ax6o9C3KnYNJgHtyjSKX	2016-06-05 11:18:28.867467	2016-06-05 11:17:41.774255	f	0	f	f	f	\N	\N
+49	buthusteta@thraml.com	$2a$11$773m3/BV8OYdC3QHUD15yu08UK5BO55VHk/u6NDyZioIh.Ty9BKWy	\N	\N	\N	1	2016-06-16 05:35:51.513052	2016-06-16 05:35:51.513052	54.251.49.8	54.251.49.8	2016-06-16 05:35:17.654823	2016-06-16 05:36:47.763281	terajana asa	545645645645	f	2016-06-16 00:00:00	c.jpg	vbNG2_oxXxYXfyqvyVwG	2016-06-16 05:35:37.192912	2016-06-16 05:35:17.655132	f	0	f	f	f	\N	\N
+50	frucidrasl@thraml.com	$2a$11$JSHE56TYhBdJBc7e6Wm9KeCXcXaV3azZqTfuKFBVEPYeBN2PFKYNK	\N	\N	\N	1	2016-06-16 05:48:29.435455	2016-06-16 05:48:29.435455	54.251.49.8	54.251.49.8	2016-06-16 05:47:51.136138	2016-06-16 05:48:29.436719	rete ada	434324324	t	\N	\N	-6dc_rYV7YYH4UXPAPYp	2016-06-16 05:48:19.953236	2016-06-16 05:47:51.136479	f	0	f	f	f	\N	\N
+52	ijahcatering@gmail.com	$2a$11$5j0.xhZ7DQpDwWF3Ej2qCuZiYGYEO9SwwFFyVApVflvly9lcdbXia	\N	\N	\N	1	2016-06-17 01:37:26.3284	2016-06-17 01:37:26.3284	54.251.49.8	54.251.49.8	2016-06-16 09:40:30.101902	2016-06-28 07:35:50.667804	Ijah CATering	089231230219323	t	\N	\N	EnF-ot_3p82DBhdfHxNs	2016-06-17 01:36:59.007641	2016-06-16 09:40:30.102246	f	0	f	f	f	\N	\N
+54	elias@mailcatch.com	$2a$11$X8085xVj6XBgMlb75KMDue.dhcADSuxGRe.e3uc4LVA.mMvtdNDsu	\N	\N	\N	0	\N	\N	\N	\N	2016-06-29 01:55:26.309603	2016-06-29 01:55:26.309603	elias	9834895	f	\N	\N	QHzecxidLy3ddXxqytCT	\N	2016-06-29 01:55:26.309967	f	0	f	f	f	\N	\N
+55	guna@mailcatch.com	$2a$11$BCBv4xoEDH5SCg1E3HNEBOuujvuzbhclKj5mseZ3jCf5VORrKwODe	\N	\N	\N	0	\N	\N	\N	\N	2016-06-29 01:58:55.191702	2016-06-29 01:58:55.191702	guna	9959438534	t	\N	\N	BxyUnedbqPtUdxRJyCNi	\N	2016-06-29 01:58:55.192001	f	0	f	f	f	\N	\N
+56	enim@mailcatch.com	$2a$11$GFb.uOVZFun2xLFRuD1QUe8pXtT8ZA7pjRxNQoJh4JgrEDZjvKYzO	\N	\N	\N	0	\N	\N	\N	\N	2016-06-29 02:02:12.547876	2016-06-29 02:02:12.547876	enim	456445	f	\N	\N	87EwCsUSNxi8wtSSZ_FP	\N	2016-06-29 02:02:12.548231	f	0	f	f	f	\N	\N
+57	erik@mailcatch.com	$2a$11$XKEXJQdEdOuFalHG1ovK2ejMI543i5ZLaWf46LdIl2tmkQOGd5.62	\N	\N	\N	0	\N	\N	\N	\N	2016-06-29 02:06:08.656689	2016-06-29 02:06:08.656689	erik	723943294	f	\N	\N	Eu-xjtjbVFMxdwc36jFr	\N	2016-06-29 02:06:08.657083	f	0	f	f	f	\N	\N
+58	false@mailcatch.com	$2a$11$rn9Ehxy8deWahOzq.DjzP.Ji5pEqyKzsOrdOM4jYzCYUAK4Ble262	\N	\N	\N	0	\N	\N	\N	\N	2016-06-29 02:11:47.671399	2016-06-29 02:11:47.671399	false	9394839443	f	\N	\N	r-3ZrASKUTfs-2u17Ep3	\N	2016-06-29 02:11:47.671674	f	0	f	f	f	\N	\N
+59	kial@mailcatch.com	$2a$11$TzLJhBCFrtH1myZ6FrYIW.e4gKA7xppy8tvE/jF2MIIZW6sPzYO92	\N	\N	\N	0	\N	\N	\N	\N	2016-06-29 02:13:04.31767	2016-06-29 02:13:04.31767	kial	9848923	f	\N	\N	k3yzqqpmwp_Sz9S4zte4	\N	2016-06-29 02:13:04.318047	f	0	f	f	f	\N	\N
+60	lina@mailcatch.com	$2a$11$ZGWSwZMiyRbAfUB/Yx8.l.HpWULvNVRf4O51QpsdyqMQNoSz24FGG	\N	\N	\N	0	\N	\N	\N	\N	2016-06-29 02:35:41.250852	2016-06-29 02:35:41.250852	lina	543534	f	\N	\N	_-Az3a2hxGwWAaxmj_DZ	\N	2016-06-29 02:35:41.251264	f	0	f	f	f	\N	\N
+14	asdgdgsadg@dasdas.com	$2a$11$vzmueFTXhCPpHM.oPBXlc.fTguiLRL8IPcMUKAPP.2qSjna0aZsLS	\N	\N	\N	1	2016-06-01 07:20:00.982486	2016-06-01 07:20:00.982486	54.251.49.8	54.251.49.8	2016-06-01 07:20:00.970522	2016-07-11 12:52:06.479151	Kalam	0829329382	f	1980-04-29 00:00:00	chop.png	\N	\N	\N	f	0	f	f	f	\N	\N
+94	kilas@mailcatch.com	$2a$11$LBSWKoFj4uge/7yrLA0TLewJepJuw/Hia6NpJdeoKPI0VCNKSpqNe	\N	\N	\N	10	2016-07-11 12:27:05.87068	2016-07-11 12:27:05.425251	54.251.49.8	54.251.49.8	2016-06-29 02:41:40.03033	2016-07-11 12:53:28.713301	kila	324324	f	\N	\N	aujF_yqevyeBHayf72Js	2016-07-11 12:20:38.934476	2016-06-29 02:41:40.030566	f	0	t	f	f	\N	\N
+17	kalam@gmail.com	$2a$11$Uy7oAXQrztmyaLhXvWF3c..ougrqbbtYUC16cJzGvMK3aERd6Cslq	\N	\N	\N	0	\N	\N	\N	\N	2016-06-01 14:07:25.132885	2016-07-11 13:53:51.829912	jika mana	098989898	t	\N	\N	mUbvgBmMiTxdnYCxQ8Bw	\N	2016-06-01 14:07:25.133173	f	0	t	f	f	\N	\N
+42	tokenlr4@gmail.com	$2a$11$r/5exkSyKPWmkPzkubImw.ixJplorARqW/17iOy.X5VElNs9WiGyu	\N	\N	\N	2	2016-07-12 13:54:10.010574	2016-06-04 12:25:14.138986	54.251.49.8	54.251.49.8	2016-06-04 12:24:04.066811	2016-07-12 13:54:10.016657	Fitra Swatindra	082221363131	t	1993-03-30 00:00:00	aqw.jpg	kseda29smj_7bnzews9X	2016-06-04 12:24:36.837846	2016-06-04 12:24:04.067085	f	0	f	f	f	\N	\N
+51	yudi@if-kom.com	$2a$11$jI/0r0kUqcLg3KW2obeckOEVdGLH9QQc80v7yMhWuX1n6gB3xJMEy	\N	\N	\N	4	2016-07-13 09:19:04.573137	2016-07-13 09:07:07.180551	54.251.49.8	54.251.49.8	2016-06-16 08:43:03.922126	2016-07-13 09:19:04.575857	yudi	08780948	f	2016-06-16 00:00:00	Koala.jpg	47yYda3kaRFidfLyYyJb	2016-06-16 08:43:22.393583	2016-06-16 08:43:03.922449	f	0	f	f	f	\N	\N
+32	sumi@mailcatch.com	$2a$11$8kH22jqHE98XbvPtjDsiC.oQGl0MpwfSdMvVh27NLXLdXgy5Lhdfm	\N	\N	\N	0	\N	\N	\N	\N	2016-06-04 10:47:33.315094	2016-07-13 03:47:40.013544	Ahmad Dahlan	4543543	t	\N	\N	byAi_DnssFczTyZTK2RL	\N	2016-06-04 10:47:33.315401	t	0	f	t	f	\N	\N
+93	geek@mailcatch.com	$2a$11$5XtKXFktinQfP3kYa5FgfeFUDPEPXnPlQi4ER1X.nLNqewOJy0sy2	\N	\N	\N	0	\N	\N	\N	\N	2016-06-29 02:38:26.344667	2016-07-13 03:48:49.6329	geek	99898989	f	\N	\N	bM6ZNyT2yD2Lf9jMKF11	\N	2016-06-29 02:38:26.345078	t	0	f	f	t	\N	\N
+112	yossava@masukanemailanda.com	$2a$11$n33H5fHO83FaSYlFJgqZ/OLIJMdo3rbl7zuEL0oDRvV5UMSBunx9O	\N	\N	\N	1	2016-07-19 07:34:09.026641	2016-07-19 07:34:09.026641	54.251.49.8	54.251.49.8	2016-07-19 07:34:09.003456	2016-07-19 07:34:09.028028	Yossava	\N	f	\N	10817835_1561091210773495_1810896596_a.jpg	\N	2016-07-19 07:34:08.996464	\N	f	0	f	f	f	instagram	1482972822
+13	gooday@mailcatch.com	$2a$11$wLAJPZi4Bq3C6Co4bvRXaOiJB/SoB4VeHiLXkdgeOzz9ApZLn1OCW	\N	\N	\N	88	2016-07-24 01:15:32.424813	2016-07-23 01:24:06.165377	54.251.49.8	54.251.49.8	2016-05-31 03:59:59.129239	2016-07-24 02:22:23.51206	Avana Jaya	3435345345	f	1973-03-17 00:00:00	SEVILLA-CARD.png	a3NhziDA_7LA47ZhyfxJ	2016-06-01 14:09:15.915329	2016-06-01 14:08:53.387102	t	1055100	f	f	f	\N	\N
+116	reak@mailcatch.com	$2a$11$KndEL8PDVKdwX8JrXcfYnuZTEcKF9ijCs61dG2/86OaT402xK/bXK	\N	\N	\N	0	\N	\N	\N	\N	2016-07-22 02:38:00.514832	2016-07-22 02:38:00.514832	dsdsds	43	f	\N	\N	FfxHy7sUyNZyv_QJWgvY	\N	2016-07-22 02:38:00.51559	f	0	f	f	f	\N	\N
+113	triwulandari1234@gmail.com	$2a$11$dEzGUnJbpzpJ3ccosTnPKujRS/ztBc6GRM1CGiGkqy9vlaK5MrHmK	\N	\N	\N	1	2016-07-19 07:34:25.242518	2016-07-19 07:34:25.242518	54.251.49.8	54.251.49.8	2016-07-19 07:34:25.165398	2016-07-19 07:34:25.243865	Online Solution	\N	f	\N	photo.jpg	\N	2016-07-19 07:34:25.16146	\N	f	0	f	f	f	google_oauth2	100618324140101689920
+114	yossava-adhi@masukanemailanda.com	$2a$11$NOSYNubNDkIY8fkBldAiyOyjdf06MPgrhM8aefc.D/zbTXWDxttym	\N	\N	\N	1	2016-07-19 07:34:53.051531	2016-07-19 07:34:53.051531	54.251.49.8	54.251.49.8	2016-07-19 07:34:53.040363	2016-07-19 07:34:53.052955	Yossava Adhi	\N	f	\N	d_qtm0Gi_normal.jpeg	\N	2016-07-19 07:34:53.036289	\N	f	0	f	f	f	twitter	339717997
+115	vcckaskus@gmail.com	$2a$11$kzy4lyOFIKHGt/eQYjoM9erC2Jby/m3dKn4ifD9mmckfCE/lstP3e	\N	\N	\N	1	2016-07-19 07:35:07.088271	2016-07-19 07:35:07.088271	54.251.49.8	54.251.49.8	2016-07-19 07:35:07.075986	2016-07-19 07:35:07.089697	Yossava Swatindra	\N	f	\N	10444511_10203573105482429_1745567900714534851_n.jpg	\N	2016-07-19 07:35:07.071662	\N	f	0	f	f	f	facebook	10208601057298082
+117	pol@mailcatch.com	$2a$11$NQcOwnXozkfUDdsz24acDuMHrcTjl67M.VxIy.bDWBBETduara9X6	\N	\N	\N	0	\N	\N	\N	\N	2016-07-22 02:44:46.126062	2016-07-22 02:44:46.126062	dsad	dsadas	f	\N	\N	M1RWYr2szKK9UvZYEtyt	\N	2016-07-22 02:44:46.126357	f	0	f	f	f	\N	\N
+118	ter@mailcatch.com	$2a$11$ZZDck3xcpUFNy1REJcWoJ.iq0tctlNnp0l3RHhfljIiTrt6.vRvmS	\N	\N	\N	0	\N	\N	\N	\N	2016-07-22 02:45:35.918	2016-07-22 02:45:35.918	dsds	dsds	f	\N	\N	5RxbqnaXX6AhWrL1Ho5q	\N	2016-07-22 02:45:35.918247	f	0	f	f	f	\N	\N
+119	fer@mailcatch.com	$2a$11$laQXQumGfg0xmYzStTf8huJ95uVP.sJD0UmkGmRQEd/Z7oPoVm4fi	\N	\N	\N	0	\N	\N	\N	\N	2016-07-22 02:46:37.785327	2016-07-22 02:46:37.785327	sds	dsd	f	\N	\N	uo9i44uPb8GJ28465rg9	\N	2016-07-22 02:46:37.785604	f	0	f	f	f	\N	\N
+120	rin@mailcatch.com	$2a$11$KAB8J7NDoILge9QqEAZGHO9qbreShpT/Z5fjCOlIpZ5nvfK0kqEIe	\N	\N	\N	0	\N	\N	\N	\N	2016-07-22 02:48:27.068158	2016-07-22 02:48:27.068158	dasdas	dsadsd	f	\N	\N	CYasMLoswq4J-z_QpvN3	\N	2016-07-22 02:48:27.068411	f	0	f	f	f	\N	\N
+121	wq@mailcatch.com	$2a$11$MEppVt1lep5nNDcLM0AY5eLoULCl/LYKDguKqiWem1VfjcJJcv7.S	\N	\N	\N	0	\N	\N	\N	\N	2016-07-22 02:51:05.905764	2016-07-22 02:51:05.905764	sdsd	dasdas	f	\N	\N	HkprAJTajonAF2nwhtjg	\N	2016-07-22 02:51:05.906048	f	0	f	f	f	\N	\N
+122	were@mailcatch.com	$2a$11$AeZ8yBrtRBnRttysNIWhXOTh6ZBg4TjEFAyJ/BHR04xSZ2weLXm8S	\N	\N	\N	0	\N	\N	\N	\N	2016-07-23 02:36:49.734548	2016-07-23 02:36:49.734548	dasdas	dsadas	f	\N	\N	S_W7AHsqpgp_qH4gqyzs	\N	2016-07-23 02:36:49.734828	f	0	f	f	f	\N	\N
+123	top@mailcatch.com	$2a$11$f1s/O96nPLe3vKBJcRfNquBEQERMQxp9W5bMHd07k9j/8w8wa3CK2	\N	\N	\N	1	2016-07-23 02:40:35.996632	2016-07-23 02:40:35.996632	54.251.49.8	54.251.49.8	2016-07-23 02:39:08.088267	2016-07-23 02:40:35.997957	cxc	454545	f	\N	\N	zxnsjBV6nDrLthAxt5Mt	2016-07-23 02:40:17.498734	2016-07-23 02:39:08.088541	f	0	f	f	f	\N	\N
+16	hana@mailcatch.com	$2a$11$oLFX5SmiCFIXF9WVGkWm4.Ne7Pw3xLd3o0pxsw0t9addpIkJfvbma	\N	\N	\N	44	2016-07-24 01:24:25.661043	2016-07-22 12:55:46.671926	54.251.49.8	54.251.49.8	2016-06-01 13:54:49.779497	2016-07-24 01:24:25.663332	Yossava Adhi	81212121	f	2008-03-01 00:00:00	SEVILLA-CARD.png	hdXcHMFVAA4vVxb_aDaE	2016-06-01 13:55:29.437207	2016-06-01 13:54:49.779932	f	0	f	f	f	\N	\N
+\.
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nitrous
+--
+
+SELECT pg_catalog.setval('users_id_seq', 123, true);
+
+
+--
+-- Name: akuns_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY akuns
+    ADD CONSTRAINT akuns_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: alamats_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY alamats
+    ADD CONSTRAINT alamats_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: carts_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY carts
+    ADD CONSTRAINT carts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY categories
+    ADD CONSTRAINT categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: categories_subcategories_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY categories_subcategories
+    ADD CONSTRAINT categories_subcategories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: favorite_produks_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY favorite_produks
+    ADD CONSTRAINT favorite_produks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: feedbacks_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY feedbacks
+    ADD CONSTRAINT feedbacks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: financelogs_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY financelogs
+    ADD CONSTRAINT financelogs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: friendly_id_slugs_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY friendly_id_slugs
+    ADD CONSTRAINT friendly_id_slugs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: homeitems_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY homeitems
+    ADD CONSTRAINT homeitems_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: impressions_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY impressions
+    ADD CONSTRAINT impressions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: newsletters_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY newsletters
+    ADD CONSTRAINT newsletters_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pets_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY pets
+    ADD CONSTRAINT pets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: produks_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY produks
+    ADD CONSTRAINT produks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: rekenings_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY rekenings
+    ADD CONSTRAINT rekenings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY sessions
+    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: statics_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY statics
+    ADD CONSTRAINT statics_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY statuses
+    ADD CONSTRAINT statuses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: subcategories_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY subcategories
+    ADD CONSTRAINT subcategories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: subsubcategories_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY subsubcategories
+    ADD CONSTRAINT subsubcategories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tokos_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY tokos
+    ADD CONSTRAINT tokos_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY transactions
+    ADD CONSTRAINT transactions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: nitrous
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: controlleraction_ip_index; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE INDEX controlleraction_ip_index ON impressions USING btree (controller_name, action_name, ip_address);
+
+
+--
+-- Name: controlleraction_request_index; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE INDEX controlleraction_request_index ON impressions USING btree (controller_name, action_name, request_hash);
+
+
+--
+-- Name: controlleraction_session_index; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE INDEX controlleraction_session_index ON impressions USING btree (controller_name, action_name, session_hash);
+
+
+--
+-- Name: impressionable_type_message_index; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE INDEX impressionable_type_message_index ON impressions USING btree (impressionable_type, message, impressionable_id);
+
+
+--
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type ON friendly_id_slugs USING btree (slug, sluggable_type);
+
+
+--
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE UNIQUE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope ON friendly_id_slugs USING btree (slug, sluggable_type, scope);
+
+
+--
+-- Name: index_friendly_id_slugs_on_sluggable_id; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE INDEX index_friendly_id_slugs_on_sluggable_id ON friendly_id_slugs USING btree (sluggable_id);
+
+
+--
+-- Name: index_friendly_id_slugs_on_sluggable_type; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE INDEX index_friendly_id_slugs_on_sluggable_type ON friendly_id_slugs USING btree (sluggable_type);
+
+
+--
+-- Name: index_impressions_on_user_id; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE INDEX index_impressions_on_user_id ON impressions USING btree (user_id);
+
+
+--
+-- Name: index_produks_on_slug; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE UNIQUE INDEX index_produks_on_slug ON produks USING btree (slug);
+
+
+--
+-- Name: index_sessions_on_session_id; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE UNIQUE INDEX index_sessions_on_session_id ON sessions USING btree (session_id);
+
+
+--
+-- Name: index_sessions_on_updated_at; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE INDEX index_sessions_on_updated_at ON sessions USING btree (updated_at);
+
+
+--
+-- Name: index_statics_on_slug; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE UNIQUE INDEX index_statics_on_slug ON statics USING btree (slug);
+
+
+--
+-- Name: index_tokos_on_slug; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE UNIQUE INDEX index_tokos_on_slug ON tokos USING btree (slug);
+
+
+--
+-- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (confirmation_token);
+
+
+--
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+
+
+--
+-- Name: poly_ip_index; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE INDEX poly_ip_index ON impressions USING btree (impressionable_type, impressionable_id, ip_address);
+
+
+--
+-- Name: poly_request_index; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE INDEX poly_request_index ON impressions USING btree (impressionable_type, impressionable_id, request_hash);
+
+
+--
+-- Name: poly_session_index; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE INDEX poly_session_index ON impressions USING btree (impressionable_type, impressionable_id, session_hash);
+
+
+--
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: nitrous
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

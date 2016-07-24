@@ -1,0 +1,96 @@
+<div class="wrapper">
+
+  <%= render 'admins/topbar' %>
+  <!-- Left side column. contains the logo and sidebar -->
+  <%= render 'admins/sidebar' %>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Category Lists
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Finance</a></li>
+        <li class="active">Fee Setting</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+         <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Global Fee</h3>
+              <p>Current Setting: <span class="label label-success"> Fee (%) : <%= @homeitem.text1 %>%</span> | <span class="label label-primary">Fee (Rp) : Rp <%= @homeitem.text2 %></span></p>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+
+              <%= form_for(@homeitem) do |f| %>
+              <div class="box-body">
+                <div class="form-group col-xs-6">
+                  <label for="exampleInputEmail1">Global Fee %</label>
+                  <%= f.text_field :text1, class: "form-control one" , required: "required" %>
+                </div>
+                <div class="form-group col-xs-6">
+                  <label for="exampleInputEmail1">Global Fee Rp</label>
+                  <%= f.text_field :text2, class: "form-control two", required: "required" %>
+                </div>
+                <div class="form-group col-xs-12">
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                <div class="col-xs-12">
+                  <p><strong>Keterangan</strong>
+                    <br>1. Pada fee % nilai desimal menggunakan titik, cth: 2.3, 2.0 atau 2
+                    <br>2. Pada fee Rp, hanya menggunakan bilangan bulat, cth 100, 5400 atau 13000
+                    <br>3. Gunakan hanya salah satu jenis fee, fee yang tidak aktif bernilai 0
+                    <br>4. Untuk menonaktifkan fee, set ke-dua nilai menjadi 0
+                    <br>5. Fee % yang diijinkan antara 0.0 sampai 100.0
+                    <br>6. Fee Rp yang diijinkan antara 101 sampai ~
+                  </p>
+                </div>
+              </div>
+              <!-- /.box-body -->
+
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+  </footer>
+
+
+</div>
+<!-- page script -->
+<% if notice.to_s.include? "Fee" %>
+<script>
+$(function () {
+    $.notiny({ text: "<%= notice %>", position: 'right-top' });
+  });
+</script>
+<% end %>
+<script>
+$(document).on('ready page:load', function () {
+$( ".one" ).change(function() {
+        var a = 0;
+        $('.two').val(a);
+    });
+});
+</script>
+<script>
+$(document).on('ready page:load', function () {
+$( ".two" ).change(function() {
+        var a = 0;
+        $('.one').val(a);
+    });
+});
+</script>

@@ -58,7 +58,7 @@
 									<p class="invoice">Invoice : <strong><%= t.invoice %></strong></p>
 									<p class="dtime-transaksi">Tanggal Transaksi : <%= t.created_at.in_time_zone("Jakarta").strftime("%d-%m-%Y %H:%M") %> WIB</p>
 									<p style="text-transform:capitalize;" >Pembelian dari Toko : <strong><%= Toko.find(t.toko_id).nama_toko %></strong></p>
-									<p class="ttl-tagihan">Total Tagihan : <strong><%= t.subtotal %></strong></p>
+									<p class="ttl-tagihan">Total Tagihan : <strong><%= number_to_currency(t.subtotal, locale: :id) %></strong></p>
 									<p>Status Pemesanan : <strong class="statusorder past">Transaksi Selesai</strong> &nbsp; <em class="notepesanan">*Pesanan Anda telah tiba di tempat tujuan</em></p>
 									<p class="ttl-tagihan">Nomor Resi Pesanan : <strong><%= t.resi %></strong></p>
 									<div class="spacermedium"></div>
@@ -71,11 +71,17 @@
 											<div class="col-md-6 lpwp">
 												<span class="imglpwp"><img src="<%= Produk.find(t.produk_id).foto_produk1.url %>" class="responsiveimg"></span>
 												<h4><%= Produk.find(t.produk_id).nama_produk %></h4>
-												<p><%= t.jumlah %> X <%= number_to_currency((t.subtotal - t.ongkir) / t.jumlah, locale: :id) %></p>
+												<p><%= t.jumlah %> X <%= number_to_currency(t.harga, locale: :id) %></p>
 											</div>
 											<div class="col-md-3">
 												<label>Subtotal</label>
-												<p><%= number_to_currency(t.subtotal - t.ongkir, locale: :id) %></p>
+												<p><%= number_to_currency(t.harga * t.jumlah, locale: :id) %></p>
+                        <% if t.fee > 0 && t.fee < 101 %>
+                        <p>+fee: <%= t.fee %>% / item</p>
+                        <% end %>
+                        <% if t.fee > 100 %>
+                        <p>+fee: <%= number_to_currency(t.fee, locale: :id) %> / item</p>
+                        <% end %>
 											</div>
 											<div class="col-md-3">
 												<label>Ongkir</label>
@@ -102,7 +108,7 @@
 										<hr style="border-color:#ddd;"></hr>
 										<div class="row">
 											<div class="col-md-12" style="text-align:right;font-size:18px;">
-												<label class="typeorange">Total : <%= t.subtotal %></label>
+												<label class="typeorange">Total : <%= number_to_currency(t.subtotal, locale: :id) %></label>
 											</div>
 										</div>
 									</div>

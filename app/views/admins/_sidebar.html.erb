@@ -64,6 +64,7 @@
           <ul class="treeview-menu">
             <li <% if params[:action] == "finance" %> class="active" <% end %> ><a data-no-turbolink="true" href="/admin/finance"><i class="fa fa-circle-o"></i> Unpaid Balance</a></li>
             <li <% if params[:action] == "financelogs" %> class="active" <% end %> ><a data-no-turbolink="true" href="/admin/financelogs"><i class="fa fa-circle-o"></i> Finance Logs</a></li>
+            <li <% if params[:action] == "fee" %> class="active" <% end %> ><a data-no-turbolink="true" href="/admin/fee"><i class="fa fa-circle-o"></i> Fee Setting</a></li>
           </ul>
         </li>
 
@@ -72,9 +73,19 @@
             <i class="fa fa-trophy" aria-hidden="true"></i> <span>Top Product</span>
           </a>
         </li>
+        <li class="treeview <% if params[:action] == "promoproduct" %> active <% end %>">
+          <a data-no-turbolink="true" href="/admin/promoproduct">
+            <i class="fa fa-trophy" aria-hidden="true"></i> <span>Promo Product</span>
+          </a>
+        </li>
         <li class="treeview <% if params[:action] == "general" %> active <% end %>">
           <a data-no-turbolink="true" href="/admin/general">
             <i class="fa fa-cogs" aria-hidden="true"></i> <span>General Setting</span>
+          </a>
+        </li>
+        <li class="treeview <% if params[:action] == "email" %> active <% end %>">
+          <a data-no-turbolink="true" href="/admin/email">
+            <i class="fa fa-envelope-o" aria-hidden="true"></i> <span>Email Template</span>
           </a>
         </li>
         <li class="treeview <% if params[:action] == "newsletter" %> active <% end %>">

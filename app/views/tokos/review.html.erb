@@ -51,8 +51,10 @@
 					<p class="shortse_toko">
 						<span class="quote_toko"><i class="fa fa-quote-left"></i></span> <%= @toko.deskripsi %>
 					</p>
+          <%  if user_signed_in? %>
           <% if current_user.id == @toko.user_id %>
 					<a href="<%= edit_toko_path %>" class="linktokoedit"><i class="fa fa-cog"></i> Setting</a>
+          <% end %>
           <% end %>
 				</div>
 			</div>
@@ -70,7 +72,7 @@
 					<section class="ctnUlasan intoko">
 
 						<ul>
-              <% @toko.feedbacks.each do |t| %>
+              <% @review.each do |t| %>
 							<li>
 								<div class="ft-produk-onsulasan">
 									<a href="#"><img src="<%= t.produk.foto_produk1.url %>" class="responsiveimg"></a>
@@ -98,14 +100,10 @@
 
 			</div>
 			<div class="pagingarea">
-				<ul class="pagination pagination-sm">
-					<li class="active"><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-				</ul>
-				<p class="typelight">Menampilkan 1-15 dari 75 Produk</p>
+				<div class="halaman">
+            <%= will_paginate @review %>
+            </div>
+						<p class="typelight"><%= page_entries_info @review %></p>
 			</div>
 		</div>
 

@@ -82,11 +82,16 @@ class ProduksController < ApplicationController
   def index
     @produks = Produk.all
     @myproduks = current_user.produks.paginate(:page => params[:page], :per_page => 5)
+    if params[:search]
+      @myproduks = @myproduks.mysearch(params[:search]).paginate(:page => params[:page], :per_page => 5)
+    end
   end
 
   # GET /produks/1
   # GET /produks/1.json
     def show
+      impressionist(@produk)
+      @feedbacks = @produk.feedbacks.paginate(:page => params[:page], :per_page => 10)
 
       if user_signed_in?
         FavoriteProduk.where(:user_id => current_user.id, :produk_id => @produk.id).each do |del|

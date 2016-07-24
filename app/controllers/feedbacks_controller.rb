@@ -43,7 +43,9 @@ class FeedbacksController < ApplicationController
     end
     mycart = @donecart
     status = "Telah Diterima Buyer, Transaksi selesai"
-    Notifikasi.sample_email(current_user, mycart, status).deliver_later
+    subject = Homeitem.find(27).text2
+    subject2 = Homeitem.find(27).text4
+    Notifikasi.transaksi_selesai(mycart, subject, subject2).deliver_later
 
     respond_to do |format|
       if @feedback.save

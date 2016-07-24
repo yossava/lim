@@ -1,4 +1,5 @@
 class Produk < ActiveRecord::Base
+  is_impressionable
   before_create :alter_my_data
   before_update :alter_my_data
   before_create :hitung_diskon
@@ -21,6 +22,10 @@ class Produk < ActiveRecord::Base
   before_create :alter_my_data
 
     def self.search(search)
+      search = search.downcase
+      where("lower(deskripsi_lengkap) LIKE :search OR lower(nama_produk) LIKE :search", search: "%#{search}%")
+    end
+    def self.mysearch(search)
       search = search.downcase
       where("lower(deskripsi_lengkap) LIKE :search OR lower(nama_produk) LIKE :search", search: "%#{search}%")
     end

@@ -49,22 +49,11 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<form>
+							<%= form_tag(konfirmasi_pengiriman_path, :method => "get") do %>
 								<div class="row">
-									<div class="col-md-4 listfmxx">
+									<div class="col-md-7 listfmxx">
 										<div class="form-row">
-											<input type="text" name="" id="nmtoko" placeholder="Invoice / Nama Pembeli">
-										</div>
-									</div>
-									<div class="col-md-3 listfmxx">
-										<div class="form-row styledfmrow">
-											<select>
-												<option>Batal Otomatis</option>
-												<option>Hari Ini</option>
-												<option>Besok</option>
-												<option>2 Hari Lagi</option>
-												<option>3 Hari Lagi</option>
-											</select>
+											<input type="text" name="sellersearch" id="nmtoko" placeholder="Invoice / TRX ID" value="<%= params[:sellersearch] %>">
 										</div>
 									</div>
 									<div class="col-md-3 listfmxx">
@@ -73,14 +62,14 @@
 										</div>
 									</div>
 								</div>
-							</form>
+							<% end %>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12 wraplist-neworder">
 							<ul>
                 <% if @stroli7 %>
-                <% @stroli7.each do |s| %>
+                <% @strolies.where(:state => 7, :expired => false).each do |s| %>
 								<li>
 									<div class="row">
 										<div class="col-md-3">
@@ -91,6 +80,7 @@
 										<div class="col-md-9 rightneworder-ctn">
 											<p class="title"><strong><%= number_to_currency(s.subtotal, locale: :id) %></strong> &nbsp; <a href="#" class="">  <%= s.invoice %></a></p>
 											<p class="tgln"><span>Tanggal Transaksi: <%= s.created_at.in_time_zone("Jakarta").strftime("%d-%m-%Y %H:%M") %> WIB</span></p>
+                      <p class="tgln">TRX ID: <span><%= s.txid %></span></p>
 											<div class="row">
 												<div class="col-md-12">
 													<div class="wrapdtkonf">
@@ -102,11 +92,17 @@
 											<div class="col-md-6 lpwp">
 												<span class="imglpwp"><img src="<%= Produk.find(s.produk_id).foto_produk1.url %>" class="responsiveimg"></span>
 												<h4><%= Produk.find(s.produk_id).nama_produk %></h4>
-												<p><%= s.jumlah %> X <%= number_to_currency((s.subtotal - s.ongkir) / s.jumlah, locale: :id) %></p>
+												<p><%= s.jumlah %> X <%= number_to_currency(s.harga, locale: :id) %></p>
 											</div>
 											<div class="col-md-3">
 												<label>Subtotal</label>
-												<p><%= number_to_currency(s.subtotal - s.ongkir, locale: :id) %></p>
+												<p><%= number_to_currency(s.harga * s.jumlah, locale: :id) %></p>
+                        <% if s.fee > 0 && s.fee < 101 %>
+                        <p>+fee: <%= s.fee %>% / item</p>
+                        <% end %>
+                        <% if s.fee > 100 %>
+                        <p>+fee: <%= number_to_currency(s.fee, locale: :id) %> / item</p>
+                        <% end %>
 											</div>
 											<div class="col-md-3">
 												<label>Ongkir</label>
@@ -133,7 +129,7 @@
 														<hr style="border-color:#ddd;"></hr>
 														<div class="row">
 															<div class="col-md-12" style="text-align:right;font-size:18px;">
-																<label class="typeorange">Total : <%= s.subtotal %></label>
+																<label class="typeorange">Total : <%= number_to_currency(s.subtotal, locale: :id) %></label>
 															</div>
 														</div>
 													</div>
@@ -156,16 +152,21 @@
                 <% end %>
 							</ul>
 						</div>
-						<div class="col-md-12">
-							<p class="typelight">Menampilkan 1-3 dari 3 transaksi</p>
+            <div style="margin-left:15px;" class="col-md-12">
+                  <div class="halaman">
+                  <%= will_paginate @strolies %>
+                  </div>
 						</div>
+            <div style="margin-left:15px;" class="col-md-12">
+                <p class="typelight"><%= page_entries_info @strolies %></p>
+            </div>
 					</div>
 				</div>
 			</div>
 
 			<!--Modal Form Konfirmasi Pengiriman-->
       <% if @stroli7 %>
-      <% @stroli7.each do |s| %>
+      <% @strolies.where(:state => 7, :expired => false).each do |s| %>
 			<div class="modal fade" id="pengirimanMD<%= s.id %>" role="dialog">
 				<div class="modal-dialog modal-md">
 					<div class="modal-content">
@@ -218,7 +219,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="form-row">
+									<div class="form-row hide">
 										<label for="tgpng">Tanggal Pengiriman</label>
 										<div class="row" id="tgpng">
 											<div class="col-md-4">
@@ -301,7 +302,7 @@
 										</div>
 									</div>
 									<div class="form-row reg">
-                    <a href="/konfirmasi-pengiriman/<%= s.id %>" class="gosignin blokmbl">Konfirmasi</a>
+                    <a href="/konfirmasi_pengiriman/<%= s.id %>" class="gosignin blokmbl">Konfirmasi</a>
 									</div>
 								</div>
 							</div>

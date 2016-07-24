@@ -10,7 +10,9 @@ class HomeController < ApplicationController
         Cart.find(c.id).update(:expired => true)
         status = "Pesanan telah dibatalkan otomatis"
         mycart = c
-        Notifikasi.sample_email(current_user, mycart, status).deliver_later
+        subject = Homeitem.find(28).text2
+        subject2 = Homeitem.find(28).text4
+        Notifikasi.batal_otomatis(mycart, subject, subject2).deliver_later
       end
     end
     Cart.where(:state => 2).each do |c|
@@ -53,6 +55,75 @@ class HomeController < ApplicationController
     @pro4 = Produk.where(:att => 1)
   end
   def profil
+  end
+  def konfirmasi_pengiriman
+    if params[:sellersearch]
+      @strolies = Cart.where("seller_id = ? AND state = ?", current_user.id, 7).search(params[:sellersearch]).paginate(:page => params[:page], :per_page => 10)
+    end
+  end
+  def daftar_transaksi
+    if params[:sellersearch]
+      if params[:tglawal] != ""
+      @tglawal = Time.strptime(params[:tglawal],"%m/%d/%Y")
+        else
+      @tglawal = Time.strptime("01/01/2015","%m/%d/%Y")
+      end
+      if params[:tglakhir] != ""
+      @tglakhir = Time.strptime(params[:tglakhir],"%m/%d/%Y")
+        else
+      @tglakhir = Date.current
+      end
+      @trolies = Cart.where("user_id = ? AND created_at > ? AND created_at < ?", current_user.id, @tglawal, @tglakhir).search(params[:sellersearch]).paginate(:page => params[:page], :per_page => 10)
+    end
+    if params[:status] == "Menunggu Konfirmasi"
+      @trolies = Cart.where(:user_id => current_user.id, :state => 2).paginate(:page => params[:page], :per_page => 10)
+      elsif params[:status] == "Dalam Diproses"
+       @trolies = Cart.where(:user_id => current_user.id, :state => 3).paginate(:page => params[:page], :per_page => 10)
+      elsif params[:status] == "Sudah Dikirim"
+       @trolies = Cart.where(:user_id => current_user.id, :state => 4).paginate(:page => params[:page], :per_page => 10)
+      elsif params[:status] == "Transaksi Selesai"
+       @trolies = Cart.where(:user_id => current_user.id, :state => [5,6]).paginate(:page => params[:page], :per_page => 10)
+      elsif params[:status] == "Transaksi Ditolak"
+       @trolies = Cart.where(:user_id => current_user.id, :state => 8).paginate(:page => params[:page], :per_page => 10)
+    end
+  end
+  def pesanan_baru
+    if params[:batal] == "Besok"
+      @batal = Date.current - 2.days
+      elsif params[:batal] == "2 Hari Lagi"
+      @batal = Date.current - 1.days
+      elsif params[:batal] == "3 Hari Lagi"
+      @batal = Date.current
+      else
+      @batal = Date.current - 20.days
+    end
+    if params[:sellersearch]
+      @trolies = Cart.where("user_id = ? AND created_at > ? AND state = ?", current_user.id, @batal, 3).search(params[:sellersearch]).paginate(:page => params[:page], :per_page => 10)
+    end
+  end
+  def daftar_penjualan
+    if params[:sellersearch]
+      if params[:tglawal] != ""
+      @tglawal = Time.strptime(params[:tglawal],"%m/%d/%Y")
+        else
+      @tglawal = Time.strptime("01/01/2015","%m/%d/%Y")
+      end
+      if params[:tglakhir] != ""
+      @tglakhir = Time.strptime(params[:tglakhir],"%m/%d/%Y")
+        else
+      @tglakhir = Date.current
+      end
+      @strolies = Cart.where("seller_id = ? AND created_at > ? AND created_at < ?", current_user.id, @tglawal, @tglakhir).search(params[:sellersearch]).paginate(:page => params[:page], :per_page => 10)
+    end
+    if params[:status] == "Dalam Pengiriman"
+      @strolies = Cart.where(:seller_id => current_user.id, :state => 4).paginate(:page => params[:page], :per_page => 10)
+      elsif params[:status] == "Pesanan Baru"
+       @strolies = Cart.where(:seller_id => current_user.id, :state => 3).paginate(:page => params[:page], :per_page => 10)
+      elsif params[:status] == "Transaksi Selesai"
+       @strolies = Cart.where(:seller_id => current_user.id, :state => 6).paginate(:page => params[:page], :per_page => 10)
+      elsif params[:status] == "Pesanan Sampai"
+       @strolies = Cart.where(:seller_id => current_user.id, :state => 5).paginate(:page => params[:page], :per_page => 10)
+    end
   end
 
   def edit

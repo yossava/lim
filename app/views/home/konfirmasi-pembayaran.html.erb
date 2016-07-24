@@ -76,18 +76,23 @@
 									<div class="spacermedium"></div>
 									<div class="wrapdtkonf">
 										<div class="heading-wdkf">
-											<h4>Pembelian dari Toko : <strong>Toko1</strong></h4>
-											<span class="inv"><%= Toko.find(t.toko_id).nama_toko %></span>
+											<h4>Pembelian dari Toko : <strong><%= Toko.find(t.toko_id).nama_toko %></strong></h4>
 										</div>
 										<div class="row">
 											<div class="col-md-6 lpwp">
 												<span class="imglpwp"><img src="<%= Produk.find(t.produk_id).foto_produk1.url %>" class="responsiveimg"></span>
 												<h4><%= Produk.find(t.produk_id).nama_produk %></h4>
-												<p><%= t.jumlah %> X <%= number_to_currency((t.subtotal - t.ongkir) / t.jumlah, locale: :id) %></p>
+												<p><%= t.jumlah %> X <%= number_to_currency(t.harga, locale: :id) %></p>
 											</div>
 											<div class="col-md-3">
 												<label>Subtotal</label>
-												<p><%= number_to_currency(t.subtotal - t.ongkir, locale: :id) %></p>
+												<p><%= number_to_currency(t.harga * t.jumlah, locale: :id) %></p>
+                        <% if t.fee > 0 && t.fee < 101 %>
+                        <p>+fee: <%= t.fee %>% / item</p>
+                        <% end %>
+                        <% if t.fee > 100 %>
+                        <p>+fee: <%= number_to_currency(t.fee, locale: :id) %> / item</p>
+                        <% end %>
 											</div>
 											<div class="col-md-3">
 												<label>Ongkir</label>
@@ -114,7 +119,7 @@
 										<hr style="border-color:#ddd;"></hr>
 										<div class="row">
 											<div class="col-md-12" style="text-align:right;font-size:18px;">
-												<label class="typeorange">Total : <%= t.subtotal %></label>
+												<label class="typeorange">Total : <%= number_to_currency(t.subtotal, locale: :id) %></label>
 											</div>
 										</div>
 									</div>

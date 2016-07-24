@@ -18,10 +18,13 @@ Rails.application.routes.draw do
   resources :pets
 
 
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
+  get '/promo' => 'home#promo'
+  get '/admin/promoproduct' => 'admins#promoproduct'
   get '/updaterating/:produk_id' => "feedbacks#updaterating"
   get '/bank' => "transactions#bank"
   get '/va/:bank' => "transactions#va"
@@ -49,8 +52,9 @@ Rails.application.routes.draw do
   get "/toko/:id/edit/:provinsi/:kota" => "tokos#edit"
   get "/email" => "home#email"
   get "/cari" => "produks#cari"
+  get "/findmyproduct" => "produks#index"
   get "/checkout" => "carts#checkout"
-  get "/konfirmasi-pengiriman/:id/:resi" => "carts#kirim_pesanan"
+  get "/konfirmasi_pengiriman/:id/:resi" => "carts#kirim_pesanan"
   get "/pengiriman-sampai/:id" => "carts#pesanan_sampai"
   get "/konfirmasi-transfer/:id" => "carts#konfirmasi"
   get "/terima-pesanan/:id" => "carts#terima_pesanan"
@@ -58,10 +62,10 @@ Rails.application.routes.draw do
   get "/diterima" => "carts#diterima"
   get "/konfirmasi-pembayaran" => "home#konfirmasi-pembayaran"
   get "/payment" => "home#payment"
-  get "/konfirmasi-pengiriman" => "home#konfirmasi-pengiriman"
-  get "/daftar-penjualan" => "home#daftar-penjualan"
-  get "/pesanan-baru" => "home#pesanan-baru"
-  get "/daftar-transaksi" => "home#daftar-transaksi"
+  get "/konfirmasi_pengiriman" => "home#konfirmasi_pengiriman"
+  get "/daftar_penjualan" => "home#daftar_penjualan"
+  get "/pesanan_baru" => "home#pesanan_baru"
+  get "/daftar_transaksi" => "home#daftar_transaksi"
   get "/konfirmasi-penerimaan" => "home#konfirmasi-penerimaan"
   get "/status-pemesanan" => "home#status-pemesanan"
   get "/berhasil" => "home#confirmed"
@@ -85,6 +89,9 @@ Rails.application.routes.draw do
     delete 'logout' => "devise/sessions#destroy"
     get 'edit' => "devise/registrations#edit"
   end
+  get 'admin/email/:id' => "admins#email"
+  get 'admin/email' => "admins#email"
+  get 'admin/fee' => "admins#fee"
   get 'admin/general' => "admins#general"
   get 'admin/financelogs' => "admins#financelogs"
   get 'admin/newsletter' => "admins#newsletter"

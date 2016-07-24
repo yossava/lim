@@ -370,6 +370,19 @@ $(document).on('ready page:load', function () {
 </script>
 <script>
 $(document).on('ready page:load', function () {
+$( "input" ).hover(function() {
+
+        var a = $('.provinsi option:selected').text();
+        var b = $('.kota option:selected').text();
+        var c = $('.kecamatan option:selected').text();
+        $('#toko_provinsi_sebagai').val(a);
+        $('#toko_kota_sebagai').val(b);
+        $('#toko_kecamatan_sebagai').val(c);
+    });
+});
+</script>
+<script>
+$(document).on('ready page:load', function () {
   $('.provinsi, .kota').bind("keyup change", function(){
         var newurl = "/toko/new" + "/" + $('.provinsi').val() <% if @cit %>+ "/" + $('.kota').val()<% end %>;
         Turbolinks.visit(newurl);

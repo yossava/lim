@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   mount_uploader :profil_image, ImageUploader
   devise :registerable, :confirmable
-  devise :omniauthable, :omniauth_providers => [:facebook]
+  devise :omniauthable, :omniauth_providers => [:facebook, :twitter, :google_oauth2, :instagram]
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -23,10 +23,16 @@ class User < ActiveRecord::Base
   end
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      if auth.provider == "facebook" || auth.provider == "google_oauth2"
     user.email = auth.info.email
+        else
+        user.email = "#{auth.info.name.parameterize}@MasukanEmailAnda.com"
+      end
     user.password = Devise.friendly_token[0,20]
     user.namalengkap = auth.info.name   # assuming the user model has a name
     user.remote_profil_image_url = auth.info.image.gsub('http://','https://') # assuming the user model has an image
+    user.skip_confirmation!
+    user.save!
   end
 end
 

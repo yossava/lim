@@ -2,7 +2,12 @@ source 'https://rubygems.org'
 
 #gem 'filterrific'
 gem 'rails', '4.2.6'
+gem 'impressionist'
 gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem "omniauth-google-oauth2"
+gem 'omniauth-instagram'
+gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 gem 'friendly_id', '~> 5.1.0'
 gem 'pg'
 gem 'nicepay', '~> 0.1.2'

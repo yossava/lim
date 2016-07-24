@@ -3,10 +3,10 @@
 				<div class="row">
 					<div class="col-md-6 col-sm-6 bl-kiri">
 						<ul>
-							<li><a href="#">e-voucher</a></li>
-							<li><a href="#">Hot Deals</a></li>
-							<li><a href="#">Voucher Deals</a></li>
-							<li><a href="#" class="typeorange">Promo!</a></li>
+							<li><a href="<%= Homeitem.find(18).text2 %>"><%= Homeitem.find(18).text1 %></a></li>
+							<li><a href="<%= Homeitem.find(18).text4 %>"><%= Homeitem.find(18).text3 %></a></li>
+							<li><a href="<%= Homeitem.find(18).text6 %>"><%= Homeitem.find(18).text5 %></a></li>
+							<li><a href="<%= Homeitem.find(18).text8 %>" class="typeorange"><%= Homeitem.find(18).text7 %></a></li>
 						</ul>
 					</div>
 					<div class="col-md-6 col-sm-6 bl-kanan">
@@ -31,7 +31,9 @@
 											</a>
 										</div>
 										<div class="mnv2"><a href="/edit" class="styleddrop"><i class="fa fa-wrench"></i> &nbsp; Pengaturan</a></div>
-										<div class="mnv2"><a href="/logout" data-method="delete" class="styleddrop"><i class="fa fa-power-off"></i> &nbsp; Keluar</a></div>
+										<div class="mnv2">
+                      <a href="/logout" data-method="delete" class="styleddrop"><i class="fa fa-power-off"></i> &nbsp; Keluar</a>
+                    </div>
 									</div>
 								</div>
 							</li>

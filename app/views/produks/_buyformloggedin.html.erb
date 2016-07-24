@@ -9,7 +9,14 @@
                 </div>
 
                         <%= form_for(@cart, html: {class: "form-row has-error", id: "form_buyproduk"}) do |f| %>
+                         <% if Homeitem.find(17).text1.to_d > 0 %>
+                         <%= f.hidden_field :fee, value: Homeitem.find(17).text1.to_d %>
+                         <% end %>
+                         <% if Homeitem.find(17).text2.to_d > 0 %>
+                         <%= f.hidden_field :fee, value: Homeitem.find(17).text2.to_d %>
+                         <% end %>
                          <%= f.hidden_field :produk_id, value: @produk.id %>
+                          <%= f.hidden_field :harga, class: "hargafinal" %>
                          <%= f.hidden_field :seller_id, value: @produk.user_id %>
                           <%= f.hidden_field :subtotal, class: "subtotal" %>
                          <%= f.hidden_field :toko_id, value: @produk.toko_id %>
@@ -142,6 +149,17 @@
 
 													<div class="spacerform"></div>
 													<div class="row buynowform subtotalrow">
+                            <% if Homeitem.find(17).text1.to_d > 0 || Homeitem.find(17).text2.to_d > 0 %>
+                            <div class="col-md-12 ">
+                              <label >Fee : </label>
+                              <% if Homeitem.find(17).text1.to_d > 0 %>
+                              <h4 style="color:#EA174A;float:right;font-size:11px;"><%= Homeitem.find(17).text1 %> % / item</h4>
+                              <% end %>
+                              <% if Homeitem.find(17).text2.to_d > 0 %>
+                              <h4 style="color:#EA174A;float:right;font-size:11px;" ><%= number_to_currency(Homeitem.find(17).text2.to_i, locale: :id) %> / item</h4>
+                              <% end %>
+                            </div>
+                            <% end %>
 														<div class="col-md-12 ">
 															<label >Subtotal :</label>
 															<h4 class="total"><%= number_to_currency(@produk.harga_beli, locale: :id) %></h4>

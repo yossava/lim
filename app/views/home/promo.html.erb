@@ -1,0 +1,358 @@
+<%= render 'layouts/header' %>
+		<div id="topkeyword">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="mobilemenu-opener ma5-toggle-menu"><i class="fa fa-bars"></i></div>
+						<%= render 'layouts/menumobile' %>
+						<span id="labeltopkeyword">Top Keyword</span>
+						<%= render 'layouts/topkey' %>
+						<%= render 'layouts/trolimobile' %>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="nav-breadcumb">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="compresedmenu">
+							<div class="headingcompresed">
+								<i class="fa fa-bars"></i> &nbsp; <span>Kategori</span> &nbsp; <i class="fa fa-angle-down"></i>
+							</div>
+							<%= render 'layouts/sidemenu' %>
+						</div>
+						<%= render 'layouts/bread' %>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ./Header -->
+		<div class="container">
+      <div class="row">
+        <% if Homeitem.find(19).text1.present? %>
+      <div class="col-md-12">
+				<div class="tab_normal_produk">
+							<div data-responsive-tabs>
+								<nav class="headingtab">
+									<h4>Fashion Promo</h4>
+								</nav>
+								<div class="content isitab normal">
+									<section>
+                    <% Produk.where(:id => [Homeitem.find(19).text1.split(",")]).each do |produkfashion| %>
+                    <% if produkfashion %>
+										<div class="produkcarousel normalproduk">
+											<div class="thumbfoto-produk">
+												<%= link_to produkfashion, "data-no-turbolink" => true do %><img src="<%= produkfashion.foto_produk1.url %>" class="responsiveimg"/><% end %>
+                        <% if produkfashion.harga_diskon %>
+												<span class="lagidiskon">-<%= produkfashion.diskon %>%</span>
+                        <% end %>
+                        <% if produkfashion.jumlah_grosir1min %>
+                          <span class="grosiran">grosir</span>
+                          <% end %>
+											</div>
+											<%= link_to produkfashion, "data-no-turbolink" => true do %><h4 class="titleproduk"><%= produkfashion.nama_produk %></h4><% end %>
+                      <% if produkfashion.harga_diskon %>
+											<div class="hargaasli"><%= number_to_currency(produkfashion.harga_diskon, locale: :id) %></div>
+                      <div class="hargacoret"><%= number_to_currency(produkfashion.harga, locale: :id) %></div>
+                      <% else %>
+                      <div class="hargaasli"><%= number_to_currency(produkfashion.harga, locale: :id) %></div>
+                      <div class="hargacoret">&nbsp;</div>
+                      <% end %>
+											<%= link_to Toko.find(produkfashion.toko_id), :class => "tambahketroli", "data-no-turbolink" => true do %><span class="troliblack"></span><span class="ttb"><%= Toko.find(produkfashion.toko_id).nama_toko %></span><% end %>
+										</div>
+                    <% end %>
+                    <% end %>
+                    <a href="/categories/7?max=1000000000&min=0&sort=3&item=15" class="lhsm-btn blokmbl">Lihat Semua Produk</a>
+									</section>
+								</div>
+							</div>
+						</div>
+      </div>
+        <% end %>
+        <% if Homeitem.find(19).text2.present? %>
+      <div class="col-md-12">
+				<div class="tab_normal_produk">
+							<div data-responsive-tabs>
+								<nav class="headingtab">
+									<h4>Gadget Promo</h4>
+								</nav>
+								<div class="content isitab normal">
+									<section>
+                    <% Produk.where(:id => [Homeitem.find(19).text2.split(",")]).each do |produkfashion| %>
+                    <% if produkfashion %>
+										<div class="produkcarousel normalproduk">
+											<div class="thumbfoto-produk">
+												<%= link_to produkfashion, "data-no-turbolink" => true do %><img src="<%= produkfashion.foto_produk1.url %>" class="responsiveimg"/><% end %>
+                        <% if produkfashion.harga_diskon %>
+												<span class="lagidiskon">-<%= produkfashion.diskon %>%</span>
+                        <% end %>
+                        <% if produkfashion.jumlah_grosir1min %>
+                          <span class="grosiran">grosir</span>
+                          <% end %>
+											</div>
+											<%= link_to produkfashion, "data-no-turbolink" => true do %><h4 class="titleproduk"><%= produkfashion.nama_produk %></h4><% end %>
+                      <% if produkfashion.harga_diskon %>
+											<div class="hargaasli"><%= number_to_currency(produkfashion.harga_diskon, locale: :id) %></div>
+                      <div class="hargacoret"><%= number_to_currency(produkfashion.harga, locale: :id) %></div>
+                      <% else %>
+                      <div class="hargaasli"><%= number_to_currency(produkfashion.harga, locale: :id) %></div>
+                      <div class="hargacoret">&nbsp;</div>
+                      <% end %>
+											<%= link_to Toko.find(produkfashion.toko_id), :class => "tambahketroli", "data-no-turbolink" => true do %><span class="troliblack"></span><span class="ttb"><%= Toko.find(produkfashion.toko_id).nama_toko %></span><% end %>
+										</div>
+                    <% end %>
+                    <% end %>
+                    <a href="/categories/8?max=1000000000&min=0&sort=3&item=15" class="lhsm-btn blokmbl">Lihat Semua Produk</a>
+									</section>
+								</div>
+							</div>
+						</div>
+      </div>
+        <% end %>
+        <% if Homeitem.find(19).text3.present? %>
+      <div class="col-md-12">
+				<div class="tab_normal_produk">
+							<div data-responsive-tabs>
+								<nav class="headingtab">
+									<h4>Kecantikan/Kesehatan Promo</h4>
+								</nav>
+								<div class="content isitab normal">
+									<section>
+                    <% Produk.where(:id => [Homeitem.find(19).text3.split(",")]).each do |produkfashion| %>
+                    <% if produkfashion %>
+										<div class="produkcarousel normalproduk">
+											<div class="thumbfoto-produk">
+												<%= link_to produkfashion, "data-no-turbolink" => true do %><img src="<%= produkfashion.foto_produk1.url %>" class="responsiveimg"/><% end %>
+                        <% if produkfashion.harga_diskon %>
+												<span class="lagidiskon">-<%= produkfashion.diskon %>%</span>
+                        <% end %>
+                        <% if produkfashion.jumlah_grosir1min %>
+                          <span class="grosiran">grosir</span>
+                          <% end %>
+											</div>
+											<%= link_to produkfashion, "data-no-turbolink" => true do %><h4 class="titleproduk"><%= produkfashion.nama_produk %></h4><% end %>
+                      <% if produkfashion.harga_diskon %>
+											<div class="hargaasli"><%= number_to_currency(produkfashion.harga_diskon, locale: :id) %></div>
+                      <div class="hargacoret"><%= number_to_currency(produkfashion.harga, locale: :id) %></div>
+                      <% else %>
+                      <div class="hargaasli"><%= number_to_currency(produkfashion.harga, locale: :id) %></div>
+                      <div class="hargacoret">&nbsp;</div>
+                      <% end %>
+											<%= link_to Toko.find(produkfashion.toko_id), :class => "tambahketroli", "data-no-turbolink" => true do %><span class="troliblack"></span><span class="ttb"><%= Toko.find(produkfashion.toko_id).nama_toko %></span><% end %>
+										</div>
+                    <% end %>
+                    <% end %>
+                    <a href="/categories/9?max=1000000000&min=0&sort=3&item=15" class="lhsm-btn blokmbl">Lihat Semua Produk</a>
+									</section>
+								</div>
+							</div>
+						</div>
+      </div>
+        <% end %>
+        <% if Homeitem.find(19).text4.present? %>
+      <div class="col-md-12">
+				<div class="tab_normal_produk">
+							<div data-responsive-tabs>
+								<nav class="headingtab">
+									<h4>Bayi/Anak Promo</h4>
+								</nav>
+								<div class="content isitab normal">
+									<section>
+                    <% Produk.where(:id => [Homeitem.find(19).text4.split(",")]).each do |produkfashion| %>
+                    <% if produkfashion %>
+										<div class="produkcarousel normalproduk">
+											<div class="thumbfoto-produk">
+												<%= link_to produkfashion, "data-no-turbolink" => true do %><img src="<%= produkfashion.foto_produk1.url %>" class="responsiveimg"/><% end %>
+                        <% if produkfashion.harga_diskon %>
+												<span class="lagidiskon">-<%= produkfashion.diskon %>%</span>
+                        <% end %>
+                        <% if produkfashion.jumlah_grosir1min %>
+                          <span class="grosiran">grosir</span>
+                          <% end %>
+											</div>
+											<%= link_to produkfashion, "data-no-turbolink" => true do %><h4 class="titleproduk"><%= produkfashion.nama_produk %></h4><% end %>
+                      <% if produkfashion.harga_diskon %>
+											<div class="hargaasli"><%= number_to_currency(produkfashion.harga_diskon, locale: :id) %></div>
+                      <div class="hargacoret"><%= number_to_currency(produkfashion.harga, locale: :id) %></div>
+                      <% else %>
+                      <div class="hargaasli"><%= number_to_currency(produkfashion.harga, locale: :id) %></div>
+                      <div class="hargacoret">&nbsp;</div>
+                      <% end %>
+											<%= link_to Toko.find(produkfashion.toko_id), :class => "tambahketroli", "data-no-turbolink" => true do %><span class="troliblack"></span><span class="ttb"><%= Toko.find(produkfashion.toko_id).nama_toko %></span><% end %>
+										</div>
+                    <% end %>
+                    <% end %>
+                    <a href="/categories/10?max=1000000000&min=0&sort=3&item=15" class="lhsm-btn blokmbl">Lihat Semua Produk</a>
+									</section>
+								</div>
+							</div>
+						</div>
+      </div>
+        <% end %>
+        <% if Homeitem.find(19).text5.present? %>
+      <div class="col-md-12">
+				<div class="tab_normal_produk">
+							<div data-responsive-tabs>
+								<nav class="headingtab">
+									<h4>Olahraga/Hobi Promo</h4>
+								</nav>
+								<div class="content isitab normal">
+									<section>
+                    <% Produk.where(:id => [Homeitem.find(19).text5.split(",")]).each do |produkfashion| %>
+                    <% if produkfashion %>
+										<div class="produkcarousel normalproduk">
+											<div class="thumbfoto-produk">
+												<%= link_to produkfashion, "data-no-turbolink" => true do %><img src="<%= produkfashion.foto_produk1.url %>" class="responsiveimg"/><% end %>
+                        <% if produkfashion.harga_diskon %>
+												<span class="lagidiskon">-<%= produkfashion.diskon %>%</span>
+                        <% end %>
+                        <% if produkfashion.jumlah_grosir1min %>
+                          <span class="grosiran">grosir</span>
+                          <% end %>
+											</div>
+											<%= link_to produkfashion, "data-no-turbolink" => true do %><h4 class="titleproduk"><%= produkfashion.nama_produk %></h4><% end %>
+                      <% if produkfashion.harga_diskon %>
+											<div class="hargaasli"><%= number_to_currency(produkfashion.harga_diskon, locale: :id) %></div>
+                      <div class="hargacoret"><%= number_to_currency(produkfashion.harga, locale: :id) %></div>
+                      <% else %>
+                      <div class="hargaasli"><%= number_to_currency(produkfashion.harga, locale: :id) %></div>
+                      <div class="hargacoret">&nbsp;</div>
+                      <% end %>
+											<%= link_to Toko.find(produkfashion.toko_id), :class => "tambahketroli", "data-no-turbolink" => true do %><span class="troliblack"></span><span class="ttb"><%= Toko.find(produkfashion.toko_id).nama_toko %></span><% end %>
+										</div>
+                    <% end %>
+                    <% end %>
+                    <a href="/categories/12?max=1000000000&min=0&sort=3&item=15" class="lhsm-btn blokmbl">Lihat Semua Produk</a>
+									</section>
+								</div>
+							</div>
+						</div>
+      </div>
+        <% end %>
+        <% if Homeitem.find(19).text6.present? %>
+      <div class="col-md-12">
+				<div class="tab_normal_produk">
+							<div data-responsive-tabs>
+								<nav class="headingtab">
+									<h4>Rumah/Kebun/Dapur Promo</h4>
+								</nav>
+								<div class="content isitab normal">
+									<section>
+                    <% Produk.where(:id => [Homeitem.find(19).text6.split(",")]).each do |produkfashion| %>
+                    <% if produkfashion %>
+										<div class="produkcarousel normalproduk">
+											<div class="thumbfoto-produk">
+												<%= link_to produkfashion, "data-no-turbolink" => true do %><img src="<%= produkfashion.foto_produk1.url %>" class="responsiveimg"/><% end %>
+                        <% if produkfashion.harga_diskon %>
+												<span class="lagidiskon">-<%= produkfashion.diskon %>%</span>
+                        <% end %>
+                        <% if produkfashion.jumlah_grosir1min %>
+                          <span class="grosiran">grosir</span>
+                          <% end %>
+											</div>
+											<%= link_to produkfashion, "data-no-turbolink" => true do %><h4 class="titleproduk"><%= produkfashion.nama_produk %></h4><% end %>
+                      <% if produkfashion.harga_diskon %>
+											<div class="hargaasli"><%= number_to_currency(produkfashion.harga_diskon, locale: :id) %></div>
+                      <div class="hargacoret"><%= number_to_currency(produkfashion.harga, locale: :id) %></div>
+                      <% else %>
+                      <div class="hargaasli"><%= number_to_currency(produkfashion.harga, locale: :id) %></div>
+                      <div class="hargacoret">&nbsp;</div>
+                      <% end %>
+											<%= link_to Toko.find(produkfashion.toko_id), :class => "tambahketroli", "data-no-turbolink" => true do %><span class="troliblack"></span><span class="ttb"><%= Toko.find(produkfashion.toko_id).nama_toko %></span><% end %>
+										</div>
+                    <% end %>
+                    <% end %>
+                    <a href="/categories/13?max=1000000000&min=0&sort=3&item=15" class="lhsm-btn blokmbl">Lihat Semua Produk</a>
+									</section>
+								</div>
+							</div>
+						</div>
+      </div>
+        <% end %>
+        <% if Homeitem.find(19).text7.present? %>
+      <div class="col-md-12">
+				<div class="tab_normal_produk">
+							<div data-responsive-tabs>
+								<nav class="headingtab">
+									<h4>e-Coupon Promo</h4>
+								</nav>
+								<div class="content isitab normal">
+									<section>
+                    <% Produk.where(:id => [Homeitem.find(19).text7.split(",")]).each do |produkfashion| %>
+                    <% if produkfashion %>
+										<div class="produkcarousel normalproduk">
+											<div class="thumbfoto-produk">
+												<%= link_to produkfashion, "data-no-turbolink" => true do %><img src="<%= produkfashion.foto_produk1.url %>" class="responsiveimg"/><% end %>
+                        <% if produkfashion.harga_diskon %>
+												<span class="lagidiskon">-<%= produkfashion.diskon %>%</span>
+                        <% end %>
+                        <% if produkfashion.jumlah_grosir1min %>
+                          <span class="grosiran">grosir</span>
+                          <% end %>
+											</div>
+											<%= link_to produkfashion, "data-no-turbolink" => true do %><h4 class="titleproduk"><%= produkfashion.nama_produk %></h4><% end %>
+                      <% if produkfashion.harga_diskon %>
+											<div class="hargaasli"><%= number_to_currency(produkfashion.harga_diskon, locale: :id) %></div>
+                      <div class="hargacoret"><%= number_to_currency(produkfashion.harga, locale: :id) %></div>
+                      <% else %>
+                      <div class="hargaasli"><%= number_to_currency(produkfashion.harga, locale: :id) %></div>
+                      <div class="hargacoret">&nbsp;</div>
+                      <% end %>
+											<%= link_to Toko.find(produkfashion.toko_id), :class => "tambahketroli", "data-no-turbolink" => true do %><span class="troliblack"></span><span class="ttb"><%= Toko.find(produkfashion.toko_id).nama_toko %></span><% end %>
+										</div>
+                    <% end %>
+                    <% end %>
+                    <a href="/categories/14?max=1000000000&min=0&sort=3&item=15" class="lhsm-btn blokmbl">Lihat Semua Produk</a>
+									</section>
+								</div>
+							</div>
+						</div>
+      </div>
+        <% end %>
+        <% if Homeitem.find(19).text8.present? %>
+      <div class="col-md-12">
+				<div class="tab_normal_produk">
+							<div data-responsive-tabs>
+								<nav class="headingtab">
+									<h4>Elektronik Promo</h4>
+								</nav>
+								<div class="content isitab normal">
+									<section>
+                    <% Produk.where(:id => [Homeitem.find(19).text8.split(",")]).each do |produkfashion| %>
+                    <% if produkfashion %>
+										<div class="produkcarousel normalproduk">
+											<div class="thumbfoto-produk">
+												<%= link_to produkfashion, "data-no-turbolink" => true do %><img src="<%= produkfashion.foto_produk1.url %>" class="responsiveimg"/><% end %>
+                        <% if produkfashion.harga_diskon %>
+												<span class="lagidiskon">-<%= produkfashion.diskon %>%</span>
+                        <% end %>
+                        <% if produkfashion.jumlah_grosir1min %>
+                          <span class="grosiran">grosir</span>
+                          <% end %>
+											</div>
+											<%= link_to produkfashion, "data-no-turbolink" => true do %><h4 class="titleproduk"><%= produkfashion.nama_produk %></h4><% end %>
+                      <% if produkfashion.harga_diskon %>
+											<div class="hargaasli"><%= number_to_currency(produkfashion.harga_diskon, locale: :id) %></div>
+                      <div class="hargacoret"><%= number_to_currency(produkfashion.harga, locale: :id) %></div>
+                      <% else %>
+                      <div class="hargaasli"><%= number_to_currency(produkfashion.harga, locale: :id) %></div>
+                      <div class="hargacoret">&nbsp;</div>
+                      <% end %>
+											<%= link_to Toko.find(produkfashion.toko_id), :class => "tambahketroli", "data-no-turbolink" => true do %><span class="troliblack"></span><span class="ttb"><%= Toko.find(produkfashion.toko_id).nama_toko %></span><% end %>
+										</div>
+                    <% end %>
+                    <% end %>
+                    <a href="/categories/11?max=1000000000&min=0&sort=3&item=15" class="lhsm-btn blokmbl">Lihat Semua Produk</a>
+									</section>
+								</div>
+							</div>
+						</div>
+      </div>
+        <% end %>
+      </div>
+		</div>
+
+		<div class="spacerbig"></div>
+    <%= render 'layouts/footer' %>

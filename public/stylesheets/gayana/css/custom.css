@@ -117,6 +117,7 @@ a.lhsm-btn.detailbtn:hover, a.lhsm-btn.kunjungitoko:hover, .linktokoedit:hover, 
   border-top: solid 1px lightgray;
   border-right: solid 1px lightgray;
   border-bottom: solid 1px lightgray;
+  margin-right:0px;
 
 }
 .halaman .previous_page {
@@ -202,4 +203,7 @@ select option:disabled {
 }
 p.alert {
   border: 1px solid #eb0e43;
+}
+.nopadding {
+   padding: 0 !important;
 }

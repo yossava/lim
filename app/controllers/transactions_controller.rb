@@ -24,7 +24,9 @@ class TransactionsController < ApplicationController
       Cart.where(:user_id => current_user.id, :state => 1).update_all(:state => 3)
       redirect_to '/status-pemesanan'
       status = "Pembayaran telah dilakukan"
-      Notifikasi.checkout_email(current_user, status, countcart).deliver_later
+      subject = Homeitem.find(22).text2
+      subject2 = Homeitem.find(22).text4
+      Notifikasi.pembayaran_berhasil(current_user, status, countcart, subject, subject2).deliver_later
   end
 
   def record
@@ -77,17 +79,22 @@ class TransactionsController < ApplicationController
     Nicepay.setRequestParam('iMid', Nicepay.iMid)
     Nicepay.setRequestParam('payMethod', '02')
     Nicepay.setRequestParam('bankCd', params[:bank])
-    @invoice = []
-    current_user.cart.where(:state => 1).each do |c|
-      @invoice << c.invoice
+    #@invoice = []
+    #current_user.cart.where(:state => 1).each do |c|
+    #  @invoice << c.invoice
+    #end
+    #@invoice = @invoice.to_sentence
+    if current_user.cart.where(:state => 1).count > 1
+    @invoice = current_user.cart.where(:state => 1).first.invoice + " - " + current_user.cart.where(:state => 1).last.invoice
+    else
+    @invoice = current_user.cart.where(:state => 1).first.invoice
     end
-    @invoice = @invoice.to_sentence
     @ref = current_user.cart.where(:state => 1).first.invoice
     Nicepay.setRequestParam('referenceNo', @ref)
     Nicepay.setRequestParam('description','Payment of ' + @invoice) # Description
     Nicepay.setRequestParam('goodsNm', Nicepay.param('description')) # goodsNm = Description
     Cart.where(:state => 1, :user_id => current_user.id).each do |c|
-    Nicepay.addCart((URI.parse(root_url) + Produk.find(c.produk_id).foto_produk1.url).to_s, "#{Produk.find(c.produk_id).nama_produk} + Ongkir", "Jumlah: #{c.jumlah}", c.subtotal)
+    Nicepay.addCart((URI.parse(root_url) + Produk.find(c.produk_id).foto_produk1.url).to_s, "#{Produk.find(c.produk_id).nama_produk} + ongkir,fee", "Jumlah: #{c.jumlah}", c.subtotal)
     end
     @firstcart = Cart.where(:state => 1, :user_id => current_user.id).first.alamat_id
     @address = Alamat.find(@firstcart)
@@ -116,7 +123,7 @@ class TransactionsController < ApplicationController
     Nicepay.setRequestParam('vat', 0)
     Nicepay.setRequestParam('fee', 0)
     Nicepay.setRequestParam('notaxAmt', 0)
-    Nicepay.setRequestParam('vacctValidDt', Nicepay.vaExpiryDate(2)) # format: %Y%m%d
+    Nicepay.setRequestParam('vacctValidDt', Nicepay.vaExpiryDate(3)) # format: %Y%m%d
     Nicepay.setRequestParam('vacctValidTm', Nicepay.vaExpiryTime) # format: %H%M%S
     Nicepay.setRequestParam('merchantToken', Nicepay.merchantToken)
     response = requestVa.response
@@ -129,7 +136,7 @@ class TransactionsController < ApplicationController
         amount = @amount
         van = @van
 
-        @date =  Nicepay.vaExpiryDate(2)
+        @date =  Nicepay.vaExpiryDate(3)
         @time =  Nicepay.vaExpiryTime
         tanggal = @date
         time = @time
@@ -149,10 +156,11 @@ class TransactionsController < ApplicationController
             @bank = "TIDAK TERDAFTAR"
           end
           bank = @bank
+          subject = Homeitem.find(20).text2
           countcart = Cart.where(:user_id => current_user.id, :state => 1).count
           redirect_to "/bank/?van=#{@van}&bank=#{@bank}&amount=#{@amount}&date=#{@date}&time=#{@time}&txid=#{@txid}"
           Cart.where(:user_id => current_user.id, :state => 1).update_all(:txid => @txid)
-          Notifikasi.pembayaranva_email(countcart, van, amount, tanggal, time, bank, current_user).deliver_later
+          Notifikasi.pembayaranva_email(countcart, van, amount, tanggal, time, bank, current_user, subject).deliver_later
 
     else response["resultCd"].to_s
         @status =  "\nOops! Virtual Account failed to generate! We have recorded the event. \nPlease try again later.\n\n"
@@ -172,17 +180,18 @@ class TransactionsController < ApplicationController
     Nicepay.setRequestParam('payMethod', '01')
     Nicepay.setRequestParam('instmntMon', '1')
     Nicepay.setRequestParam('instmntType', '1')
-    @invoice = []
-    current_user.cart.where(:state => 1).each do |c|
-      @invoice << c.invoice
+    if current_user.cart.where(:state => 1).count > 1
+    @invoice = current_user.cart.where(:state => 1).first.invoice + " - " + current_user.cart.where(:state => 1).last.invoice
+    else
+    @invoice = current_user.cart.where(:state => 1).first.invoice
     end
-    @invoice = @invoice.to_sentence
+
     @ref = current_user.cart.where(:state => 1).first.invoice
     Nicepay.setRequestParam('referenceNo', @ref)
     Nicepay.setRequestParam('description','Payment of ' + @invoice) # Description
     Nicepay.setRequestParam('goodsNm', Nicepay.param('description')) # goodsNm = Description
     Cart.where(:state => 1, :user_id => current_user.id).each do |c|
-    Nicepay.addCart((URI.parse(root_url) + Produk.find(c.produk_id).foto_produk1.url).to_s, "#{Produk.find(c.produk_id).nama_produk} + Ongkir", "Jumlah: #{c.jumlah}", c.subtotal)
+    Nicepay.addCart((URI.parse(root_url) + Produk.find(c.produk_id).foto_produk1.url).to_s, "#{Produk.find(c.produk_id).nama_produk} + ongkir,fee", "Jumlah: #{c.jumlah}", c.subtotal)
     end
     @firstcart = Cart.where(:state => 1, :user_id => current_user.id).first.alamat_id
     @address = Alamat.find(@firstcart)

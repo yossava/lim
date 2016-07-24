@@ -68,21 +68,34 @@
 					<div class="shareproduk">
 						<h4>Bagikan Produk:</h4>
 						<div class="sharethis">
-							<span class='st_facebook_hcount' displayText='Facebook'></span>
-							<span class='st_twitter_hcount' displayText='Tweet'></span>
-							<span class='st_googleplus_hcount' displayText='Google +'></span>
+							<span class='st_facebook_hcount' displayText='Facebook'><a href="https://www.facebook.com/sharer/sharer.php?u=<%= url_for(:only_path => false) %>"> <i style="font-size:2em;margin-right:5px;" class="fa fa-facebook-square" aria-hidden="true"></i></a></span>
+							<span class='st_twitter_hcount' displayText='Tweet'><a href="https://twitter.com/home?status=<%= url_for(:only_path => false) %>"> <i style="font-size:2em;margin-right:5px;" class="fa fa-twitter-square" aria-hidden="true"></i></a></span>
+							<span class='st_googleplus_hcount' displayText='Google +'><a href="https://plus.google.com/share?url=<%= url_for(:only_path => false) %>"> <i style="font-size:2em;margin-right:5px;" class="fa fa-google-plus-square" aria-hidden="true"></i></a></span>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-7">
 					<div class="deskripsiproduk-detail">
-						<div class="headingproduk-detail">
+						<div class="headingproduk-detail col-xs-12 noppading-left">
+              <div class="col-xs-12 noppading-left">
 							<h3><%= @produk.nama_produk %></h3>
+              </div>
+              <div class="col-xs-3 noppading-left">
               <% if @produk.stock >= 1 %>
-							<p>Availability  : <span class="typered">In Stock (<%= @produk.stock %>)</span></p>
+							<p>Tersedia  : <span class="typered"><%= @produk.stock %></span></p>
               <% else %>
-              <p>Availability  : <span class="typered">Out of Stock (0)</span></p>
+              <p>Tersedia  : <span class="typered">Habis (0)</span></p>
               <% end %>
+              </div>
+              <div class="col-xs-3 noppading-left">
+              <p>Terjual : <span class="typered"><%= Cart.where(:produk_id => @produk.id, :state => 6).count %></span></p>
+              </div>
+              <div class="col-xs-3 noppading-left">
+              <p>Berat : <span class="typered"><%= @produk.berat %>Gr</span></p>
+              </div>
+              <div class="col-xs-3 noppading-left">
+              <p>Dilihat : <span class="typered"><%= @produk.impressionist_count %></span></p>
+              </div>
 						</div>
 						<div class="ttponmobile">
 							<div id="gallery_01" class="previewprodukcarousel">
@@ -109,8 +122,52 @@
 						</p>
 						<div class="harga-detail">
 							<span class="col-md-6 noppading-left col-xs-12">Harga Normal</span><span class="hargacoret-detail col-md-6 col-xs-12"><%= number_to_currency(@produk.harga, locale: :id) %></span>
-							<span class="col-md-6 noppading-left col-xs-12">Harga Setelah Diskon</span><span class="hargaasli-detail col-md-6 col-xs-12"><%= number_to_currency(@produk.harga_diskon, locale: :id) %></span>
+							<span class="col-md-6 noppading-left col-xs-12">Harga Diskon</span><span class="hargaasli-detail col-md-6 col-xs-12"><%= number_to_currency(@produk.harga_diskon, locale: :id) %></span>
 						</div>
+            <% if @produk.jumlah_grosir1min %>
+            <div style="border-top:none;border-b:none;" class="harga-detail">
+              <div class="col-md-6 noppading-left col-xs-12"><strong>Harga Grosir</strong><br><br>
+                <table class="table table-striped table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Jumlah Pembelian</th>
+                      <th>Harga</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><%= @produk.jumlah_grosir1min %> - <%= @produk.jumlah_grosir1max %></td>
+                      <td><%= number_to_currency(@produk.harga_grosir1, locale: :id) %></td>
+                    </tr>
+                    <% if @produk.jumlah_grosir2min %>
+                    <tr>
+                      <td><%= @produk.jumlah_grosir2min %> - <%= @produk.jumlah_grosir2max %></td>
+                      <td><%= number_to_currency(@produk.harga_grosir2, locale: :id) %></td>
+                    </tr>
+                    <% end %>
+                    <% if @produk.jumlah_grosir3min %>
+                    <tr>
+                      <td><%= @produk.jumlah_grosir3min %> - <%= @produk.jumlah_grosir3max %></td>
+                      <td><%= number_to_currency(@produk.harga_grosir3, locale: :id) %></td>
+                    </tr>
+                    <% end %>
+                    <% if @produk.jumlah_grosir4min %>
+                    <tr>
+                      <td><%= @produk.jumlah_grosir4min %> - <%= @produk.jumlah_grosir4max %></td>
+                      <td><%= number_to_currency(@produk.harga_grosir4, locale: :id) %></td>
+                    </tr>
+                    <% end %>
+                    <% if @produk.jumlah_grosir5min %>
+                    <tr>
+                      <td><%= @produk.jumlah_grosir5min %> - <%= @produk.jumlah_grosir5max %></td>
+                      <td><%= number_to_currency(@produk.harga_grosir5, locale: :id) %></td>
+                    </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+						</div>
+            <% end %>
 						<div class="opsiproduk-detail">
               <% if user_signed_in? %>
 							<%= render 'produks/buybuttonloggedin' %>
@@ -190,19 +247,14 @@
 								</div>
 								<div class="sectionbutton-ulasan">
 									<div class="pagingulasan">
-										<ul class="pagination styledpaging">
-											<li><a href="#"><span class="arrowpaging"><i class="fa fa-angle-left"></i></span></a></li>
-											<li><a href="#">1</a></li>
-											<li ><a href="#">2</a></li>
-											<li><a href="#">3</a></li>
-											<li class="active"><a href="#">4</a></li>
-											<li ><a href="#"><span class="arrowpaging"><i class="fa fa-angle-right"></i></span></a></li>
-										</ul>
+                    <div class="halaman">
+                    <%= will_paginate @feedbacks %>
+                    </div>
 									</div>
 								</div>
 								<section class="ctnUlasan">
 									<ul>
-                    <% @produk.feedbacks.each do |f| %>
+                    <% @feedbacks.each do |f| %>
 										<li>
 											<div class="profilthumbUlasan">
 												<div style= "width:10%;" class="thumb">
@@ -239,12 +291,32 @@
             <% end %>
 					</div>
 					<div class="desinline toko">
-						<p class="namaToko"><%= User.find(@produk.user_id).namalengkap %></p>
+						<p class="namaToko"><%= Toko.find(@produk.toko_id).nama_toko %></p>
 						<p class="typeorange"><i class="fa fa-map-marker"></i> <%= Toko.find(@produk.toko_id).kota_sebagai %></p>
-						<!--<p class="text">0875 654 653 xxx</p>-->
-						<p class="linkwebtoko typeblue"><%= Toko.find(@produk.toko_id).nama_toko %></p>
-						<%= link_to "Kunjungi Toko", Toko.find(@produk.toko_id), class: "lhsm-btn kunjungitoko" %>
 					</div>
+          <div class="col-xs-12">
+            <p style="font-size:0.9em;color:green;">Telah menerima <%= Cart.where(:seller_id => @produk.toko.user_id, :state => 6).count %> dari <%= Cart.where(:seller_id => @produk.toko.user_id, :state => 6).count + Cart.where(:seller_id => @produk.toko.user_id, :state => 8).count %> pesanan </p>
+            <%= link_to "Kunjungi Toko", Toko.find(@produk.toko_id), class: "lhsm-btn" %><br>
+            <p style="font-size:0.7em;">Terakhir Login: <%= User.find(@produk.toko.user_id).last_sign_in_at.in_time_zone("Jakarta").strftime("%d-%m-%Y %H:%M") %> WIB</p>
+          </div>
+          <div class="col-xs-12">
+            <p><strong>Pengiriman</strong></p>
+            <% if @produk.toko.agen1 != "NO" || @produk.toko.agen2 != "NO" || @produk.toko.agen3 != "NO" %>
+            <div class="col-xs-4 nopadding">
+              <%= image_tag "pg-jne.jpg", class: "responsiveimg" %>
+            </div>
+            <% end %>
+            <% if @produk.toko.agen4 != "NO" || @produk.toko.agen5 != "NO" %>
+            <div class="col-xs-4 nopadding">
+              <%= image_tag "pg-tiki.jpg", class: "responsiveimg" %>
+            </div>
+            <% end %>
+            <% if @produk.toko.agen6 != "NO" || @produk.toko.agen7 != "NO" %>
+            <div class="col-xs-4 nopadding">
+              <%= image_tag "pg-pos.jpg", class: "responsiveimg" %>
+            </div>
+            <% end %>
+          </div>
 				</div>
 			</div>
 		</div>
@@ -409,9 +481,9 @@ $(document).ready(function(){
         var s = parseInt($s.val(), 10);
         var berat = Math.round(n*<%= @produk.berat %>/1000);
         if (g > 0){
-        var tot = g*n+s*berat;
+        var tot = g*n+s*berat<% if Homeitem.find(17).text2.to_d > 0 %>+<%= Homeitem.find(17).text2.to_d %>*n<% end %><% if Homeitem.find(17).text1.to_d > 0 %>+(<%= Homeitem.find(17).text1.to_d %>/100*n*g)<% end %>;
         } else {
-          var tot = t*n+s*berat;
+          var tot = t*n+s*berat<% if Homeitem.find(17).text2.to_d > 0 %>+<%= Homeitem.find(17).text2.to_d %>*n<% end %><% if Homeitem.find(17).text1.to_d > 0 %>+(<%= Homeitem.find(17).text1.to_d %>/100*n*g)<% end %>;
         }
         var ongkir = s*berat;
         if (isNaN(tot)) tot = 0;
@@ -423,6 +495,11 @@ $(document).ready(function(){
         $('.subtotal').val(tot);
         $('.ongkirtotal').val(ongkir);
         $('.cartkurir').val(kurir);
+        if (g > 0){
+          $('.hargafinal').val(g);
+        } else {
+          $('.hargafinal').val(t);
+        }
         $('.rpongkir').html("Rp " + ongkir + ",00");
 
 

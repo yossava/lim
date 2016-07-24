@@ -51,8 +51,10 @@
 					<p class="shortse_toko">
 						<span class="quote_toko"><i class="fa fa-quote-left"></i></span> <%= @toko.deskripsi %>
 					</p>
+          <% if user_signed_in?%>
           <% if current_user.id == @toko.user_id %>
 					<a href="<%= edit_toko_path %>" class="linktokoedit"><i class="fa fa-cog"></i> Setting</a>
+          <% end %>
           <% end %>
 				</div>
 			</div>
@@ -127,7 +129,7 @@
 						<div class="halaman">
             <%= will_paginate @mytoko %>
             </div>
-						<p class="typelight">Menampilkan 1-12 dari <%= @mytoko.count %> Produk</p>
+						<p class="typelight"><%= page_entries_info @mytoko %></p>
 					</div>
 				</div>
 

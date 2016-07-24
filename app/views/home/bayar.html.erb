@@ -55,11 +55,23 @@
 									<div class="col-md-6 lpwp">
 										<span class="imglpwp"><img src="<%= Produk.find(c.produk_id).foto_produk1.url %>" class="responsiveimg"></span>
 										<h4><%= Produk.find(c.produk_id).nama_produk %></h4>
-										<p><%= c.jumlah %> X <%= number_to_currency((c.subtotal - c.ongkir) / c.jumlah, locale: :id) %> </p>
+										<p><%= c.jumlah %> X <%= number_to_currency(c.harga, locale: :id) %> </p>
+                    <h4>Fee</h4>
+                    <% if c.fee > 0 && c.fee < 101 %>
+                    <p><%= c.fee %> % / item</p>
+                    <% end %>
+                    <% if c.fee > 100 %>
+                    <p><%= number_to_currency(c.fee,locale: :id) %> / item</p>
+                    <% end %>
 									</div>
 									<div class="col-md-3">
 										<label>Subtotal</label>
-										<p><%= number_to_currency(c.subtotal - c.ongkir, locale: :id) %></p>
+                    <% if c.fee > 0 && c.fee < 101 %>
+										<p><%= number_to_currency(c.harga * c.jumlah * (100 + c.fee) / 100, locale: :id) %></p>
+                    <% end %>
+                    <% if c.fee > 100 %>
+										<p><%= number_to_currency(c.harga * c.jumlah + (c.fee * c.jumlah), locale: :id) %></p>
+                    <% end %>
 									</div>
 									<div class="col-md-3">
 										<label>Keterangan</label>

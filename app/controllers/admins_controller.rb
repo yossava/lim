@@ -6,6 +6,15 @@ class AdminsController < ApplicationController
   def login
     render :layout => nil
   end
+  def email
+    @homeitems = Homeitem.where(:id => [20,21,22,23,24,25,26,27,28]).paginate(:page => params[:page], :per_page => 15)
+    if params[:id]
+    @homeitem = Homeitem.find(params[:id])
+    end
+  end
+  def promoproduct
+    @homeitem = Homeitem.find(19)
+  end
   def topproduct
     @products = Produk.order(id: :asc).paginate(:page => params[:page], :per_page => 15)
     if params[:top] == "top"
@@ -44,6 +53,9 @@ class AdminsController < ApplicationController
       User.find(params[:id]).update(:saldo => 0)
       redirect_to "/admin/finance", notice: "Balance direset"
     end
+  end
+  def fee
+    @homeitem = Homeitem.find(17)
   end
   def financelogs
     @financelog = Financelog.order(id: :asc).paginate(:page => params[:page], :per_page => 15)

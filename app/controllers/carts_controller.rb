@@ -56,28 +56,36 @@ class CartsController < ApplicationController
     redirect_to :back
     mycart = Cart.find(params[:id])
     status = "Telah Diproses Seller"
-    Notifikasi.sample_email(current_user, mycart, status).deliver_later
+    subject = Homeitem.find(24).text2
+    subject2 = Homeitem.find(24).text4
+    Notifikasi.pesanan_diterima(mycart, subject, subject2).deliver_later
   end
   def tolak_pesanan
     Cart.find(params[:id]).update(:state => 8)
     redirect_to :back
     mycart = Cart.find(params[:id])
     status = "Tidak Dapat Diproses oleh Seller"
-    Notifikasi.sample_email(current_user, mycart, status).deliver_later
+    subject = Homeitem.find(23).text2
+    subject2 = Homeitem.find(23).text4
+    Notifikasi.pesanan_ditolak(mycart, subject, subject2).deliver_later
   end
   def kirim_pesanan
     Cart.find(params[:id]).update(:state => 4, :resi => params[:resi])
     redirect_to :back
     mycart = Cart.find(params[:id])
     status = "Telah Dikirim oleh Seller dengan resi: #{params[:resi]}"
-    Notifikasi.sample_email(current_user, mycart, status).deliver_later
+    subject = Homeitem.find(25).text2
+    subject2 = Homeitem.find(25).text4
+    Notifikasi.pesanan_dikirim(mycart, subject, subject2).deliver_later
   end
   def pesanan_sampai
     Cart.find(params[:id]).update(:state => 5)
     redirect_to :back
     mycart = Cart.find(params[:id])
     status = "Pesanan dengan resi #{Cart.find(params[:id]).resi}, telah ditandai sebagai SAMPAI"
-    Notifikasi.sample_email(current_user, mycart, status).deliver_later
+    subject = Homeitem.find(26).text2
+    subject2 = Homeitem.find(26).text4
+    Notifikasi.pesanan_diterima(mycart, subject, subject2).deliver_later
   end
   def checkout
     Cart.where(:user_id => current_user.id, :state=> 1).update_all(:state => 3)
@@ -148,6 +156,6 @@ class CartsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cart_params
-      params.require(:cart).permit(:toko_id, :user_id, :produk_id, :invoice, :catatan, :jumlah, :subtotal, :total, :metode_pembayaran, :alamat_id, :kurir, :berat, :ongkir, :seller_id, :state, :resi, :txid, :expired)
+      params.require(:cart).permit(:toko_id, :user_id, :produk_id, :invoice, :catatan, :jumlah, :subtotal, :total, :metode_pembayaran, :alamat_id, :kurir, :berat, :ongkir, :seller_id, :state, :resi, :txid, :expired, :fee, :harga)
     end
 end

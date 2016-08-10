@@ -1,4 +1,4 @@
-<% if @toko && !current_page?('/toko/new') %>
+<% if current_user.toko.present? && @toko && !current_page?('/toko/new') %>
 <div class="rowMas-control">
 								<div class="childrow">
 									<div class="Mas-tokosaya">

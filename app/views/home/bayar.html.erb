@@ -56,6 +56,7 @@
 										<span class="imglpwp"><img src="<%= Produk.find(c.produk_id).foto_produk1.url %>" class="responsiveimg"></span>
 										<h4><%= Produk.find(c.produk_id).nama_produk %></h4>
 										<p><%= c.jumlah %> X <%= number_to_currency(c.harga, locale: :id) %> </p>
+                    <% if c.voucher == false %>
                     <h4>Fee</h4>
                     <% if c.fee > 0 && c.fee < 101 %>
                     <p><%= c.fee %> % / item</p>
@@ -63,26 +64,34 @@
                     <% if c.fee > 100 %>
                     <p><%= number_to_currency(c.fee,locale: :id) %> / item</p>
                     <% end %>
+                    <% end %>
 									</div>
 									<div class="col-md-3">
 										<label>Subtotal</label>
+                    <% if c.voucher == false %>
                     <% if c.fee > 0 && c.fee < 101 %>
 										<p><%= number_to_currency(c.harga * c.jumlah * (100 + c.fee) / 100, locale: :id) %></p>
                     <% end %>
                     <% if c.fee > 100 %>
 										<p><%= number_to_currency(c.harga * c.jumlah + (c.fee * c.jumlah), locale: :id) %></p>
                     <% end %>
+                    <% else %>
+                    <p><%= number_to_currency(c.subtotal, locale: :id) %></p>
+                    <% end %>
 									</div>
+                  <% if c.voucher == false %>
 									<div class="col-md-3">
 										<label>Keterangan</label>
 										<p><%= c.catatan %></p>
 									</div>
+                  <% end %>
 								</div>
 								<hr style="border-color:#ddd;"></hr>
 						</li>
 
 			</ul>
 		<div class="row">
+      <% if Produk.find(c.produk_id).category_id != "14" %>
 			<div class="col-md-6">
 				<label>Tujuan Pengiriman</label>
 				<p>Penerima : <%= Alamat.find(c.alamat_id).nama_penerima %></p>
@@ -99,6 +108,7 @@
 				<label>Total Barang</label>
 				<p><%= c.jumlah %> ( <%= c.jumlah * Produk.find(c.produk_id).berat %> Gram)</p>
 			</div>
+      <% end %>
 
 		</div>
 		<hr style="border-color:#ddd;"></hr>

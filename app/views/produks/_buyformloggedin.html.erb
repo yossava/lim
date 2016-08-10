@@ -16,7 +16,11 @@
                          <%= f.hidden_field :fee, value: Homeitem.find(17).text2.to_d %>
                          <% end %>
                          <%= f.hidden_field :produk_id, value: @produk.id %>
+                          <% if @produk.category_id == "14" %>
+                          <%= f.hidden_field :harga, value: @produk.harga_beli %>
+                          <% else %>
                           <%= f.hidden_field :harga, class: "hargafinal" %>
+                          <% end %>
                          <%= f.hidden_field :seller_id, value: @produk.user_id %>
                           <%= f.hidden_field :subtotal, class: "subtotal" %>
                          <%= f.hidden_field :toko_id, value: @produk.toko_id %>
@@ -26,21 +30,27 @@
 </div>-->
 													<div class="row buynowform nmpro">
 														<div class="col-md-4"><label class="headingslbl">Nama Produk</label></div>
-														<div class="col-md-8"><p id="nmtpb-produk"><%= @produk.nama_produk %></p></div>
+														<div class="col-md-8"><p id="nmtpb-produk"><%= @produk.nama_produk %>
+                              <% if @produk.category_id == "14" %>
+                              <br><span style="color:#EB0E43;"><% if @produk.category_id == "14" &&  @produk.vouchervalid.present? %>Validate Voucher: <%= Date.strptime("#{@produk.vouchervalid}", "%m/%d/%Y").to_formatted_s(:rfc822) %></span><% end %><% end %></p></div>
 													</div>
 													<div class="row buynowform qty">
 														<div class="col-md-4"><label class="headingslbl">Quantity</label></div>
-														<div class="col-md-8"> <%= f.text_field :jumlah, class: "quantity", value: 1 %>
+														<div class="col-md-8"> <%= f.text_field :jumlah, class: "quantity", value: 1, required: true, "data-validation" => "number" %>
                             <div style="font-size:12px;color:orange;" class="hargagrosir"></div>
                             <input type="hidden" class="quantityform" value="<%= @produk.harga_beli %>" >
                             <input type="hidden" name="cart[ongkir]" class="ongkirtotal">
                             <input type="hidden" name="cart[kurir]" class="cartkurir">
+                                 <% if @produk.category_id == "14" %>
+                                 <input type="hidden" name="cart[alamat_id]" value="<%= current_user.alamats.first.id %>">
+                                <% end %>
                             </div>
 													</div>
+                          <% if @produk.category_id != "14" %>
 													<div class="row buynowform ket">
 														<div class="col-md-4"><label class="headingslbl">Keterangan</label></div>
 														<div class="col-md-8">
-                              <%= f.text_area :catatan, rows: "2" %>
+                              <%= f.text_area :catatan, rows: "2", "data-validation" => "alphanumeric", "data-validation-allowing" => " ", "data-validation-optional" => "true" %>
 														</div>
 													</div>
 													<div class="spacerform"></div>
@@ -51,62 +61,8 @@
 																<a style="float:right;color:lightblue;margin-bottom:5px;" target="blank" href="<%= alamats_path %>" class="">Edit Atau Gunakan Alamat Baru</a>
 																<a href="#" class="createnew-closer"><i class="fa fa-angle-left"></i> Kembali</a>
 															</div>
-															<div id="blokpls-newaddress" class="col-md-12" style="position:relative;">
-																<div class="colomacr">
-																	<div class="ctnblok-logreg row">
-																		<div class="col-md-6 mb-10">
-																			<label for="nmalamat">Alamat Sebagai</label>
-																			<input type="text" name="" id="nmalamat" placeholder="">
-																		</div>
-																		<div class="col-md-6 mb-10">
-																			<label for="penerima">Nama Penerima</label>
-																			<input type="text" name="" id="penerima" placeholder="">
-																		</div>
-																		<div class="col-md-12 mb-10">
-																			<label for="almt">Alamat</label>
-																			<textarea id="almt" rows="4" style="resize:none;"></textarea>
-																		</div>
-																		<div class="col-md-12 mb-10">
-																			<label for="kdpos">Kode Pos</label>
-																			<input type="text" name="" id="kdpos" placeholder="">
-																		</div>
-																		<div class="col-md-4 mb-10">
-																			<label for="prov">Provinsi</label>
-																			<select id="prov">
-																				<option>Pilih Provinsi</option>
-																				<option>10</option>
-																				<option>11</option>
-																				<option>12</option>
-																			</select>
-																		</div>
-																		<div class="col-md-4 mb-10">
-																			<label for="kota">Kotamadya / Kabupaten</label>
-																			<select id="kota">
-																				<option>Pilih Kabupaten</option>
-																				<option>10</option>
-																				<option>11</option>
-																				<option>12</option>
-																			</select>
-																		</div>
-																		<div class="col-md-4 mb-10">
-																			<label for="kec">Kecamatan</label>
-																			<select id="kec">
-																				<option>Pilih Kecamatan</option>
-																				<option>10</option>
-																				<option>11</option>
-																				<option>12</option>
-																			</select>
-																		</div>
-																		<div class="col-md-12 mb-10">
-																			<label for="tlp">Nomor Telepon</label>
-																			<input type="text" name="" id="tlp">
-																		</div>
-																	</div>
-																</div>
-															</div>
                               <div style="width:95%;margin-left:13px;margin-bottom:20px;">
-                              <%= f.select :alamat_id, current_user.alamats.map {|c| [c.sebagai, c.id, {:'kota' => c.kabupaten}]}, include_blank: "Pilih Alamat" %>
-
+                              <%= f.select :alamat_id, current_user.alamats.map {|c| [c.sebagai, c.id, {:'kota' => c.kabupaten}]}, {include_blank: "Pilih Alamat"}, {:required => true} %>
                               </div>
                               <% current_user.alamats.each do |a| %>
 															<div style="margin-bottom:10px;" class="buynowform addressblock <%= a.kabupaten %>">
@@ -165,10 +121,11 @@
 															<h4 class="total"><%= number_to_currency(@produk.harga_beli, locale: :id) %></h4>
 														</div>
 													</div>
+                           <% end %>
 													<div class="spacerform"></div>
 													<div class="row buynowform getbuynow">
 														<div class="col-md-12">
-															<button type="submit" class="" name="commit"><i class="fa fa-shopping-cart"></i> Beli Produk Ini</button>
+															<button type="submit" class="beliproduk" name="commit"><i class="fa fa-shopping-cart"></i> Beli Produk Ini</button>
 														</div>
 													</div>
                         <% end %>

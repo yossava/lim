@@ -52,13 +52,17 @@ class CartsController < ApplicationController
   end
 
   def terima_pesanan
-    Cart.find(params[:id]).update(:state => 7)
+    if Cart.find(params[:id]).voucher == true
+      Cart.find(params[:id]).update(:state => 6)
+      else
+      Cart.find(params[:id]).update(:state => 7)
+    end
     redirect_to :back
     mycart = Cart.find(params[:id])
     status = "Telah Diproses Seller"
     subject = Homeitem.find(24).text2
     subject2 = Homeitem.find(24).text4
-    Notifikasi.pesanan_diterima(mycart, subject, subject2).deliver_later
+    Notifikasi.terima_pesanan(mycart, subject, subject2).deliver_later
   end
   def tolak_pesanan
     Cart.find(params[:id]).update(:state => 8)
@@ -91,6 +95,10 @@ class CartsController < ApplicationController
     Cart.where(:user_id => current_user.id, :state=> 1).update_all(:state => 3)
     redirect_to '/payment'
   end
+  def usevoucher
+    Cart.find(params[:id]).update(:used => true)
+    redirect_to '/evoucher'
+  end
 
   # GET /carts/1
   # GET /carts/1.json
@@ -112,6 +120,10 @@ class CartsController < ApplicationController
     @cart = Cart.new(cart_params)
     @cart.user = current_user
     @cart.state = 1
+    if Produk.find(params['cart']['produk_id']).category_id == "14"
+    @cart.voucher = true
+    @cart.subtotal = (params['cart']['harga'].to_i * params['cart']['jumlah'].to_i)
+    end
 
     respond_to do |format|
       if @cart.save
@@ -156,6 +168,6 @@ class CartsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cart_params
-      params.require(:cart).permit(:toko_id, :user_id, :produk_id, :invoice, :catatan, :jumlah, :subtotal, :total, :metode_pembayaran, :alamat_id, :kurir, :berat, :ongkir, :seller_id, :state, :resi, :txid, :expired, :fee, :harga)
+      params.require(:cart).permit(:toko_id, :user_id, :produk_id, :invoice, :catatan, :jumlah, :subtotal, :total, :metode_pembayaran, :alamat_id, :kurir, :berat, :ongkir, :seller_id, :state, :resi, :txid, :expired, :fee, :harga, :voucher)
     end
 end

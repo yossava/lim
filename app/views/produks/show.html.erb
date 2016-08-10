@@ -68,7 +68,7 @@
 					<div class="shareproduk">
 						<h4>Bagikan Produk:</h4>
 						<div class="sharethis">
-							<span class='st_facebook_hcount' displayText='Facebook'><a href="https://www.facebook.com/sharer/sharer.php?u=<%= url_for(:only_path => false) %>"> <i style="font-size:2em;margin-right:5px;" class="fa fa-facebook-square" aria-hidden="true"></i></a></span>
+							<span class='st_facebook_hcount' displayText='Facebook'><a href="https://www.facebook.com/dialog/feed?app_id=184683071273&link=<%= url_for(:only_path => false) %>&picture=<%= (URI.parse(root_url) + @produk.foto_produk1.url).to_s %>&name=<%= @produk.nama_produk %>&caption=%20&description=<%= @produk.deskripsi_lengkap %>&redirect_uri=http%3A%2F%2Fwww.facebook.com%2F"><i style="font-size:2em;margin-right:5px;" class="fa fa-facebook-square" aria-hidden="true"></i></a></span>
 							<span class='st_twitter_hcount' displayText='Tweet'><a href="https://twitter.com/home?status=<%= url_for(:only_path => false) %>"> <i style="font-size:2em;margin-right:5px;" class="fa fa-twitter-square" aria-hidden="true"></i></a></span>
 							<span class='st_googleplus_hcount' displayText='Google +'><a href="https://plus.google.com/share?url=<%= url_for(:only_path => false) %>"> <i style="font-size:2em;margin-right:5px;" class="fa fa-google-plus-square" aria-hidden="true"></i></a></span>
 						</div>
@@ -90,9 +90,11 @@
               <div class="col-xs-3 noppading-left">
               <p>Terjual : <span class="typered"><%= Cart.where(:produk_id => @produk.id, :state => 6).count %></span></p>
               </div>
+              <% if @produk.category_id != "14" %>
               <div class="col-xs-3 noppading-left">
               <p>Berat : <span class="typered"><%= @produk.berat %>Gr</span></p>
               </div>
+              <% end %>
               <div class="col-xs-3 noppading-left">
               <p>Dilihat : <span class="typered"><%= @produk.impressionist_count %></span></p>
               </div>
@@ -121,10 +123,17 @@
 							<%= @produk.deskripsi %>
 						</p>
 						<div class="harga-detail">
+              <% if @produk.diskon.present? && @produk.diskon > 0 && @produk.category_id != "14" %>
 							<span class="col-md-6 noppading-left col-xs-12">Harga Normal</span><span class="hargacoret-detail col-md-6 col-xs-12"><%= number_to_currency(@produk.harga, locale: :id) %></span>
-							<span class="col-md-6 noppading-left col-xs-12">Harga Diskon</span><span class="hargaasli-detail col-md-6 col-xs-12"><%= number_to_currency(@produk.harga_diskon, locale: :id) %></span>
+							<span class="col-md-6 noppading-left col-xs-12">Harga Diskon</span><span class="hargaasli-detail col-md-6 col-xs-12"><%= number_to_currency(@produk.harga_beli, locale: :id) %></span>
+              <% else %>
+              <span class="col-md-6 noppading-left col-xs-12">Harga</span><span class="hargaasli-detail col-md-6 col-xs-12"><%= number_to_currency(@produk.harga_beli, locale: :id) %></span>
+              <% end %>
+              <% if @produk.category_id == "14" &&  @produk.vouchervalid.present? %>
+              <span class="col-md-6 noppading-left col-xs-12">Validate Voucher</span><span style="color:rgb(237, 36, 91);" class="hargaasli-detail col-md-6 col-xs-12"><%= Date.strptime("#{@produk.vouchervalid}", "%m/%d/%Y").to_formatted_s(:rfc822) %></span>
+              <% end %>
 						</div>
-            <% if @produk.jumlah_grosir1min %>
+            <% if @produk.jumlah_grosir1min && @produk.category_id != "14" %>
             <div style="border-top:none;border-b:none;" class="harga-detail">
               <div class="col-md-6 noppading-left col-xs-12"><strong>Harga Grosir</strong><br><br>
                 <table class="table table-striped table-bordered">
@@ -447,7 +456,7 @@ $(document).ready(function(){
 </script>
 <% end %>
 <script>
-  $('.quantity, .kurir').bind("keyup change", function(){
+  $('.quantity, .kurir, .beliproduk').bind("keyup change click", function(){
     var $r = $(".quantityform");
     var $d = $(".quantity");
     var $s = $("#cart_ongkir");
@@ -514,4 +523,7 @@ $(document).ready(function(){
     $('.cek').click();
     }
 });
+</script>
+<script>
+  $.validate();
 </script>

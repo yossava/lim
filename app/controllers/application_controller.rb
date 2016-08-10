@@ -67,6 +67,7 @@ class ApplicationController < ActionController::Base
       @troli7live = current_user.cart.where(:state => 7, :expired => false)
       @troli8 = current_user.cart.where(:state => 8)
       @trolies = current_user.cart.where(:state => [2,3,4,5,6,8]).paginate(:page => params[:page], :per_page => 10)
+      @evoucher = current_user.cart.where("voucher = ? AND state > ?", true, 1)
     end
     if user_signed_in? && Cart.where(:seller_id => current_user.id).present?
       @stroli3 = Cart.where(:seller_id => current_user.id, :state => 3)

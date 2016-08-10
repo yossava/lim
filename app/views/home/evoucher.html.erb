@@ -1,0 +1,126 @@
+<%= render 'layouts/header' %>
+		<div id="topkeyword">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="mobilemenu-opener ma5-toggle-menu"><i class="fa fa-bars"></i></div>
+						<%= render 'layouts/menumobile' %>
+						<span id="labeltopkeyword">Top Keyword</span>
+						<%= render 'layouts/topkey' %>
+						<%= render 'layouts/trolimobile' %>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="nav-breadcumb">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="compresedmenu">
+							<div class="headingcompresed">
+								<i class="fa fa-bars"></i> &nbsp; <span>Kategori</span> &nbsp; <i class="fa fa-angle-down"></i>
+							</div>
+							<%= render 'layouts/sidemenu' %>
+						</div>
+
+            <%= render 'layouts/bread' %>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ./Header -->
+
+		<div class="spacermedium"></div>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<button type="button" class="btn" id="btn-SHsidebar"><i class="fa fa-user" style="margin-right:1em;"></i> Member Menu</button>
+				</div>
+			</div>
+			<div class="row">
+				<%= render 'layouts/sidebar' %>
+				<div class="col-md-9 col-sm-9 wrappermakctn">
+					<div class="row">
+						<div class="col-md-12">
+							<ul class="tablink-akun">
+                <li class="activeli"><a href="/evoucher">Daftar E-Voucher</a></li>
+              </ul>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="colomacr">
+                <% @evoucher.each do |t| %>
+								<div class="list-konpem-outer <%= t.id %>">
+                  <% if t.state == 6 && t.used == false %>
+                  <%= form_tag evoucher_path, class: "buyform", remote: true do %>
+                  <%= hidden_field_tag :id, t.id %>
+                  <button type="submit" style="float:right;" href="#" class="btn btn-success gunakan">Gunakan E-Voucher Sekarang >></button>
+                  <% end %>
+                  <% end %>
+									<p class="invoice">Invoice : <strong><%= t.invoice %></strong></p>
+                  <p class="ttl-tagihan">Trx ID : <strong><%= t.txid %></strong></p>
+									<p class="dtime-transaksi">Tanggal Transaksi : <%= t.created_at.in_time_zone("Jakarta").strftime("%d-%m-%Y %H:%M") %> WIB</p>
+									<p>Pembelian dari Toko : <strong><%= Toko.find(t.toko_id).nama_toko %></strong></p>
+									<p class="ttl-tagihan">Total Tagihan : <strong><%= number_to_currency(t.subtotal,locale: :id) %></strong></p>
+                  <% if t.state == 2 %>
+                  <p>Status Pemesanan : <strong class="statusorder waiting">Menunggu Konfirmasi</strong> &nbsp; <em class="notepesanan"></em></p>
+                  <% elsif t.state == 3 %>
+                   <p>Status Pemesanan : <strong class="statusorder diproses">Sedang Diproses</strong> &nbsp; <em class="notepesanan"></em></p>
+                  <% elsif t.state == 6 %>
+                   <p>Status Pemesanan : <strong class="statusorder done">Transaksi Selesai</strong> &nbsp; <em class="notepesanan"></em></p>
+                  <% end %>
+                  <% if t.used == true %>
+                  <p class="ttl-tagihan">Tanggal Evoucher digunakan : <strong><%= t.updated_at.in_time_zone("Jakarta").strftime("%d-%m-%Y %H:%M") %> WIB </strong></p>
+                  <% end %>
+									<div class="spacermedium"></div>
+									<div class="wrapdtkonf">
+										<div class="heading-wdkf">
+											<h4>Pembelian dari Toko : <strong><%= Toko.find(t.toko_id).nama_toko %></strong></h4>
+										</div>
+										<div class="row">
+											<div class="col-md-6 lpwp">
+												<span class="imglpwp"><img src="<%= Produk.find(t.produk_id).foto_produk1.url %>" class="responsiveimg"></span>
+												<h4><%= Produk.find(t.produk_id).nama_produk %></h4>
+												<p><%= t.jumlah %> X <%= number_to_currency(t.harga, locale: :id) %></p>
+											</div>
+											<div class="col-md-3">
+												<label>Subtotal</label>
+												<p><%= number_to_currency(t.harga, locale: :id) %></p>
+                        <% if t.fee > 0 && t.fee < 101 %>
+                        <p>+fee: <%= t.fee %>% / item</p>
+                        <% end %>
+                        <% if t.fee > 100 %>
+                        <p>+fee: <%= number_to_currency(t.fee, locale: :id) %> / item</p>
+                        <% end %>
+											</div>
+										</div>
+										<hr style="border-color:#ddd;"></hr>
+										<hr style="border-color:#ddd;"></hr>
+										<div class="row">
+											<div class="col-md-12" style="text-align:right;font-size:18px;">
+												<label class="typeorange">Total : <%= number_to_currency(t.subtotal, locale: :id) %></label>
+											</div>
+										</div>
+									</div>
+									<div class="spacermedium"></div>
+									<a href="#" class="showdtkonf"><i class="fa fa-plus"></i>&nbsp; Tampilkan Detail</a>
+									<a href="#" class="hidedtkonf hide"><i class="fa fa-minus"></i>&nbsp; Sembunyikan Detail</a>
+								</div>
+                <% end %>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+		<div class="spacerbig"></div>
+    <%= render 'layouts/footer' %>
+<script>
+  $('.gunakan').click(function() {
+  $(this).html('Mohon Tunggu....');
+                      });
+</script>

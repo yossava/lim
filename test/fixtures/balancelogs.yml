@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  cart_id: 1
+  nominal: 1
+  saldo: 1
+  keterangan: MyText
+
+two:
+  cart_id: 1
+  nominal: 1
+  saldo: 1
+  keterangan: MyText

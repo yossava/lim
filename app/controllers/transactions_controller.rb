@@ -10,6 +10,12 @@ class TransactionsController < ApplicationController
   def index
     @transactions = Transaction.all
   end
+  def penarikan
+    @rekening = Rekening.find(params[:rekening_id])
+    balance = Balancelog.new(rekening_id: params[:rekening_id], nominal: params[:nominal], user_id: current_user.id, saldo: current_user.saldo, keterangan: "Withdrawal Request (#{@rekening.nama_bank} - #{@rekening.nomor_rekening} - #{@rekening.pemilik})")
+    balance.save!
+    redirect_to "/saldo"
+  end
   def bank
     @van = params[:van]
     @date = params[:date]

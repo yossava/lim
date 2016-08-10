@@ -6,6 +6,19 @@ class AdminsController < ApplicationController
   def login
     render :layout => nil
   end
+  def wd_request
+    if params[:log_id] && params[:paid]
+      @balancelog = Balancelog.find(params[:log_id])
+      @saldo = User.find(@balancelog.user_id).saldo
+      @rekening = Rekening.find(@balancelog.rekening_id)
+      @balancelog.update(paid: true, keterangan: "Withdrawal Completed (#{@rekening.nama_bank} - #{@rekening.nomor_rekening} - #{@rekening.pemilik})", saldo: @saldo - @balancelog.nominal)
+      User.find(@balancelog.user_id).update(saldo: @saldo - @balancelog.nominal)
+    end
+    if params[:log_id] && params[:reject]
+      @balancelog = Balancelog.find(params[:log_id])
+      @balancelog.update(reject: true)
+    end
+  end
   def email
     @homeitems = Homeitem.where(:id => [20,21,22,23,24,25,26,27,28]).paginate(:page => params[:page], :per_page => 15)
     if params[:id]

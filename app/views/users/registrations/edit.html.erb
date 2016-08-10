@@ -199,7 +199,7 @@
 									<div class="ctnblok-logreg">
                       <div class="form-row has-error">
                         <%= f.label :Nama_Lengkap %><br />
-                        <%= f.text_field :namalengkap, autofocus: true, required: true %>
+                        <%= f.text_field :namalengkap, autofocus: true, required: true, "data-validation" => "alphanumeric" %>
                       </div>
                       <div><%= f.label :Tanggal_Lahir, class: "form-row" %><br />
                       <%= f.date_select :date_of_birth, :start_year=>1930,:end_year=>2030 %></div>
@@ -212,7 +212,7 @@
                     </div>
                     <div class="form-row">
                       <%= f.label :Nomor_Handphone %><br />
-                      <%= f.text_field :nomor_handphone, autofocus: true, required: true %>
+                      <%= f.text_field :nomor_handphone, autofocus: true, required: true, "data-validation" => "number" %>
                     </div>
 									</div>
 								</div>
@@ -222,7 +222,7 @@
 									<div class="ctnblok-logreg">
                      <div class="form-row">
                        <%= f.label :Alamat_email %><br />
-                       <%= f.email_field :email, autofocus: true %>
+                       <%= f.email_field :email, autofocus: true, "data-validation" => "email", "style" => "padding-left: 10px;" %>
                      </div>
                     <% if !current_user.provider %>
 										<div class="form-row">
@@ -247,4 +247,6 @@
 
 		<div class="spacerbig"></div>
     <%= render 'layouts/footer' %>
-
+<script>
+  $.validate();
+</script>

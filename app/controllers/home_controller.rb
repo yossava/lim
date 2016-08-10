@@ -29,6 +29,16 @@ class HomeController < ApplicationController
     Cart.find(params[:id]).update(:expired => true)
     redirect_to :back
   end
+  def saldo
+    if current_user.saldo.present? && current_user.saldo > -1
+      @saldokotor = []
+      Cart.where("state IN (?) AND seller_id = ?", [2,3,4,5,7], current_user.id).each do |c|
+        @saldokotor << c.subtotal
+      end
+      @saldokotor = @saldokotor.sum + current_user.saldo
+    end
+    @balancelog = Balancelog.where(:user_id => current_user.id).order("updated_at desc").paginate(:page => params[:page], :per_page => 15)
+  end
 
   def display
       respond_to do |format|
@@ -49,6 +59,7 @@ class HomeController < ApplicationController
     @cit = @city['rajaongkir']['results']
   end
   def index
+    @newsletter = Newsletter.new
     @pro = Produk.order("RANDOM()").limit(20)
     @pro2 = Produk.all.sample(10)
     @pro3 = Produk.all.sample(4)
@@ -127,6 +138,17 @@ class HomeController < ApplicationController
   end
 
   def edit
+  end
+  def evoucher
+    if params[:id]
+      @id = params[:id]
+      @cart = Cart.find(@id)
+      @produk = Produk.find(@cart.produk_id)
+    end
+    respond_to do |format|
+      format.html {}
+      format.js { render :file => "/home/evoucher.js.erb" }
+    end
   end
   def finish
   end

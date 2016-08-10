@@ -1,0 +1,2 @@
+module BalancelogsHelper
+end

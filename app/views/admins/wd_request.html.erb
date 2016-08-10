@@ -1,0 +1,112 @@
+<div class="wrapper">
+
+  <%= render 'admins/topbar' %>
+  <!-- Left side column. contains the logo and sidebar -->
+  <%= render 'admins/sidebar' %>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Request List
+
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Finance</a></li>
+        <li class="active">Withdrawal Request</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Withdrawal Request</h3>
+              <span style="float:right;padding:5px;" class="label label-danger">Notice: Jangan refresh halaman ini setelah melakukan transaksi, karena form akan dikirim ulang !</span>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>User Cleared Balance</th>
+                  <th>Withdrawal Request</th>
+                  <th>Request Date</th>
+                  <th>Bank Account</th>
+                  <th>Paid</th>
+                  <th>Reject</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <% Balancelog.where(cart_id: nil, paid: false, reject: false).each do |b| %>
+                <tr>
+                  <td><%= b.id %></td>
+                  <td><%= User.find(b.user_id).namalengkap %></td>
+                  <td><%= number_to_currency(User.find(b.user_id).saldo, locale: :id) %>
+                  </td>
+                  <td><%= number_to_currency(b.nominal, locale: :id) %></td>
+                  <td><%= b.created_at.in_time_zone("Jakarta").strftime("%d-%m-%Y %H:%M") %> WIB</td>
+                  <% @rekening = Rekening.find(b.rekening_id) %>
+                  <td><%= "#{@rekening.nama_bank} - #{@rekening.nomor_rekening} - #{@rekening.pemilik}" %></td>
+                  <td>
+                  <%= form_tag admin_wd_request_path do %>
+                  <input type="hidden" name="log_id" value="<%= b.id %>">
+                  <input type="submit" value="Paid" name="paid" class="btn btn-success btn-sm" data-confirm="Balance akan diperbarui!">
+                  <% end %>
+                  </td>
+                  <td>
+                  <%= form_tag admin_wd_request_path do %>
+                  <input type="hidden" name="log_id" value="<%= b.id %>">
+                  <input type="submit" value="Reject" name="reject" class="btn btn-danger btn-sm" data-confirm="Request akan direject!">
+                  <% end %>
+                  </td>
+
+                </tr>
+                <% end %>
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>User Cleared Balance</th>
+                  <th>Withdrawal Request</th>
+                  <th>Request Date</th>
+                  <th>Bank Account</th>
+                  <th>Paid</th>
+                  <th>Reject</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+  </footer>
+
+
+</div>
+
+<% if notice.to_s.include? "Balance" %>
+<script>
+$(function () {
+    $.notiny({ text: "<%= notice %>", position: 'right-top' });
+  });
+</script>
+<% end %>

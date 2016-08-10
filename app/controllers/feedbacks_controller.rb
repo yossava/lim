@@ -40,6 +40,8 @@ class FeedbacksController < ApplicationController
       @usersaldo =  User.find(@donecart.seller_id).saldo
       @saldo = @donecart.subtotal
       User.find(@donecart.seller_id).update(:saldo => @saldo + @usersaldo)
+      balance = Balancelog.new(cart_id: @donecart.id, nominal: @saldo, user_id: @donecart.seller_id, saldo: @saldo + @usersaldo, keterangan: "Transaksi penjualan Berhasil")
+      balance.save!
     end
     mycart = @donecart
     status = "Telah Diterima Buyer, Transaksi selesai"

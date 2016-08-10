@@ -129,17 +129,17 @@
                   <div id="edittoko">
                   <div class="form-row">
                     <%= f.label :nama_toko %><br>
-                    <%= f.text_field :nama_toko %>
+                    <%= f.text_field :nama_toko, required: true, "data-validation" => "alphanumeric", "data-validation-allowing" => " " %>
                     <p class="text-muted">Maksimal 24 karakter</p>
                   </div>
                    <input type="hidden" name="toko[kota_sebagai]" id="toko_kota_sebagai">
                   <div class="form-row">
                     <%= f.label :slogan %><br>
-                    <%= f.text_field :slogan %>
+                    <%= f.text_field :slogan, "data-validation" => "alphanumeric", "data-validation-allowing" => " ", "data-validation-optional" => "true" %>
                   </div>
                   <div class="form-row">
                     <%= f.label :deskripsi %><br>
-                    <%= f.text_area :deskripsi %>
+                    <%= f.text_area :deskripsi, required: true, "data-validation" => "length", "data-validation-length" => "max500" %>
                     <p class="text-muted">Maksimal  500 karakter</p>
                   </div>
 									<hr style="border-color:#ddd;"></hr>
@@ -188,7 +188,7 @@
 										</div>
 										<div class="row">
 											<div class="col-md-12">
-                        <%= f.text_area :alamat, id: "des", rows: "4", style: "resize:none;", placeholder: "selengkapnya.." %>
+                        <%= f.text_area :alamat, id: "des", rows: "4", style: "resize:none;", placeholder: "selengkapnya..", "data-validation" => "length", "data-validation-length" => "max500", "data-validation-optional" => "true" %>
 											</div>
 										</div>
 									</div>
@@ -200,11 +200,11 @@
 									</div>
 									<div class="form-row">
 										<label for="cttn">Catatan</label>
-                    <%= f.text_field :catatan, id: "cttn", placeholder: "comming soon" %>
+                    <%= f.text_field :catatan, id: "cttn", placeholder: "comming soon", "data-validation" => "alphanumeric", "data-validation-allowing" => " ", "data-validation-optional" => "true" %>
 									</div>
 									<div class="form-row">
 										<label for="tglend">Tutup Sampai</label>
-                    <%= f.text_field :tutup_sampai, id: "tglend", class: "datepicker" %>
+                    <%= f.text_field :tutup_sampai, id: "tglend", class: "datepicker", "data-validation" => "date", "data-validation-format" => "mm/dd/yyyy", "data-validation-optional" => "true" %>
 									</div>
 									<hr style="border-color:#ddd;"></hr>
 									<div class="form-row">
@@ -416,3 +416,6 @@ $(document).on('ready page:load', function () {
 });
 </script>
 <% end %>
+<script>
+  $.validate();
+</script>

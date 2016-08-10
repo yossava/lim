@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Cart:</strong>
+  <%= @balancelog.cart_id %>
+</p>
+
+<p>
+  <strong>Nominal:</strong>
+  <%= @balancelog.nominal %>
+</p>
+
+<p>
+  <strong>Saldo:</strong>
+  <%= @balancelog.saldo %>
+</p>
+
+<p>
+  <strong>Keterangan:</strong>
+  <%= @balancelog.keterangan %>
+</p>
+
+<%= link_to 'Edit', edit_balancelog_path(@balancelog) %> |
+<%= link_to 'Back', balancelogs_path %>

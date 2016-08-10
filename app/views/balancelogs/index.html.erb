@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Balancelogs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cart</th>
+      <th>Nominal</th>
+      <th>Saldo</th>
+      <th>Keterangan</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @balancelogs.each do |balancelog| %>
+      <tr>
+        <td><%= balancelog.cart_id %></td>
+        <td><%= balancelog.nominal %></td>
+        <td><%= balancelog.saldo %></td>
+        <td><%= balancelog.keterangan %></td>
+        <td><%= link_to 'Show', balancelog %></td>
+        <td><%= link_to 'Edit', edit_balancelog_path(balancelog) %></td>
+        <td><%= link_to 'Destroy', balancelog, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Balancelog', new_balancelog_path %>

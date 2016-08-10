@@ -167,11 +167,11 @@
 						<div class="ctnblok-logreg">
               <div class="form-row has-error">
               <%= f.label :Nama_Lengkap %><br />
-              <%= f.text_field :namalengkap, autofocus: true, placeholder: "Nama Anda", required: "true", id: "upper" %>
+              <%= f.text_field :namalengkap, autofocus: true, placeholder: "Nama Anda", required: "true", id: "upper", "data-validation" => "alphanumeric", "data-allowing" => " " %>
               </div>
               <div class="form-row">
               <%= f.label :Nomor_Handphone %><br />
-              <%= f.text_field :nomor_handphone, autofocus: true, placeholder: "Nomor Handphone/Telp", required: true %>
+              <%= f.text_field :nomor_handphone, autofocus: true, placeholder: "Nomor Handphone/Telp", required: true, "data-validation" => "number" %>
               </div>
               <div class="form-row">
                 <%= f.label :Jenis_Kelamin %><br />
@@ -183,15 +183,15 @@
 
 							<div class="form-row">
 								<label for="password">Alamat Email</label>
-								<input required="true" type="email" name="user[email]" id="password" placeholder="Alamat Email">
+								<input required="true" type="email" name="user[email]" id="password" data-validation="email" placeholder="Alamat Email">
 							</div>
 							<div class="form-row">
 								<label for="password">Password</label>
-								<input required="true" type="password" name="user[password]" id="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
+								<input data-validation="length" data-validation-length="min8" required="true" type="password" name="user[password]" id="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
 							</div>
 							<div class="form-row">
 								<label for="password">Ketik Ulang Password</label>
-								<input required="true "type="password" name="user[password_confirmation]" id="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
+								<input data-validation="confirmation" data-validation-confirm="user[password]" required="true "type="password" name="user[password_confirmation]" id="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
 							</div>
 							<div class="form-row">
 								<input required="true" type="checkbox" name="" value="" class="cexreg"> <span class="cexdes">Saya sudah membaca dan menyetujui <a href="#" class="typered">Syarat dan Ketentuan</a>, serta <a href="#"  class="typered">Kebijakan Privasi</a> Loveitmart</span>
@@ -308,3 +308,6 @@
 				return false;
 			});
 		</script>
+<script>
+  $.validate();
+</script>

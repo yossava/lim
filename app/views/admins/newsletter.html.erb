@@ -33,6 +33,8 @@
                 <tr>
                   <th>ID</th>
                   <th>Email</th>
+                  <th>Nama</th>
+                  <th>Telepon</th>
                   <th>Hapus</th>
                 </tr>
                 </thead>
@@ -41,6 +43,8 @@
                 <tr>
                   <td><%= u.id %></td>
                   <td><%= u.email %></td>
+                  <td><%= u.nama %></td>
+                  <td><%= u.telepon %></td>
                   <td><%= link_to "Hapus", admin_destroy_newsletter_path(u), method: :delete, :data => {:confirm => 'Are you sure?'}, :class => "btn btn-danger btn-sm"  %>
 
 </td>
@@ -52,6 +56,8 @@
                 <tr>
                   <th>ID</th>
                   <th>Email</th>
+                  <th>Nama</th>
+                  <th>Telepon</th>
                   <th>Hapus</th>
                 </tr>
                 </tfoot>

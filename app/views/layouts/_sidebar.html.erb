@@ -23,9 +23,12 @@
 									<h4>Profil Saya</h4>
 									<a href="/konfirmasi-pembayaran" data-toggle="tooltip" title="Daftar dan status pembelian Anda"><i class="fa fa-caret-right"></i> &nbsp; Pembelian</a>
 									<a href="/wishlist" data-toggle="tooltip" title="Daftar produk wishlist Anda"><i class="fa fa-caret-right"></i> &nbsp; Wishlist</a>
+                  <a href="/evoucher" data-toggle="tooltip" title="Daftar e-Voucher Anda"><i class="fa fa-caret-right"></i> &nbsp; E-Voucher</a>
+                  <a href="/saldo" data-toggle="tooltip" title="Daftar Transaksi dan Saldo"><i class="fa fa-caret-right"></i> &nbsp; Saldo</a>
 									<a href="/edit" data-toggle="tooltip" title="Pengaturan profil Anda"><i class="fa fa-caret-right"></i> &nbsp; Pengaturan</a>
 								</div>
 							</div>
+              <% if current_user.toko.present? %>
 							<div class="rowMas-control">
 								<div class="Mas-profilsaya">
 									<h4>Toko Saya</h4>
@@ -37,6 +40,7 @@
                   <% end %>
 								</div>
 							</div>
+              <% end %>
 							<div class="rowMas-control">
 								<a class="redbtn" href="#">Panduan</a>
 							</div>

@@ -189,7 +189,7 @@
                   <%= form_for(@toko) do |f| %>
 									<div style="display:none;" class="form-row col-md-12 tampil">
 										<label for="nmtoko">Nama Toko</label>
-										<input type="text" name="toko[nama_toko]" id="nmtoko">
+										<input data-validation="alphanumeric" data-validation-allowing=" " type="text" name="toko[nama_toko]" id="nmtoko" required>
                     <input type="hidden" name="toko[kota_sebagai]" id="toko_kota_sebagai">
 										<p class="text-muted">maksimal 24 karakter</p>
 									</div>
@@ -198,8 +198,8 @@
 										<div class="row" id="tpt">
 											<div class="col-md-4 spacermobile">
 												<label for="tpt">Pilih Provinsi</label>
-												<select class="provinsi" required="true" name="toko[provinsi]">
-                          <option>Pilih Provinsi</option>
+												<select class="provinsi" required="true" name="toko[provinsi]" required>
+                          <option value="">Pilih Provinsi</option>
                           <% @pro.each do |p| %>
                             <option value="<%= p['province_id'] %>"><%= p['province'] %></option>
                           <% end %>
@@ -208,8 +208,8 @@
                       <% if params[:provinsi] %>
 											<div class="col-md-4 spacermobile">
                           <label for="kota">Kota / Kabupaten</label>
-                          <select class="kota" required="true" name="toko[kota]">
-                          <option>Pilih Kota/Kabupaten</option>
+                          <select class="kota" required="true" name="toko[kota]" required>
+                          <option value="">Pilih Kota/Kabupaten</option>
                           <% @cit.each do |p| %>
                             <option value="<%= p['city_id'] %>"><%= p['city_name'] %></option>
                           <% end %>
@@ -219,8 +219,8 @@
                       <% if params[:kota] != "undefined" && params[:kota] %>
 											<div class="col-md-4 spacermobile">
                           <label for="kec">Kecamatan</label>
-                            <select class="kecamatan" required="true" name="toko[kecamatan]">
-                            <option>Pilih Kecamatan</option>
+                            <select class="kecamatan" required="true" name="toko[kecamatan]" required>
+                            <option value="">Pilih Kecamatan</option>
                             <% @kec.each do |p| %>
                               <option value="<%= p['subdistrict_id'] %>"><%= p['subdistrict_name'] %></option>
                             <% end %>
@@ -231,7 +231,7 @@
 									</div>
 									<div style="display:none;" class="form-row col-md-3 tampil">
 										<label for="kdpos">Kode Pos</label>
-										<input type="text" name="toko[kode_pos]" id="kdpos">
+										<input data-validation="number" type="text" name="toko[kode_pos]" id="kdpos">
 									</div>
 									<div style="clear:both;"></div>
 									<div style="display:none;" class="form-row tampil">
@@ -265,61 +265,6 @@
 										</div>
 									</div>
 									<hr style="border-color:#ddd;"></hr>
-									<div class="form-row col-md-12 hide">
-										<label for="jmlt">Nama Lengkap Anda</label>
-										<input type="text" name="" id="jmlt">
-									</div>
-									<div style="clear:both;"></div>
-									<div class="form-row hide">
-										<label for="tgllhr">Tanggal Lahir</label>
-										<div class="row hide" id="tgllhr">
-											<div class="col-md-3">
-												<select>
-													<option>Tanggal</option>
-													<option>10</option>
-													<option>11</option>
-													<option>12</option>
-												</select>
-											</div>
-											<div class="col-md-5 hide">
-												<select>
-													<option>Bulan</option>
-													<option>September</option>
-													<option>Oktober</option>
-													<option>November</option>
-												</select>
-											</div>
-											<div class="col-md-4 hide">
-												<select>
-													<option>Tahun</option>
-													<option>1990</option>
-													<option>1991</option>
-													<option>1992</option>
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="form-row hide">
-										<label for="jk">Jenis Kelamin</label>
-										<span class="rowjk"><input type="radio" name="sex" value="male" checked>&nbsp; Pria</span>
-										<span class="rowjk"><input type="radio" name="sex" value="female">&nbsp; Wanita</span>
-									</div>
-									<div class="form-row hide">
-										<label for="email">Nomor Handphone</label>
-										<input type="text" name="" id="email" placeholder="Nomor Handphone/Telp">
-									</div>
-									<div class="form-row hide">
-										<label for="password">Alamat Email</label>
-										<input type="email" name="" id="password" placeholder="Alamat Email">
-									</div>
-									<div class="form-row hide">
-										<label for="password">Password</label>
-										<input type="password" name="" id="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
-									</div>
-									<div class="form-row hide">
-										<label for="password">Ketik Ulang Password</label>
-										<input type="password" name="" id="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
-									</div>
 									<br>
 									<p  style="display:none;" class="text-muted tampil">- Pastikan Anda mengisi data dengan benar</p>
 									<p  style="display:none;" class="text-muted tampil">- Dengan membuat toko di Loveitmart.com, Anda vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt</p>
@@ -388,4 +333,7 @@ $(document).on('ready page:load', function () {
         Turbolinks.visit(newurl);
     });
 });
+</script>
+<script>
+  $.validate();
 </script>

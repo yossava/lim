@@ -1,5 +1,5 @@
 <% if @count > 0 %>
-<select style="text-transform: uppercase;" class="kurir" required="required" id="cart_ongkir">
+<select style="text-transform: uppercase;" class="kurir" required id="cart_ongkir">
 <option selected="selected" value="">Pilih Ekspedisi</option>
 <% @all.each do |a| %>
 <% a['costs'].each do |b| %>
@@ -11,5 +11,7 @@
 <% end %>
 </select>
 <% else %>
-Ekspedisi tidak tersedia
+<select style="text-transform: uppercase;" class="kurir" required id="cart_ongkir">
+  <option selected="selected" value="">Ekspedisi tidak tersedia</option>
+</select>
 <% end %>

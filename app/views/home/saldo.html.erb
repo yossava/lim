@@ -1,0 +1,147 @@
+<%= render 'layouts/header' %>
+		<div id="topkeyword">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="mobilemenu-opener ma5-toggle-menu"><i class="fa fa-bars"></i></div>
+						<%= render 'layouts/menumobile' %>
+						<span id="labeltopkeyword">Top Keyword</span>
+						<%= render 'layouts/topkey' %>
+						<%= render 'layouts/trolimobile' %>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="nav-breadcumb">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="compresedmenu">
+							<div class="headingcompresed">
+								<i class="fa fa-bars"></i> &nbsp; <span>Kategori</span> &nbsp; <i class="fa fa-angle-down"></i>
+							</div>
+							<%= render 'layouts/sidemenu' %>
+						</div>
+
+            <div class="breadcumb">
+							<span><a href="/">Home</a></span>
+							<span>></span>
+							<span><a href="#">Dashboard</a></span>
+							<span>></span>
+							<span><a href="#">Saldo</a></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ./Header -->
+
+		<div class="spacermedium"></div>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<button type="button" class="btn" id="btn-SHsidebar"><i class="fa fa-user" style="margin-right:1em;"></i> Member Menu</button>
+				</div>
+			</div>
+			<div class="row">
+				<%= render 'layouts/sidebar' %>
+				<div class="col-md-9 col-sm-9 wrappermakctn balance">
+          <div class="balance-notice">
+          <p>Saldo adalah jumlah seluruh transaksi yang sudah masuk dalam daftar transaksi.<br>
+          Jumlah yang dapat ditarik adalah daftar transaksi yang sudah selesai pada status produk.<br><br>
+            Waktu pencairan dana yang ditarik 2x24 jam jika, penarikan belum masuk rekening yang dituju silakan hubungi customer service kami untuk informasi lebih lanjut.
+          </p>
+          </div>
+          <hr>
+          <div class="available-balance col-md-6">
+          <p>Total saldo Anda adalah <span class="balance-available"><%= number_to_currency(@saldokotor, locale: :id) %></span> <br>
+          Saldo yang dapat Anda tarik <span class="balance-withdrawable"><%= number_to_currency(current_user.saldo, locale: :id) %></span>
+          </p>
+          </div>
+          <div class="balance-button col-md-6">
+          <button class="btn btn-success tarik">Tarik Saldo</button>
+          </div>
+          <div style="clear:both;" ></div>
+          <hr>
+          <table class="table table-bordered balance-table">
+            <thead>
+              <tr>
+                <th>Deskripsi</th>
+                <th>Nominal</th>
+                <th>Saldo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @balancelog.each do |b| %>
+              <tr>
+                <td><%= b.keterangan %> <strong><% if b.cart_id.present? %><%= Cart.find(b.cart_id).invoice %><% end %></strong><br><span class="balance-date"> Tgl Transaksi <%= b.created_at.in_time_zone("Jakarta").strftime("%d-%m-%Y %H:%M") %> WIB</span><% if b.paid == true %><br><span class="label label-success">Withdrawal completed on <%= b.updated_at.in_time_zone("Jakarta").strftime("%d-%m-%Y %H:%M") %> WIB</span><% end %><% if b.reject == true %><br><span class="label label-danger">Withdrawal rejected on <%= b.updated_at.in_time_zone("Jakarta").strftime("%d-%m-%Y %H:%M") %> WIB</span><% end %> </td>
+                <td style="<% if b.keterangan == "Transaksi penjualan berhasil" %>color:green;<% else %> color:red;<% end %>"><%= number_to_currency(b.nominal, locale: :id) %></td>
+                <td><%= number_to_currency(b.saldo, locale: :id) %></td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <div class="col-md-12 hal">
+                  <div class="halaman">
+                  <%= will_paginate @balancelog %>
+                  </div>
+					</div>
+          <div class="col-md-12 hal">
+                <p class="typelight"><%= page_entries_info @balancelog %></p>
+            </div>
+          <div class="balance-forms">
+            <h4>Konfirmasi Tarik Dana</h4>
+            <hr>
+            <p>
+              Permintaan dana diproses dalam waktu <strong>1x24 jam hari kerja bank</strong> (tidak termasuk hari Sabtu/Minggu/Libur)<br><br>
+              Tarik dana dengan nomor rekening di luar BCA/Mandiri dana akan masuk dalam waktu maksimal <strong>2x24 jam hari kerja bank</strong> (tidak termasuk hari Sabtu/Minggu/Libur) dan apabila ada biaya tambahan yang dibebankan akan menjadi tanggung jawab pengguna.<br><br>
+              Anda akan mendapatkan email konfirmasi ketika dana sudah kami transfer dan ketika dana sudah berhasil masuk ke rekening Anda.
+            </p>
+            <hr>
+            <%= form_tag(penarikan_path, class: "balance-form", :method => "post") do %>
+              <label>Jumlah Tarik Tersedia</label>
+              <input value="<%= number_to_currency(current_user.saldo, locale: :id) %>" type="text" disabled>
+              <label>Jumlah Penarikan</label>
+              <input name="nominal" type="text" required data-validation="number">
+              <label>Rekening Tujuan</label>
+              <select name="rekening_id" required>
+                <option value="">Pilih Rekening</option>
+                <% current_user.rekenings.each do |r| %>
+                <option value="<%= r.id %>"><%= r.nama_bank %> - <%= r.nomor_rekening %> AN <%= r.pemilik %></option>
+                <% end %>
+              </select>
+              <span class="balance-form-notice">Demi kelancaran penarikan dana, cek kembali nama dan nomor rekening yang dicantumkan sudah sesuai dengan yang tertera di buku tabungan Anda.</span>
+              <label>Password Login</label>
+              <input name="password" type="password" required>
+              <hr>
+              <button type="submit" class="btn btn-success">Proses</button>
+              <button class="btn btn-danger batal">Batalkan</button>
+            <% end %>
+
+            <div class="spacermedium"></div>
+          </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="spacerbig"></div>
+    <%= render 'layouts/footer' %>
+<script>
+  $('.tarik').click(function(){
+    $('.balance-table').fadeOut();
+    $('.hal').fadeOut();
+    $('.balance-forms').fadeIn();
+  });
+</script>
+<script>
+  $('.batal').click(function(){
+    $('.balance-table').fadeIn();
+    $('.hal').fadeIn();
+    $('.balance-forms').fadeOut();
+  });
+</script>
+<script>
+  $.validate();
+</script>

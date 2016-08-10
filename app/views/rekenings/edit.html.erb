@@ -51,38 +51,32 @@
 						</div>
 					</div>
 					<div class="row">
+            <%= form_for(@rekening) do |f| %>
 						<div class="col-md-6">
-							<div class="ctnblok-logreg">
-                <%= form_for(@rekening) do |f| %>
-                    <div class="form-row">
-                      <%= f.label :Nama_akun %>
-                      <%= f.text_field :pemilik %>
-                    </div>
-                    <div class="form-row">
-                       <%= f.label :No_rekening %>
-                       <%= f.text_field :nomor_rekening %>
-                    </div>
-
-							</div>
-						</div>
+              <div class="form-row">
+                <%= f.label :Nama_akun %>
+                <%= f.text_field :pemilik, "data-validation" => "alphanumeric" %>
+              </div>
+              <div class="form-row">
+                <%= f.label :No_rekening %>
+                <%= f.text_field :nomor_rekening, "data-validation" => "number" %>
+              </div>
+            </div>
 						<div class="col-md-6">
-							<div class="ctnblok-logreg">
                 <div class="form-row">
                  <%= f.label :Nama_bank %>
                  <%= f.select :nama_bank, ["BCA", "BNI", "Mandiri"] %></div>
                 <div class="form-row">
                    <%= f.label :Cabang %>
-                   <%= f.text_field :cabang %>
+                   <%= f.text_field :cabang, "data-validation" => "alphanumeric" %>
                    <p class="helpertext">* Contoh: KC jakarta citra 2 extension - Jakarta Barat</p>
                 </div>
-								<br>
-								<div class="form-row reg">
-									<input type="submit" name="" value="Simpan" class="gosignin" >
-                  <% end %>
-									<a href="#" id="batalbtn">Batal</a>
-								</div>
-							</div>
 						</div>
+            <div class="col-md-12">
+            <input type="submit" name="" value="Simpan" class="gosignin" >
+            <% end %>
+            <a href="#" id="batalbtn">Batal</a>
+            </div>
 					</div>
 				</div>
 			</div>
@@ -90,3 +84,6 @@
 
 		<div class="spacerbig"></div>
     <%= render 'layouts/footer' %>
+<script>
+  $.validate();
+</script>

@@ -27,7 +27,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="headingmac">
-								<h4>Tambah Produk</h4>
+								<h4>Edit Produk</h4>
 							</div>
 						</div>
 					</div>
@@ -38,38 +38,48 @@
                   <%= form_for(@produk) do |f| %>
 									<div class="form-row has-error">
 										<label for="nmprdk">Nama Produk</label>
-                    <%= f.text_field :nama_produk, id: "nmprdk", placeholder: "masukan nama produk" %>
+                    <%= f.text_field :nama_produk, id: "nmprdk", placeholder: "masukan nama produk", required: "required", "data-validation" => "alphanumeric", "data-validation-allowing" => " " %>
 										<!--<p><i class="fa fa-exclamation-triangle"></i> &nbsp;Isikan Username</p>-->
 										<p class="text-muted">Maximum 80 Characters</p>
 									</div>
 									<div class="form-row">
 										<label for="kategori">Kategori</label>
-                    <%= f.collection_select :category_id, Category.order(:kategori), :id, :kategori, {:prompt => "Pilih Kategori"} %>
+                    <%= f.collection_select :category_id, Category.order(:kategori), :id, :kategori, {:prompt => "Pilih Kategori"}, required: "required" %>
 										<div class="spacersmall"></div>
                     <label for="subkategori">Subkategori</label>
-                    <%= f.grouped_collection_select :subcategory_id, Category.order(:kategori), :subcategories, :kategori, :id, :subkategori, {:prompt => "Pilih Subkategori"} %>
+                    <%= f.grouped_collection_select :subcategory_id, Category.order(:kategori), :subcategories, :kategori, :id, :subkategori, {:prompt => "Pilih Subkategori"}, required: "required" %>
 										<div class="spacermedium"></div>
 									</div>
 
 									<div class="form-row">
 										<label for="hprd">Harga Produk / Buah</label>
-                    <%= f.text_field :harga, id: "hprd", placeholder: "harga per buah", value: @produk.harga.to_i %>
+                    <%= f.text_field :harga, id: "hprd", placeholder: "harga per buah", value: @produk.harga.to_i, required: "required", "data-validation" => "number" %>
+                    <% if @produk.category_id != "14" %>
 										<p class="text-muted">Isi harga tanpa menggunakan koma dan titik. Contoh: 125000. <span class="punyadiskon">Memiliki Harga Diskon ?</span></p>
 									</div>
                   <div class="form-row hardis">
 										<label for="hprd">Harga Produk / Buah Diskon</label>
-                    <%= f.text_field :harga_diskon, id: "hprdd", placeholder: "harga diskon per buah", value: @produk.harga_diskon.to_i %>
+                    <%= f.text_field :harga_diskon, id: "hprdd", placeholder: "harga diskon per buah", value: @produk.harga_diskon.to_i, "data-validation" => "number", "data-validation-optional" => "true" %>
 										<p class="text-muted">Isi harga tanpa menggunakan koma dan titik. Contoh: 125000</p>
 									</div>
+                  <% end %>
+                  <% if @produk.category_id == "14" %>
+                  <div class="form-row">
+										<label for="hprd">Voucher Valid Date</label>
+                    <%= f.text_field :vouchervalid, class: "datepicker", placeholder: "Tanggal Valid Voucher" %>
+									</div>
+                  <% end %>
+                  <% if @produk.category_id != "14" %>
 									<div class="form-row">
 										<label for="brt">Berat (gram)</label>
-                    <%= f.text_field :berat, id: "brt", placeholder: "berat produk", value: @produk.berat.to_i %>
+                    <%= f.text_field :berat, required: "required", id: "brt", placeholder: "berat produk", value: @produk.berat.to_i, "data-validation" => "number" %>
 										<p class="text-muted">isi berat dengan satuan gram contoh : 900</p>
 									</div>
                   <div class="form-row">
 										<label for="brt">Stok barang</label>
-                    <%= f.text_field :stock, id: "brt", placeholder: "jumlah stock tersedia", required: "required" %>
+                    <%= f.text_field :stock, id: "brt", placeholder: "jumlah stock tersedia", required: "required", "data-validation" => "number" %>
 									</div>
+                  <% end %>
 									<div class="form-row">
 										<label for="ftpr">Foto Produk </label>
                     <%= f.file_field :foto_produk1, class: "file-loading", id: "input-42" %>
@@ -94,74 +104,75 @@
 									</div>
 									<div class="form-row">
 										<label for="des">Deskripsi Singkat</label>
-                    <%= f.text_area :deskripsi,id: "des", rows: "4" %>
-										<p class="text-muted">Maximum 2000 characters</p>
+                    <%= f.text_area :deskripsi, required: "required", id: "des", rows: "4", "data-validation" => "length", "data-validation-length" => "max500" %>
+										<p class="text-muted">Maximum 500 characters</p>
 									</div>
                   <div class="form-row">
 										<label for="des">Deskripsi Lengkap</label>
-                    <%= f.text_area :deskripsi_lengkap,id: "des", rows: "4" %>
+                    <%= f.text_area :deskripsi_lengkap, required: "required", id: "des", rows: "4", "data-validation" => "length", "data-validation-length" => "max2000" %>
 										<p class="text-muted">Maximum 2000 characters</p>
 									</div>
+                  <% if @produk.category_id != "14" %>
 									<div class="form-row grosir">
 										<button type="button" class="btn btn-default" data-toggle="collapse" data-target="#hggrosir">Tambahkan Harga Grosir</button> <a href="#/"> <i class="fa fa-times" aria-hidden="true"></i></a>
 										<div id="hggrosir" class="collapse">
 											<div class="row">
 												<div class="col-md-2 col-xs-3">
-                          <%= f.text_field :jumlah_grosir1min %>
+                          <%= f.text_field :jumlah_grosir1min, "data-validation" => "number", "data-validation-optional" => "true" %>
 												</div>
 												<div class="col-md-2 col-xs-3">
-													<%= f.text_field :jumlah_grosir1max %>
+													<%= f.text_field :jumlah_grosir1max, "data-validation" => "number", "data-validation-optional" => "true" %>
 												</div>
 												<div class="col-md-4 col-xs-6">
-                          <%= f.text_field :harga_grosir1, placeholder: "Harga", value: @produk.harga_grosir1.to_i %>
+                          <%= f.text_field :harga_grosir1, placeholder: "Harga", value: @produk.harga_grosir1.to_i, "data-validation" => "number", "data-validation-optional" => "true" %>
 												</div>
 											</div>
 											<div class="spacersmall"></div>
 											<div class="row">
 												<div class="col-md-2 col-xs-3">
-													<%= f.text_field :jumlah_grosir2min %>
+													<%= f.text_field :jumlah_grosir2min, "data-validation" => "number", "data-validation-optional" => "true" %>
 												</div>
 												<div class="col-md-2 col-xs-3">
-													<%= f.text_field :jumlah_grosir2max %>
+													<%= f.text_field :jumlah_grosir2max, "data-validation" => "number", "data-validation-optional" => "true" %>
 												</div>
 												<div class="col-md-4 col-xs-6">
-													<%= f.text_field :harga_grosir2, placeholder: "Harga", value: @produk.harga_grosir2.to_i %>
+													<%= f.text_field :harga_grosir2, placeholder: "Harga", value: @produk.harga_grosir2.to_i, "data-validation" => "number", "data-validation-optional" => "true" %>
 												</div>
 											</div>
 											<div class="spacersmall"></div>
 											<div class="row">
 												<div class="col-md-2 col-xs-3">
-													<%= f.text_field :jumlah_grosir3min %>
+													<%= f.text_field :jumlah_grosir3min, "data-validation" => "number", "data-validation-optional" => "true" %>
 												</div>
 												<div class="col-md-2 col-xs-3">
-													<%= f.text_field :jumlah_grosir3max %>
+													<%= f.text_field :jumlah_grosir3max, "data-validation" => "number", "data-validation-optional" => "true" %>
 												</div>
 												<div class="col-md-4 col-xs-6">
-													<%= f.text_field :harga_grosir3, placeholder: "Harga", value: @produk.harga_grosir3.to_i %>
+													<%= f.text_field :harga_grosir3, placeholder: "Harga", value: @produk.harga_grosir3.to_i, "data-validation" => "number", "data-validation-optional" => "true" %>
 												</div>
 											</div>
 											<div class="spacersmall"></div>
 											<div class="row">
 												<div class="col-md-2 col-xs-3">
-													<%= f.text_field :jumlah_grosir4min %>
+													<%= f.text_field :jumlah_grosir4min, "data-validation" => "number", "data-validation-optional" => "true" %>
 												</div>
 												<div class="col-md-2 col-xs-3">
-													<%= f.text_field :jumlah_grosir4max %>
+													<%= f.text_field :jumlah_grosir4max, "data-validation" => "number", "data-validation-optional" => "true" %>
 												</div>
 												<div class="col-md-4 col-xs-6">
-													<%= f.text_field :harga_grosir4, placeholder: "Harga", value: @produk.harga_grosir4.to_i %>
+													<%= f.text_field :harga_grosir4, placeholder: "Harga", value: @produk.harga_grosir4.to_i, "data-validation" => "number", "data-validation-optional" => "true" %>
 												</div>
 											</div>
 											<div class="spacersmall"></div>
 											<div class="row">
 												<div class="col-md-2 col-xs-3">
-													<%= f.text_field :jumlah_grosir5min %>
+													<%= f.text_field :jumlah_grosir5min, "data-validation" => "number", "data-validation-optional" => "true" %>
 												</div>
 												<div class="col-md-2 col-xs-3">
-													<%= f.text_field :jumlah_grosir5max %>
+													<%= f.text_field :jumlah_grosir5max, "data-validation" => "number", "data-validation-optional" => "true" %>
 												</div>
 												<div class="col-md-4 col-xs-6">
-													<%= f.text_field :harga_grosir5, placeholder: "Harga", value: @produk.harga_grosir5.to_i %>
+													<%= f.text_field :harga_grosir5, placeholder: "Harga", value: @produk.harga_grosir5.to_i, "data-validation" => "number", "data-validation-optional" => "true" %>
 												</div>
 											</div>
 											<div class="spacersmall"></div>
@@ -175,6 +186,7 @@
 										</div>
 										<br>
 									</div>
+                  <% end %>
 									<div class="form-row reg">
 										<input type="submit" name=""value="Simpan" class="gosignin" >
                     <% end %>
@@ -203,3 +215,11 @@ $(document).ready(function(){
     $(".grosir").fadeOut();
 });
 </script>
+<script>
+  $.validate();
+</script>
+<% if !current_user.admin? %>
+<script>
+  $("select option:contains('E-coupon')").attr("disabled","disabled");
+</script>
+<% end %>

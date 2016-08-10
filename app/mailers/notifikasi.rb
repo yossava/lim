@@ -1,6 +1,10 @@
 class Notifikasi < ApplicationMailer
   default from: "support@netvcc.co.id"
 
+  def check
+    mail(to: "vcckaskus@gmail.com", subject: "Test Email")
+  end
+
   def sample_email(current_user, mycart, status)
     @user = current_user
     @mycart = mycart
@@ -14,7 +18,7 @@ class Notifikasi < ApplicationMailer
     mail(to: User.find(@mycart.user_id).email, subject: "#{@subject}", template_name: "tolak_pesanan_buyer").deliver
     mail(to: User.find(@mycart.seller_id).email, subject: "#{@subject2}", template_name: "tolak_pesanan_seller").deliver
   end
-  def pesanan_diterima(mycart, subject, subject2)
+  def terima_pesanan(mycart, subject, subject2)
     @mycart = mycart
     @subject = subject
     @subject2 = subject2

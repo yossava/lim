@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :balancelogs
   resources :subsubcategories
   resources :financelogs
   resources :newsletters
@@ -23,6 +24,11 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
+  post '/penarikan' => 'transactions#penarikan'
+  get '/saldo' => 'home#saldo'
+  get '/usevoucher/:id' => 'carts#usevoucher'
+  post '/evoucher' => 'home#evoucher'
+  get '/evoucher' => 'home#evoucher'
   get '/promo' => 'home#promo'
   get '/admin/promoproduct' => 'admins#promoproduct'
   get '/updaterating/:produk_id' => "feedbacks#updaterating"
@@ -91,6 +97,8 @@ Rails.application.routes.draw do
   end
   get 'admin/email/:id' => "admins#email"
   get 'admin/email' => "admins#email"
+  get 'admin/wd_request' => "admins#wd_request"
+  post 'admin/wd_request' => "admins#wd_request"
   get 'admin/fee' => "admins#fee"
   get 'admin/general' => "admins#general"
   get 'admin/financelogs' => "admins#financelogs"

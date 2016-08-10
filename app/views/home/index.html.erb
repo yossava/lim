@@ -1,3 +1,54 @@
+<style>
+.modal-content {
+  background-color: rgb(105, 197, 255);
+}
+.close-btn {
+    border: medium none;
+    background-color: rgb(6, 119, 164);
+    color: white;
+}
+.btn-subs {
+    background-color: #0677A4;
+    border: none;
+    border-radius: 2px;
+    height: 35px;
+    width: 100%;
+    font-weight: bold;
+    margin-top: 20px;
+}
+.modal-header {
+    border-bottom: 3px dotted rgb(59, 179, 255);
+}
+.modal-title {
+  text-align: center;
+  font-weight: bold;
+  color: white;
+}
+.modal-body {
+    color: white;
+    padding: 40px;
+}
+.modal-body p {
+    font-weight: bold;
+    color: rgb(0, 111, 255);
+    text-align: center;
+}
+.modal-body input {
+    width: 100%;
+    height: 35px;
+    margin-bottom: 10px;
+    border-radius: 2px;
+    border: 2px dashed rgb(84, 171, 245);
+    padding-left: 10px;
+    background-color: rgb(128, 205, 254);
+}
+.modal-body label {
+    display: block;
+}
+.modal-footer  {
+    border-top: 3px dotted #3BB3FF;
+}
+</style>
 <div class="ma5-page">
 
 			<!-- Header -->
@@ -163,8 +214,7 @@
 										<span class="labelvd">E-coupon</span>
                   <% end %>
 									<p class="vdtitle"><%= produkcoupon.nama_produk %></p>
-									<p class="fkvdh"><%= number_to_currency(produkcoupon.harga, locale: :id) %></p>
-									<span><%= number_to_currency(produkcoupon.harga_diskon, locale: :id) %></span>
+									<span><%= number_to_currency(produkcoupon.harga_beli, locale: :id) %></span>
 								</div>
                  <% end %>
 							</div>
@@ -828,12 +878,44 @@
 			</div>
       <%= render "layouts/footer" %>
 </div>
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-lg hide openmodal" data-toggle="modal" data-target="#myModal"></button>
 
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">NEWSLETTER</h4>
+      </div>
+      <div class="modal-body">
+        <%= form_for(@newsletter) do |f| %>
+        <p>Nikmati berbagai keuntungan sebagai subscriber !</p>
+        <label>Nama / Nama Toko</label>
+        <input type="text" name="newsletter[nama]" data-validation="alphanumeric" data-validation-allowing=" " required>
+        <label>No Telepon</label>
+        <input type="text" name="newsletter[telepon]" data-validation="number" required>
+        <label>Email</label>
+        <input type="text" name="newsletter[email]" data-validation="email" required>
+        <button type="submit" class="btn-subs">SUBSCRIBE</button>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default close-btn" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 
 
 <!-- Script -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
 <!-- <%= javascript_include_tag "bootstrap.min" %> -->
 <%= javascript_include_tag "jquery-ui.min" %>
 <%= javascript_include_tag "pengaturan" %>
@@ -878,3 +960,24 @@
 					});
 				});
 			</script>
+<script>
+if (!sessionStorage.alreadyClicked) {
+    $('.openmodal').click();
+    sessionStorage.alreadyClicked = 1;
+}
+</script>
+<script>
+  $.validate();
+</script>
+<script>
+  $('.formnewsletter').click(function(){
+    $('.nama').slideDown();
+    $(".telepon").slideDown();
+    $( ".kirimnewsletter" ).addClass( "btn-bawah" );
+  });
+  $(".formnewsletter").focusout(function(){
+    $('.nama').slideUp();
+    $(".telepon").slideUp();
+    $( ".kirimnewsletter" ).removeClass( "btn-bawah" );
+    });
+</script>

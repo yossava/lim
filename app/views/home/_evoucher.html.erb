@@ -1,0 +1,16 @@
+<div style="text-align:center;">
+<strong>Invoice: <%= Cart.find(@id).invoice %></strong><br>
+Tanggal Transaksi: <%= Cart.find(@id).created_at.in_time_zone("Jakarta").strftime("%d-%m-%Y %H:%M") %> WIB<br>
+VOUCHER: <%= number_to_currency(Cart.find(@id).harga,locale: :id) %><br><br>
+<strong>Deskripsi:</strong><br>
+<%= @produk.deskripsi_lengkap %><br><br>
+<strong>Validate:</strong><br>
+  <span style="color:red;font-weight:bold;">12-12-2016 10:30 WIB</span><br><br>
+  <div class="yakin"><a class="btn btn-success digunakan" >EVOUCHER DIGUNAKAN</a></div>
+</div>
+<script>
+$(".digunakan").click(function() {
+  $(".yakin").html('Anda yakin ingin menggunakan voucher ini ?<br><br><a href="/usevoucher/<%= @id %>" style="width:100px;" class="btn btn-success">YA</a> <a href="/evoucher" style="width:100px;" class="btn btn-danger">TIDAK</a>');
+  $(".yakin").attr('style', 'border : 1px solid #d3d3d3;padding:10px;');
+});
+</script>

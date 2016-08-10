@@ -55,12 +55,12 @@
                 <%= form_for(:user, :url => session_path(:user)) do |f| %>
 								<div class="form-row has-error">
 									<label for="email">Email</label>
-									<input required="true" type="text" name="user[email]" id="email" placeholder="Masukan Email / Username">
+									<input data-validation="email" required="true" type="text" name="user[email]" id="email" placeholder="Masukan Email">
 									<!--<p><i class="fa fa-exclamation-triangle"></i> &nbsp;Isikan Username</p>-->
 								</div>
 								<div class="form-row">
 									<label for="password">Password</label>
-									<input required="true" type="password" name="user[password]" id="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
+									<input data-validation="length" data-validation-length="min6" required="true" type="password" name="user[password]" id="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
 								</div>
 								<div class="form-row">
 									<input type="submit" name="commit" value="Log In" class="gosignin" >
@@ -166,3 +166,6 @@
 				return false;
 			});
 		</script>
+<script>
+  $.validate();
+</script>

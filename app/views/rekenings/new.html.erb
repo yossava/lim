@@ -51,52 +51,54 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-6">
-							<div class="ctnblok-logreg">
-                <% if notice %>
+            <% if notice %>
                 <p id="notice"><%= notice %></p>
                 <% end %>
-                <%= form_for(@rekening) do |f| %>
+            <%= form_for(@rekening) do |f| %>
+						<div class="col-md-6">
+							<div class="ctnblok-logreg">
 								<div class="form-row has-error">
 									<label for="nmalamat">Nama Akun / Pemilik</label>
-									<input type="text" name="rekening[pemilik]" id="nmalamat" placeholder="">
+									<input data-validation="alphanumeric" type="text" name="rekening[pemilik]" id="nmalamat" placeholder="" required>
 									<!--<p><i class="fa fa-exclamation-triangle"></i> &nbsp;Isikan Username</p>-->
 								</div>
 								<div class="form-row">
 									<label for="penerima">No. Rekening</label>
-									<input type="text" name="rekening[nomor_rekening]" id="penerima" placeholder="">
+									<input data-validation="number" type="text" name="rekening[nomor_rekening]" id="penerima" placeholder="" required>
 								</div>
-
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="ctnblok-logreg">
                 <div class="form-row">
 									<label for="prov">Nama Bank</label>
-									<select name="rekening[nama_bank]" id="prov">
-										<option>Pilih Bank</option>
-										<option>Mandiri</option>
-										<option>BCA</option>
-										<option>BNI</option>
+									<select name="rekening[nama_bank]" id="prov" required>
+										<option value="">Pilih Bank</option>
+										<option value="Mandiri">Mandiri</option>
+										<option value="BCA">BCA</option>
+										<option value="BNI">BNI</option>
 									</select>
 								</div>
 								<div class="form-row">
 									<label for="kdpos">Cabang</label>
-									<input type="text" name="rekening[cabang]" id="kdpos" placeholder="">
+									<input data-validation="alphanumeric" type="text" name="rekening[cabang]" id="kdpos" required>
 									<p class="helpertext">* Contoh: KC jakarta citra 2 extension - Jakarta Barat</p>
 								</div>
 								<br>
-								<div class="form-row reg">
-									<input type="submit" name="" value="Simpan" class="gosignin" >
-                  <% end %>
-									<a href="#" id="batalbtn">Batal</a>
-								</div>
 							</div>
 						</div>
-					</div>
+            <div class="col-md-12">
+              <input type="submit" name="" value="Simpan" class="gosignin" >
+              <% end %>
+              <a href="#" id="batalbtn">Batal</a>
+            </div>
+					</div><!-- row -->
 				</div>
 			</div>
 		</div>
 
 		<div class="spacerbig"></div>
     <%= render 'layouts/footer' %>
+<script>
+  $.validate();
+</script>

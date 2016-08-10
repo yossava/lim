@@ -38,6 +38,20 @@ ActiveRecord::Schema.define(version: 20160606013032425444) do
     t.string   "kecamatan_sebagai"
   end
 
+  create_table "balancelogs", force: :cascade do |t|
+    t.integer  "cart_id"
+    t.integer  "nominal"
+    t.integer  "saldo"
+    t.text     "keterangan"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "user_id"
+    t.integer  "penarikan"
+    t.integer  "rekening_id"
+    t.boolean  "paid",        default: false
+    t.boolean  "reject",      default: false
+  end
+
   create_table "carts", force: :cascade do |t|
     t.integer  "toko_id"
     t.integer  "user_id"
@@ -61,6 +75,8 @@ ActiveRecord::Schema.define(version: 20160606013032425444) do
     t.boolean  "expired",           default: false
     t.decimal  "fee"
     t.integer  "harga"
+    t.boolean  "voucher",           default: false
+    t.boolean  "used",              default: false
   end
 
   create_table "categories", force: :cascade do |t|
@@ -177,6 +193,8 @@ ActiveRecord::Schema.define(version: 20160606013032425444) do
     t.string   "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "nama"
+    t.string   "telepon"
   end
 
   create_table "pets", force: :cascade do |t|
@@ -234,6 +252,7 @@ ActiveRecord::Schema.define(version: 20160606013032425444) do
     t.decimal  "rating"
     t.string   "slug"
     t.integer  "subsubcategory_id"
+    t.string   "vouchervalid"
   end
 
   add_index "produks", ["slug"], name: "index_produks_on_slug", unique: true, using: :btree

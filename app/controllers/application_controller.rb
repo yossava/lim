@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
       if Rails.application.routes.recognize_path(request.referrer)[:controller] == "admins"
         "/admin/gate"
       else
-        "/masuk"
+        root_path
     end
   end
   def after_sign_in_path_for(resource)

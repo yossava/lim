@@ -51,7 +51,7 @@
                   <td><%= u.produks.count %>
                   </td>
                   <td><a class="btn btn-info btn-sm" href="/admin/categories/<%= u.id %>#edit">EDIT</a></td>
-                  <td><% if params[:id] %><a href="/admin/categories">Back</a><% else %><%= link_to "Hapus", admin_destroy_category_path(u), method: :delete, :data => {:confirm => 'Are you sure?'}, :class => "btn btn-warning btn-sm"  %><% end %>
+                  <td><% if params[:id] %><a href="/admin/categories">Back</a><% else %><%= link_to "Hapus", admin_destroy_category_path(u), method: :delete, :data => {:confirm => 'Menghapus Kategori akan menghapus subcategori dan produk yang ada di bawahnya, Anda yakin?'}, :class => "btn btn-warning btn-sm"  %><% end %>
 
 </td>
                 </tr>
@@ -169,6 +169,10 @@
                 <div class="form-group">
                   <label for="exampleInputEmail1">Nama Kategori</label>
                   <%= f.text_field :kategori, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Icon</label>
+                  <%= f.file_field :image, class: "form-control" %>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Slide 1</label>

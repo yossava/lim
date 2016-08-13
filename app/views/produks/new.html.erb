@@ -183,7 +183,7 @@
 		<div class="spacerbig"></div>
     <%= render 'layouts/footer' %>
 <script>
-$(document).ready(function(){
+$(document).on('ready page:load', function () {
     $('#summernote').summernote();
     <% if !current_user.admin? %>
     $("select option:contains('E-coupon')").attr("disabled","disabled");

@@ -96,6 +96,8 @@ class HomeController < ApplicationController
        @trolies = Cart.where(:user_id => current_user.id, :state => [5,6]).paginate(:page => params[:page], :per_page => 10)
       elsif params[:status] == "Transaksi Ditolak"
        @trolies = Cart.where(:user_id => current_user.id, :state => 8).paginate(:page => params[:page], :per_page => 10)
+      elsif params[:status] == "Semua Status"
+       @trolies = Cart.where(:user_id => current_user.id, :state => [2,3,4,5,6,8]).paginate(:page => params[:page], :per_page => 10)
     end
   end
   def pesanan_baru
@@ -134,6 +136,8 @@ class HomeController < ApplicationController
        @strolies = Cart.where(:seller_id => current_user.id, :state => 6).paginate(:page => params[:page], :per_page => 10)
       elsif params[:status] == "Pesanan Sampai"
        @strolies = Cart.where(:seller_id => current_user.id, :state => 5).paginate(:page => params[:page], :per_page => 10)
+      elsif params[:status] == "Semua Status"
+       @strolies = Cart.where(:seller_id => current_user.id, :state => [3,4,5,6]).paginate(:page => params[:page], :per_page => 10)
     end
   end
 

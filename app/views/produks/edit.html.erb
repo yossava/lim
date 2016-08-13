@@ -44,7 +44,11 @@
 									</div>
 									<div class="form-row">
 										<label for="kategori">Kategori</label>
+                    <% if @produk.category_id == "14" %>
+                    <%= f.select :category_id, options_for_select([["e-coupon", "14"]]) %>
+                    <% else %>
                     <%= f.collection_select :category_id, Category.order(:kategori), :id, :kategori, {:prompt => "Pilih Kategori"}, required: "required" %>
+                    <% end %>
 										<div class="spacersmall"></div>
                     <label for="subkategori">Subkategori</label>
                     <%= f.grouped_collection_select :subcategory_id, Category.order(:kategori), :subcategories, :kategori, :id, :subkategori, {:prompt => "Pilih Subkategori"}, required: "required" %>
@@ -109,8 +113,8 @@
 									</div>
                   <div class="form-row">
 										<label for="des">Deskripsi Lengkap</label>
-                    <%= f.text_area :deskripsi_lengkap, required: "required", id: "des", rows: "4", "data-validation" => "length", "data-validation-length" => "max2000" %>
-										<p class="text-muted">Maximum 2000 characters</p>
+                    <textarea data-validation="length" data-validation-length="max2000" row="4" required="required" name="produk[deskripsi_lengkap]" id="summernote"><p><%=raw @produk.deskripsi_lengkap %></p></textarea>
+                    <p class="text-muted">Maximum 2000 characters</p>
 									</div>
                   <% if @produk.category_id != "14" %>
 									<div class="form-row grosir">
@@ -204,6 +208,7 @@
     <%= render 'layouts/footer' %>
 <script>
 $(document).ready(function(){
+    $('#summernote').summernote();
     $(".hardis").hide();
     $(".punyadiskon").click(function(){
         $(".hardis").slideToggle();

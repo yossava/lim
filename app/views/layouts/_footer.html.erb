@@ -63,4 +63,26 @@
 <%= javascript_include_tag "jquery.themepunch.revolution" %>
 <%= javascript_include_tag "owl.carousel" %>
 <%= javascript_include_tag "jquery.elevatezoom" %>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
 <% end %>
+<script>
+  $('.news-email').click(function(){
+    $('.nama').slideDown();
+    $(".telepon").slideDown();
+    $( ".kirimnewsletter" ).addClass( "btn-bawah" );
+  });
+</script>
+<script>
+  $(document).mouseup(function (e)
+{
+    var container = $(".newsletter");
+
+    if (!container.is(e.target) // if the target of the click isn't the container...
+        && container.has(e.target).length === 0) // ... nor a descendant of the container
+    {
+        $('.nama').slideUp();
+        $(".telepon").slideUp();
+        $( ".kirimnewsletter" ).removeClass( "btn-bawah" );
+    }
+});
+</script>

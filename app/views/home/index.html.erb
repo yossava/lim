@@ -969,15 +969,3 @@ if (!sessionStorage.alreadyClicked) {
 <script>
   $.validate();
 </script>
-<script>
-  $('.formnewsletter').click(function(){
-    $('.nama').slideDown();
-    $(".telepon").slideDown();
-    $( ".kirimnewsletter" ).addClass( "btn-bawah" );
-  });
-  $(".formnewsletter").focusout(function(){
-    $('.nama').slideUp();
-    $(".telepon").slideUp();
-    $( ".kirimnewsletter" ).removeClass( "btn-bawah" );
-    });
-</script>

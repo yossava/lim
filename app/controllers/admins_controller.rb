@@ -71,7 +71,11 @@ class AdminsController < ApplicationController
     @homeitem = Homeitem.find(17)
   end
   def financelogs
-    @financelog = Financelog.order(id: :asc).paginate(:page => params[:page], :per_page => 15)
+    #@financelog = Financelog.order(id: :asc).paginate(:page => params[:page], :per_page => 15) #change to balancelog
+    @balancelog = Balancelog.order(id: :asc).paginate(:page => params[:page], :per_page => 15)
+    if params[:user_id]
+      @balancelog = Balancelog.where(user_id: params[:user_id]).order(id: :asc).paginate(:page => params[:page], :per_page => 15)
+    end
   end
   def newsletter
     @newsletter = Newsletter.order(id: :asc).paginate(:page => params[:page], :per_page => 15)
@@ -82,6 +86,11 @@ class AdminsController < ApplicationController
       @balance << u.saldo
     end
     @balance = @balance.sum
+    @wdreq = []
+    Balancelog.where(cart_id: nil, paid: false, reject: false).each do |b|
+      @wdreq << b.nominal
+    end
+    @wdreq = @wdreq.sum
   end
   def becomeadmin
     if current_user.admin

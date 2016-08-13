@@ -120,9 +120,10 @@ class CartsController < ApplicationController
     @cart = Cart.new(cart_params)
     @cart.user = current_user
     @cart.state = 1
+    @cart.subtotal = params['cart']['subtotal'].to_i + rand(100..500).to_i
     if Produk.find(params['cart']['produk_id']).category_id == "14"
     @cart.voucher = true
-    @cart.subtotal = (params['cart']['harga'].to_i * params['cart']['jumlah'].to_i)
+    @cart.subtotal = (params['cart']['harga'].to_i * params['cart']['jumlah'].to_i) + rand(100..500).to_i
     end
 
     respond_to do |format|

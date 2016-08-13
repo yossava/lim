@@ -104,19 +104,21 @@
 											<div class="col-md-3">
 												<label>Subtotal</label>
 												<p><%= number_to_currency(s.harga * s.jumlah, locale: :id) %></p>
-                        <% if s.fee > 0 && s.fee < 101 %>
+                        <% if s.fee > 0 && s.fee < 101 && s.voucher == false %>
                         <p>+fee: <%= s.fee %>% / item</p>
                         <% end %>
-                        <% if s.fee > 100 %>
+                        <% if s.fee > 100 && s.voucher == false %>
                         <p>+fee: <%= number_to_currency(s.fee, locale: :id) %> / item</p>
                         <% end %>
 											</div>
+                      <% if s.voucher == false %>        
 											<div class="col-md-3">
 												<label>Ongkir</label>
 												<p><%= number_to_currency(s.ongkir,locale: :id) %></p>
 											</div>
+                      <% end %>
 										</div>
-														<hr style="border-color:#ddd;"></hr>
+												<hr style="border-color:#ddd;"></hr>
                           <% if s.voucher == false %>
 														<div class="row">
 															<div class="col-md-6">
@@ -134,8 +136,8 @@
 																<p><%= s.catatan %></p>
 															</div>
 														</div>
-                          <% end %>
 														<hr style="border-color:#ddd;"></hr>
+                          <% end %>
 														<div class="row">
 															<div class="col-md-12" style="text-align:right;font-size:18px;">
 																<label class="typeorange">Total : <%= number_to_currency(s.subtotal, locale: :id) %></label>

@@ -5,7 +5,9 @@ VOUCHER: <%= number_to_currency(Cart.find(@id).harga,locale: :id) %><br><br>
 <strong>Deskripsi:</strong><br>
 <%= @produk.deskripsi_lengkap %><br><br>
 <strong>Validate:</strong><br>
-  <span style="color:red;font-weight:bold;">12-12-2016 10:30 WIB</span><br><br>
+  <% if @produk.vouchervalid.present? %>
+  <span style="color:red;font-weight:bold;"><%= Date.strptime("#{@produk.vouchervalid}", "%m/%d/%Y").strftime("%d %B %Y") %>, 23:59 WIB</span><br><br>
+  <% end %>
   <div class="yakin"><a class="btn btn-success digunakan" >EVOUCHER DIGUNAKAN</a></div>
 </div>
 <script>

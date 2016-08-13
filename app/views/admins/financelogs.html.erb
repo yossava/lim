@@ -26,28 +26,48 @@
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Data User</h3>
+              <%= form_tag admin_financelogs_path, method: "get" do %>
+                <input style="border: 1px solid #d3d3d3;border-radius: 2px;height: 32px;width: 200px;padding-left: 10px;margin-top: 10px;" type="text" name="user_id" placeholder="masukan user id">
+                <button style="height: 32px;margin-top: -3px;" class="btn btn-info" type="submit">Filter</button>
+              <% end %>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example2" class="table table-bordered table-hover">
+              <table style="font-size:12px;" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                   <th>ID</th>
+                  <th style="width:80px;">Tanggal</th>
+                  <th style="width:100px;">Nominal Req</th>
+                  <th style="width:100px;">Saldo User</th>
+                  <th>Keterangan</th>
                   <th>User</th>
-                  <th>Amount</th>
-                  <th>Payment Date</th>
-                  <th>Status</th>
+                  <th>Rekening</th>
+                  <th style="width:100px;">Status</th>
                 </tr>
                 </thead>
                 <tbody>
-                  <% @financelog.each do |u| %>
+                  <% @balancelog.each do |u| %>
                 <tr>
                   <td><%= u.id %></td>
-                  <td><%= u.user_id %> | <%= User.find(u.user_id).namalengkap %> | <%= User.find(u.user_id).email %></td>
-                  <td><%= number_to_currency(u.jumlah, locale: :id) %></td>
                   <td><%= u.created_at.in_time_zone("Jakarta").strftime("%d-%m-%Y %H:%M") %> WIB
                   </td>
-                  <td>PAID</td>
+                  <td><%= number_to_currency(u.nominal, locale: :id) %></td>
+                  <td><%= number_to_currency(User.find(u.user_id).saldo, locale: :id) %>
+                  </td>
+                  <td><%= u.keterangan %></td>
+                  <td><%= User.find(u.user_id).id %>. <%= User.find(u.user_id).namalengkap %> (<%= User.find(u.user_id).email %>)</td>
+                  <% @rekening = Rekening.find(u.rekening_id) %>
+                  <td><%= "#{@rekening.nama_bank} - #{@rekening.nomor_rekening} - #{@rekening.pemilik}" %></td>
+                  <% if u.paid == true %>
+                  <td><span class="label label-success">Paid</span></td>
+                  <% end %>
+                  <% if u.reject == true %>
+                  <td><span class="label label-danger">Rejected</span></td>
+                  <% end %>
+                  <% if u.paid == false && u.reject == false %>
+                  <td><span class="label label-warning">Request</span></td>
+                  <% end %>
 
                 </tr>
                 <% end %>
@@ -55,9 +75,12 @@
                 <tfoot>
                 <tr>
                   <th>ID</th>
+                  <th>Tanggal</th>
+                  <th>Nominal Req</th>
+                  <th>Saldo User</th>
+                  <th>Keterangan</th>
                   <th>User</th>
-                  <th>Amount</th>
-                  <th>Payment Date</th>
+                  <th>Rekening</th>
                   <th>Status</th>
                 </tr>
                 </tfoot>

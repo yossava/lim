@@ -257,7 +257,7 @@
 	}
 	.listproduk4 {
 		float: none;
-		width: 100%;
+		width: 100% !important;
 		box-sizing: border-box;
 		padding: 0px 15px;
 		margin-bottom: 50px;

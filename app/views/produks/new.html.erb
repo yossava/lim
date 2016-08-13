@@ -56,7 +56,7 @@
                     <%= f.text_field :harga, id: "hprd", required: "required", placeholder: "harga per buah", "data-validation" => "number" %>
 										<p class="text-muted">Isi harga tanpa menggunakan koma dan titik. Contoh: 125000. <span class="punyadiskon novoucher">Memiliki Harga Diskon ?</span></p>
 									</div>
-                  <div class="form-row valid hide">
+                  <div style="display:none;" class="form-row valid">
 										<label for="hprd">Voucher Valid Date</label>
                     <%= f.text_field :vouchervalid, class: "datepicker", placeholder: "Tanggal Valid Voucher" %>
 									</div>
@@ -73,7 +73,7 @@
 									</div>
                   <div class="form-row novoucher">
 										<label for="brt">Stok barang</label>
-                    <%= f.text_field :stock, id: "brt", placeholder: "jumlah stock tersedia", required: "required", "data-validation" => "number" %>
+                    <%= f.text_field :stock, id: "stok", placeholder: "jumlah stock tersedia", required: "required", "data-validation" => "number" %>
 									</div>
 									<div class="form-row">
 										<label for="ftpr">Foto Produk </label>
@@ -91,7 +91,7 @@
 									</div>
                   <div class="form-row">
 										<label for="des">Deskripsi Lengkap</label>
-                    <%= f.text_area :deskripsi_lengkap,id: "des", rows: "4", required: "required", "data-validation" => "length", "data-validation-length" => "max2000" %>
+                    <textarea data-validation="length" data-validation-length="max2000" row="4" required="required" name="produk[deskripsi_lengkap]" id="summernote"><p></p></textarea>
 										<p class="text-muted">Maximum 2000 characters</p>
 									</div>
 									<div class="form-row grosir novoucher">
@@ -184,6 +184,8 @@
     <%= render 'layouts/footer' %>
 <script>
 $(document).ready(function(){
+    $('#summernote').summernote();
+    $('.note-editable').attr("style","height:120px;");
     $(".hardis").hide();
     $(".punyadiskon").click(function(){
         $(".hardis").slideToggle();
@@ -199,7 +201,12 @@ $(document).ready(function(){
   $('#produk_category_id').bind('change', function (e) {
     if( $(this).val() == '14') {
       $('.novoucher').hide();
-      $('.valid').show();
+      $('.valid').fadeIn();
+      $('#brt').val("1");
+      $('#stok').val("1000");
+    } else {
+      $('.novoucher').show();
+      $('.valid').hide();
     }
 });
 </script>

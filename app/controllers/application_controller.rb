@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :troli
   before_action :news
   before_filter :banned?
+  after_filter :store_location
   require 'csv'
 
   # Prevent CSRF attacks by raising an exception.
@@ -24,11 +25,6 @@ class ApplicationController < ActionController::Base
     session[:previous_url] = request.fullpath unless request.fullpath =~ /\/users/
   end
 
-  def after_sign_in_path_for(resource)
-    session[:previous_url] || root_path
-  end
-  protect_from_forgery with: :exception
-
   private
 
   # Overwriting the sign_out redirect path method
@@ -39,11 +35,11 @@ class ApplicationController < ActionController::Base
         "/masuk"
     end
   end
-  def after_sign_in_path_for(resource_or_scope)
+  def after_sign_in_path_for(resource)
      if current_user.admin?
         "/admin"
       else
-        "/profil"
+        request.env['omniauth.origin'] || session[:previous_url] || root_path
      end
   end
   def tokosaya

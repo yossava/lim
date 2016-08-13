@@ -41,7 +41,7 @@
                             <input type="hidden" class="quantityform" value="<%= @produk.harga_beli %>" >
                             <input type="hidden" name="cart[ongkir]" class="ongkirtotal">
                             <input type="hidden" name="cart[kurir]" class="cartkurir">
-                                 <% if @produk.category_id == "14" %>
+                                 <% if @produk.category_id == "14" && current_user.alamats.count > 0 %>
                                  <input type="hidden" name="cart[alamat_id]" value="<%= current_user.alamats.first.id %>">
                                 <% end %>
                             </div>

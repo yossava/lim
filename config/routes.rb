@@ -60,7 +60,7 @@ Rails.application.routes.draw do
   get "/cari" => "produks#cari"
   get "/findmyproduct" => "produks#index"
   get "/checkout" => "carts#checkout"
-  get "/konfirmasi_pengiriman/:id/:resi" => "carts#kirim_pesanan"
+  get "/konfirmasi_kirim/" => "carts#kirim_pesanan"
   get "/pengiriman-sampai/:id" => "carts#pesanan_sampai"
   get "/konfirmasi-transfer/:id" => "carts#konfirmasi"
   get "/terima-pesanan/:id" => "carts#terima_pesanan"

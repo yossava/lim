@@ -33,6 +33,7 @@
                 <thead>
                 <tr>
                   <th>ID Kategori</th>
+                  <th>Icon</th>
                   <th>Nama Kategori</th>
                   <th>Jumlah Subkategori</th>
                   <th>Jumlah Produk</th>
@@ -44,6 +45,7 @@
                   <% @categories.each do |u| %>
                 <tr>
                   <td><%= u.id %></td>
+                  <td><%= image_tag u.image.url %></td>
                   <td><%= u.kategori %></td>
                   <td><%= u.subcategories.count %>
                   <td><%= u.produks.count %>
@@ -58,6 +60,7 @@
                 <tfoot>
                 <tr>
                   <th>ID Kategori</th>
+                  <th>Icon</th>
                   <th>Nama Kategori</th>
                   <th>Jumlah Subkategori</th>
                   <th>Jumlah Produk</th>
@@ -94,6 +97,10 @@
                 <div class="form-group">
                   <label for="exampleInputEmail1">Nama Kategori</label>
                   <%= f.text_field :kategori, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Icon</label>
+                  <%= f.file_field :image, class: "form-control" %>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Slide 1</label>

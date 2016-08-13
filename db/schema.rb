@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 20160606013032425444) do
     t.string   "slide1"
     t.string   "slide2"
     t.string   "slide3"
+    t.string   "image"
   end
 
   create_table "categories_subcategories", force: :cascade do |t|
@@ -195,6 +196,7 @@ ActiveRecord::Schema.define(version: 20160606013032425444) do
     t.datetime "updated_at", null: false
     t.string   "nama"
     t.string   "telepon"
+    t.string   "waktu"
   end
 
   create_table "pets", force: :cascade do |t|

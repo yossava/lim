@@ -72,17 +72,19 @@
 											<div class="col-md-3">
 												<label>Subtotal</label>
 												<p><%= number_to_currency(t.harga, locale: :id) %></p>
-                        <% if t.fee > 0 && t.fee < 101 %>
+                        <% if t.fee > 0 && t.fee < 101 && t.voucher == false %>
                         <p>+fee: <%= t.fee %>% / item</p>
                         <% end %>
-                        <% if t.fee > 100 %>
+                        <% if t.fee > 100 && t.voucher == false %>
                         <p>+fee: <%= number_to_currency(t.fee, locale: :id) %> / item</p>
                         <% end %>
 											</div>
+                      <% if t.voucher == false %>
 											<div class="col-md-3">
 												<label>Ongkir</label>
 												<p><%= number_to_currency(t.ongkir,locale: :id) %></p>
 											</div>
+                      <% end %>
 										</div>
 										<hr style="border-color:#ddd;"></hr>
                   <% if t.voucher == false %>
@@ -102,8 +104,8 @@
 												<p><%= t.catatan %></p>
 											</div>
 										</div>
-                  <% end %>
 										<hr style="border-color:#ddd;"></hr>
+                  <% end %>
 										<div class="row">
 											<div class="col-md-12" style="text-align:right;font-size:18px;">
 												<label class="typeorange">Total : <%= number_to_currency(t.subtotal, locale: :id) %></label>
@@ -137,17 +139,19 @@
 											<div class="col-md-3">
 												<label>Subtotal</label>
 												<p><%= number_to_currency(t.harga * t.jumlah, locale: :id) %></p>
-                        <% if t.fee > 0 && t.fee < 101 %>
+                        <% if t.fee > 0 && t.fee < 101 && t.voucher == false %>
                         <p>+fee: <%= t.fee %>% / item</p>
                         <% end %>
-                        <% if t.fee > 100 %>
+                        <% if t.fee > 100 && t.voucher == false %>
                         <p>+fee: <%= number_to_currency(t.fee, locale: :id) %> / item</p>
                         <% end %>
 											</div>
+                      <% if t.voucher == false %>
 											<div class="col-md-3">
 												<label>Ongkir</label>
 												<p><%= number_to_currency(t.ongkir,locale: :id) %></p>
 											</div>
+                      <% end %>
 										</div>
 										<hr style="border-color:#ddd;"></hr>
                   <% if t.voucher == false %>
@@ -167,8 +171,8 @@
 												<p><%= t.catatan %></p>
 											</div>
 										</div>
-                  <% end %>
 										<hr style="border-color:#ddd;"></hr>
+                    <% end %>
 										<div class="row">
 											<div class="col-md-12" style="text-align:right;font-size:18px;">
 												<label class="typeorange">Total : <%= number_to_currency(t.subtotal,locale: :id) %></label>
@@ -202,20 +206,22 @@
 											<div class="col-md-3">
 												<label>Subtotal</label>
 												<p><%= number_to_currency(t.harga * t.jumlah, locale: :id) %></p>
-                        <% if t.fee > 0 && t.fee < 101 %>
+                        <% if t.fee > 0 && t.fee < 101 && t.voucher == false %>
                         <p>+fee: <%= t.fee %>% / item</p>
                         <% end %>
-                        <% if t.fee > 100 %>
+                        <% if t.fee > 100 && t.voucher == false %>
                         <p>+fee: <%= number_to_currency(t.fee, locale: :id) %> / item</p>
                         <% end %>
 											</div>
+                      <% if t.voucher == false %>
 											<div class="col-md-3">
 												<label>Ongkir</label>
 												<p><%= number_to_currency(t.ongkir,locale: :id) %></p>
 											</div>
+                      <% end %>
 										</div>
 										<hr style="border-color:#ddd;"></hr>
-                  <% if t.voucher == false %>
+                    <% if t.voucher == false %>
 										<div class="row">
 											<div class="col-md-6">
 												<label>Tujuan Pengiriman</label>
@@ -232,8 +238,8 @@
 												<p><%= t.catatan %></p>
 											</div>
 										</div>
-                  <% end %>
 										<hr style="border-color:#ddd;"></hr>
+                    <% end %>
 										<div class="row">
 											<div class="col-md-12" style="text-align:right;font-size:18px;">
 												<label class="typeorange">Total : <%= number_to_currency(t.subtotal,locale: :id) %></label>
@@ -269,17 +275,19 @@
 											<div class="col-md-3">
 												<label>Subtotal</label>
 												<p><%= number_to_currency(t.harga * t.jumlah, locale: :id) %></p>
-                        <% if t.fee > 0 && t.fee < 101 %>
+                        <% if t.fee > 0 && t.fee < 101 && t.voucher == false %>
                         <p>+fee: <%= t.fee %>% / item</p>
                         <% end %>
-                        <% if t.fee > 100 %>
+                        <% if t.fee > 100 && t.voucher == false %>
                         <p>+fee: <%= number_to_currency(t.fee, locale: :id) %> / item</p>
                         <% end %>
 											</div>
+                      <% if t.voucher == false %>
 											<div class="col-md-3">
 												<label>Ongkir</label>
 												<p><%= number_to_currency(t.ongkir,locale: :id) %></p>
 											</div>
+                      <% end %>
 										</div>
 										<hr style="border-color:#ddd;"></hr>
                   <% if t.voucher == false %>
@@ -299,8 +307,8 @@
 												<p><%= t.catatan %></p>
 											</div>
 										</div>
-                  <% end %>
 										<hr style="border-color:#ddd;"></hr>
+                  <% end %>
 										<div class="row">
 											<div class="col-md-12" style="text-align:right;font-size:18px;">
 												<label class="typeorange">Total : <%= number_to_currency(t.subtotal,locale: :id) %></label>

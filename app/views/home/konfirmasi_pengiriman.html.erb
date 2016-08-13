@@ -219,91 +219,20 @@
 											</div>
 										</div>
 									</div>
-									<div class="form-row hide">
-										<label for="tgpng">Tanggal Pengiriman</label>
-										<div class="row" id="tgpng">
-											<div class="col-md-4">
-												<select>
-													<option>Tanggal</option>
-													<option>1</option>
-													<option>2</option>
-													<option>3</option>
-                          <option>4</option>
-                          <option>5</option>
-                          <option>6</option>
-                          <option>7</option>
-                          <option>8</option>
-                          <option>9</option>
-                          <option>10</option>
-                          <option>11</option>
-                          <option>12</option>
-                          <option>13</option>
-                          <option>14</option>
-                          <option>15</option>
-                          <option>16</option>
-                          <option>17</option>
-                          <option>18</option>
-                          <option>19</option>
-                          <option>20</option>
-                          <option>21</option>
-                          <option>22</option>
-                          <option>23</option>
-                          <option>24</option>
-                          <option>25</option>
-                          <option>26</option>
-                          <option>27</option>
-                          <option>28</option>
-                          <option>29</option>
-                          <option>30</option>
-                          <option>31</option>
-												</select>
-												<div class="spacermedium"></div>
-											</div>
-											<div class="col-md-5">
-												<select>
-													<option>Bulan</option>
-													<option>Januarir</option>
-													<option>Februari</option>
-													<option>Maret</option>
-                          <option>April</option>
-                          <option>Mei</option>
-                          <option>Juni</option>
-                          <option>Juli</option>
-                          <option>Agustus</option>
-                          <option>Sepetember</option>
-                          <option>Oktober</option>
-                          <option>November</option>
-                          <option>Desember</option>
-												</select>
-												<div class="spacermedium"></div>
-											</div>
-											<div class="col-md-3">
-												<select>
-													<option>Tahun</option>
-													<option>2016</option>
-                          <option>2017</option>
-                          <option>2018</option>
-                          <option>2019</option>
-                          <option>2020</option>
-                          <option>2021</option>
-                          <option>2022</option>
-                          <option>2023</option>
-                          <option>2024</option>
-												</select>
-											</div>
-										</div>
-									</div>
+                  <%= form_tag konfirmasi_kirim_path, method: "get" do %>
 									<div class="form-row">
 										<div class="row">
 											<div class="col-md-4"><label for="nminvoice">Nomor Resi</label></div>
 											<div class="col-md-8">
-												<input class="resi" type="text" name="" value="" placeholder="Masukan Nomor Resi">
+												<input data-validation="alphanumeric" class="resi" type="text" name="resi" value="" placeholder="Masukan Nomor Resi" required>
+                        <input type="hidden" name="id" value="<%= s.id %>">
 											</div>
 										</div>
 									</div>
 									<div class="form-row reg">
-                    <a href="/konfirmasi_pengiriman/<%= s.id %>" class="gosignin blokmbl">Konfirmasi</a>
+                    <button class="gosignin blokmbl konf">Konfirmasi</button>
 									</div>
+                  <% end %>
 								</div>
 							</div>
 						</div>
@@ -328,4 +257,7 @@ $(document).ready(function() {
       $('a.gosignin').attr('href', _href + newurl);
     });
 });
+</script>
+<script>
+  $.validate();
 </script>

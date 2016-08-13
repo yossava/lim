@@ -7,9 +7,14 @@
 <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <% if params[:controller] == "produks" && params[:action] == "show" %>
   <title><%= @produk.nama_produk %></title>
-  <meta name="description" content="<%= @produk.deskripsi %>">
+  <meta name="description" content="<%= @produk.deskripsi_lengkap %>">
   <meta name="keywords" content="<%= @produk.nama_produk %>">
-   <% elsif params[:controller] == "statics" && params[:action] == "show" %>
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="<%= @produk.nama_produk %>" />
+  <meta property="og:url" content="<%= url_for(:only_path => false) %>" />
+  <meta property="og:description" content="Villagehoster.com – Google Play Store di desktop menampilkan desain dan user interface yang sama dengan aplikasi di Smartphone Android yaitu dengan menggunakan tampilan berbasis kartu (cards) dan s…" />
+  <meta property="og:image" content="<%= (URI.parse(root_url) + @produk.foto_produk1.url).to_s %>" />
+  <% elsif params[:controller] == "statics" && params[:action] == "show" %>
   <title><%= @static.title %></title>
   <meta name="description" content="<%= @static.meta_description %>">
   <meta name="keywords" content="<%= @static.meta_keyword %>">
@@ -36,6 +41,7 @@
   <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="<%= stylesheet_path "gayana/css/custom.css"%>" />
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
   <%= csrf_meta_tags %>
 </head>
 <body>

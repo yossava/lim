@@ -15,7 +15,7 @@
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Finance</a></li>
-        <li class="active">Unpaid Balance</li>
+        <li class="active">User Balance</li>
       </ol>
     </section>
 
@@ -25,7 +25,7 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Data User</h3>
+              <h3 class="box-title">User Balance</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -38,7 +38,6 @@
                   <th>Toko</th>
                   <th>Produk</th>
                   <th>Cleared Balance</th>
-                  <th>Reset Balance</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -51,6 +50,7 @@
                   <td><% if u.toko %><%= u.toko.nama_toko %><% else %>n/a<% end %></td>
                   <td><%= u.produks.count %></td>
                   <td><%= number_to_currency(u.saldo,locale: :id) %></td>
+                  <!-- reset balance canceled, change to ws request
                   <td>
                   <%= form_for(@financelog) do |f| %>
                   <input type="hidden" name="financelog[user_id]" value="<%= u.id %>">
@@ -58,7 +58,7 @@
                   <input type="hidden" name="financelog[jumlah]" value="<%= u.saldo %>">
                   <input type="submit" value="PAID" class="btn btn-success btn-sm" data-confirm="Balance akan direset!">
                   <% end %>
-                  </td>
+                  </td>-->
 
                 </tr>
                 <% end %>
@@ -71,7 +71,6 @@
                   <th>Toko</th>
                   <th>Produk</th>
                   <th>Cleared Balance</th>
-                  <th>Reset Balance</th>
                 </tr>
                 </tfoot>
               </table>

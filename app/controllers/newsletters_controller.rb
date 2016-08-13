@@ -29,6 +29,7 @@ class NewslettersController < ApplicationController
   # POST /newsletters.json
   def create
     @newsletter = Newsletter.new(newsletter_params)
+    @newsletter.waktu = Time.now.in_time_zone("Jakarta").strftime("%d-%m-%Y %H:%M") + " WIB"
 
     respond_to do |format|
       if @newsletter.save
@@ -73,6 +74,6 @@ class NewslettersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def newsletter_params
-      params.require(:newsletter).permit(:email, :nama, :telepon)
+      params.require(:newsletter).permit(:email, :nama, :telepon, :waktu)
     end
 end

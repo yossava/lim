@@ -185,6 +185,9 @@
 <script>
 $(document).ready(function(){
     $('#summernote').summernote();
+    <% if !current_user.admin? %>
+    $("select option:contains('E-coupon')").attr("disabled","disabled");
+    <% end %>
     $('.note-editable').attr("style","height:120px;");
     $(".hardis").hide();
     $(".punyadiskon").click(function(){
@@ -210,11 +213,6 @@ $(document).ready(function(){
     }
 });
 </script>
-<% if !current_user.admin? %>
-<script>
-  $("select option:contains('E-coupon')").attr("disabled","disabled");
-</script>
-<% end %>
 <script>
   $.validate();
 </script>

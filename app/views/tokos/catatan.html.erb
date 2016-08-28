@@ -41,7 +41,7 @@
 		<div class="container">
 			<div class="header_lp-toko">
 				<div class="wrap-left-htoko">
-					<div class="foto_toko"><img src="<%= @toko.toko_image.url %>" class="responsiveimg"></div>
+					<div class="foto_toko"><img src="<% if @toko.toko_image.present? %><%= @toko.toko_image.url %><% end %>" class="responsiveimg"></div>
 					<h1 class="title_toko"><%= @toko.nama_toko %> &nbsp; <span <% if @toko.status == "Tutup" %> style="background-color:red;"<% end %> class="label_sttoko"> Toko <%= @toko.status %></span></h1>
           <% if @toko.status == "Tutup" %>
           <br>Tutup Sampai: <%= @toko.tutup_sampai %>

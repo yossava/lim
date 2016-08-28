@@ -49,7 +49,7 @@
           <% end %>
 					<label class="sttltoko"><%= @toko.slogan %></label>
 					<p class="shortse_toko">
-						<span class="quote_toko"><i class="fa fa-quote-left"></i></span> <%= @toko.deskripsi %>
+						<span class="quote_toko"><i class="fa fa-quote-left"></i></span> <%=raw @toko.deskripsi %>
 					</p>
           <% if user_signed_in?%>
           <% if current_user.id == @toko.user_id %>
@@ -60,10 +60,10 @@
 			</div>
 			<div class="core_menu_toko">
 				<ul class="list-unstyled cmt-list">
-					<li class="active"><a href="#">Produk</a></li>
+					<li class="active"><a href="<%= toko_path(@toko) %>">Produk</a></li>
 					<li><a href="<%= toko_path(@toko) %>/review">Review</a></li>
 					<li><a href="#">Informasi Toko</a></li>
-					<li><a href="#">Catatan</a></li>
+					<li><a href="<%= toko_path(@toko) %>/catatan">Catatan</a></li>
 				</ul>
 
 			</div>

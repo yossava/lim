@@ -83,6 +83,7 @@ Rails.application.routes.draw do
   get "/konfirmasi" => "home#konfirmasi"
   get "/terms" => "home#terms"
   get "/kategori" => "tokos#kategori"
+  get "/toko/:id/catatan" => "tokos#catatan"
   get "/pengiriman/:id" => "tokos#pengiriman"
   get "/produk/:id/unfav" => "favorite_produks#destroy"
   #get "/editalamat:id", to: "alamats#edit", as: 'alamat'

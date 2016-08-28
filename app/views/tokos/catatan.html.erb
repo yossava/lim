@@ -61,49 +61,19 @@
 			<div class="core_menu_toko">
 				<ul class="list-unstyled cmt-list">
 					<li ><a href="<%= toko_path(@toko) %>">Produk</a></li>
-					<li class="active"><a href="<%= toko_path(@toko) %>/review">Review</a></li>
+					<li><a href="<%= toko_path(@toko) %>/review">Review</a></li>
 					<li><a href="#">Informasi Toko</a></li>
-					<li><a href="<%= toko_path(@toko) %>/catatan">Catatan</a></li>
+					<li class="active"><a href="<%= toko_path(@toko) %>/catatan">Catatan</a></li>
 				</ul>
 
 			</div>
 			<div class="row mainkntn_toko">
 				<div class="col-md-12">
-					<section class="ctnUlasan intoko">
-
-						<ul>
-              <% @review.each do |t| %>
-							<li>
-								<div class="ft-produk-onsulasan">
-									<a href="#"><img src="<%= t.produk.foto_produk1.url %>" class="responsiveimg"></a>
-									<a href="#"><h4><%= t.produk.nama_produk %></h4></a>
-								</div>
-								<div class="right-ft-produk-ulasan">
-									<div class="profilthumbUlasan">
-										<div class="thumb">
-											<img style="width:100px;" src="<%= t.user.profil_image.url %>" class="responsiveimg">
-										</div>
-										<div class="desinline">
-											<p><%= t.user.namalengkap %></p>
-											<span class="timedetails"><%= t.created_at %></span>
-											<div class="rattingprodukzzx"><span>Penilaian pembeli:</span> <i class="starblock ratting<%= t.rating %>"></i></div>
-										</div>
-									</div>
-									<div class="rating"></div>
-									<p class="ctnkutip-ulasan"><%= t.feed %></p>
-								</div>
-							</li>
-              <% end %>
-						</ul>
-					</section>
+          <section class="ctnUlasan intoko">
+          <%=raw @toko.catatan %>
+          </section>
 					</div>
 
-			</div>
-			<div class="pagingarea">
-				<div class="halaman">
-            <%= will_paginate @review %>
-            </div>
-						<p class="typelight"><%= page_entries_info @review %></p>
 			</div>
 		</div>
 

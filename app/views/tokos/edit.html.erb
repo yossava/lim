@@ -139,7 +139,7 @@
                   </div>
                   <div class="form-row">
                     <%= f.label :deskripsi %><br>
-                    <%= f.text_area :deskripsi, required: true, "data-validation" => "length", "data-validation-length" => "max500" %>
+                    <textarea data-validation="length" data-validation-length="max500" row="4" required="required" name="toko[deskripsi]" id="summernote"><% if @toko.deskripsi.present? %><%=raw @toko.deskripsi %><% end %></textarea>
                     <p class="text-muted">Maksimal  500 karakter</p>
                   </div>
 									<hr style="border-color:#ddd;"></hr>
@@ -200,7 +200,7 @@
 									</div>
 									<div class="form-row">
 										<label for="cttn">Catatan</label>
-                    <%= f.text_field :catatan, id: "cttn", placeholder: "comming soon", "data-validation" => "alphanumeric", "data-validation-allowing" => " ", "data-validation-optional" => "true" %>
+                    <textarea data-validation="length" data-validation-length="max500" data-validation-optional="true" row="4"  name="toko[catatan]" id="summernote2"><% if @toko.catatan.present? %><%=raw @toko.catatan %><% end %></textarea>
 									</div>
 									<div class="form-row">
 										<label for="tglend">Tutup Sampai</label>
@@ -340,6 +340,8 @@
 <script>
   $( document ).on('ready page:load', function () {
       $("#notice").delay(3000).fadeOut("slow");
+      $('#summernote').summernote();
+      $('#summernote2').summernote();
   });
 </script>
 <script>

@@ -1,5 +1,5 @@
 class TokosController < ApplicationController
-  before_filter :authenticate_user!, except: [:show, :review]
+  before_filter :authenticate_user!, except: [:show, :review, :catatan]
   before_action :set_toko, only: [:show, :edit, :update, :destroy, :review]
 
   # GET /tokos
